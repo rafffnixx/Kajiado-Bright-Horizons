@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import CONFIG from '../config';
+import { submitContact } from '../services/googleSheetsService';
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -10,9 +12,6 @@ export default function Contact() {
   });
   const [feedback, setFeedback] = useState({ message: '', type: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  // Google Sheets Web App URL - Replace with your actual URL
-  const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzXHmp7PyoUGbpPeKSxmn46e91adRkDKUPEqszf8mB642_YkticBQg2VHm9BW9JcuCu3Q/exec";
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
@@ -44,35 +43,14 @@ export default function Contact() {
       return;
     }
     
-    // Prepare data for Google Sheets
-    const data = {
-      type: 'contact',
-      fullname: formData.fullname,
-      email: formData.email,
-      phone: formData.phone || 'Not provided',
-      serviceInterest: formData.serviceInterest || 'General Inquiry',
-      message: formData.message,
-      timestamp: new Date().toISOString()
-    };
+    // Submit using the centralized service
+    const result = await submitContact(formData);
     
-    try {
-      console.log('📤 Submitting contact form...');
-      
-      // Send to Google Apps Script
-      await fetch(GOOGLE_SCRIPT_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data)
-      });
-      
+    if (result.success) {
       console.log('✅ Contact form submitted successfully!');
       console.log('📧 Email notification sent to admin');
       console.log('📊 Data saved to Google Sheet');
       
-      // Show success message
       setFeedback({ 
         message: `✅ Thank you ${fullname}! Your message has been sent successfully. We'll reply within 24 hours.`, 
         type: 'success' 
@@ -87,15 +65,15 @@ export default function Contact() {
         message: ''
       });
       
-    } catch (error) {
-      console.error('❌ Submission error:', error);
+    } else {
+      console.error('❌ Submission error:', result.error);
       setFeedback({ 
-        message: '❌ There was an error sending your message. Please call us directly at +254 762 610 912 or email gathukamau23@gmail.com', 
+        message: `❌ There was an error sending your message. Please call us directly at ${CONFIG.COMPANY_PHONE} or email ${CONFIG.COMPANY_EMAIL}`, 
         type: 'error' 
       });
-    } finally {
-      setIsSubmitting(false);
     }
+    
+    setIsSubmitting(false);
     
     // Clear feedback after 6 seconds
     setTimeout(() => setFeedback({ message: '', type: '' }), 6000);
@@ -121,7 +99,7 @@ export default function Contact() {
                 <i className="fas fa-envelope"></i>
                 <div>
                   <strong>Email</strong><br />
-                  <a href="mailto:gathukamau23@gmail.com">gathukamau23@gmail.com</a>
+                  <a href={`mailto:${CONFIG.COMPANY_EMAIL}`}>{CONFIG.COMPANY_EMAIL}</a>
                 </div>
               </div>
               
@@ -129,7 +107,7 @@ export default function Contact() {
                 <i className="fas fa-phone"></i>
                 <div>
                   <strong>Phone</strong><br />
-                  <a href="tel:+254762610912">+254 762 610 912</a>
+                  <a href={`tel:${CONFIG.COMPANY_PHONE.replace(/\s/g, '')}`}>{CONFIG.COMPANY_PHONE}</a>
                 </div>
               </div>
               
@@ -137,7 +115,7 @@ export default function Contact() {
                 <i className="fab fa-whatsapp"></i>
                 <div>
                   <strong>WhatsApp</strong><br />
-                  <a href="https://wa.me/254762610912">+254 762 610 912</a>
+                  <a href={`https://wa.me/${CONFIG.COMPANY_PHONE.replace(/\s/g, '')}`}>{CONFIG.COMPANY_PHONE}</a>
                 </div>
               </div>
               
@@ -145,7 +123,7 @@ export default function Contact() {
                 <i className="fas fa-map-marker-alt"></i>
                 <div>
                   <strong>Location</strong><br />
-                  Westlands, Nairobi, Kenya<br />
+                  {CONFIG.COMPANY_ADDRESS}<br />
                   <em>By appointment only</em>
                 </div>
               </div>

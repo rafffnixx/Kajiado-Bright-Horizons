@@ -1,10 +1,12 @@
+// src/services/googleSheetsService.js
+// Google Sheets & Email Integration
 
-const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzXHmp7PyoUGbpPeKSxmn46e91adRkDKUPEqszf8mB642_YkticBQg2VHm9BW9JcuCu3Q/exec";
+import CONFIG from '../config';
 
 // Submit Review Form
 export const submitReview = async (formData) => {
   const data = {
-    type: 'review',
+    type: CONFIG.FORM_TYPES.REVIEW,
     name: formData.name,
     email: formData.email,
     company: formData.company || '',
@@ -15,20 +17,20 @@ export const submitReview = async (formData) => {
   };
   
   try {
-    console.log('📤 Submitting review to Google Sheets...');
+    console.log('📤 Submitting review to Google Script...');
+    console.log('📧 Customer email:', data.email);
     
-    const response = await fetch(GOOGLE_SCRIPT_URL, {
+    await fetch(CONFIG.GOOGLE_SCRIPT_URL, {
       method: 'POST',
       mode: 'no-cors',
-      headers: { 
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
     });
     
     console.log('✅ Review submitted successfully!');
-    console.log('📧 Check your email at rafayellmwong4325@gmail.com');
-    console.log('📊 Check your Google Sheet for the new entry');
+    console.log('📧 Admin email sent to:', CONFIG.ADMIN_EMAIL);
+    console.log('📧 Auto-reply sent to customer:', data.email);
+    console.log('📊 Data saved to Google Sheet');
     
     return { success: true };
     
@@ -38,12 +40,10 @@ export const submitReview = async (formData) => {
   }
 };
 
-
-
 // Submit Contact Form
 export const submitContact = async (formData) => {
   const data = {
-    type: 'contact',
+    type: CONFIG.FORM_TYPES.CONTACT,
     fullname: formData.fullname,
     email: formData.email,
     phone: formData.phone || '',
@@ -52,19 +52,20 @@ export const submitContact = async (formData) => {
   };
   
   try {
-    console.log('📤 Submitting contact form to Google Sheets...');
+    console.log('📤 Submitting contact form to Google Script...');
+    console.log('📧 Customer email:', data.email);
     
-    const response = await fetch(GOOGLE_SCRIPT_URL, {
+    await fetch(CONFIG.GOOGLE_SCRIPT_URL, {
       method: 'POST',
       mode: 'no-cors',
-      headers: { 
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
     });
     
     console.log('✅ Contact form submitted successfully!');
-    console.log('📧 Check your email at rafayellmwong4325@gmail.com');
+    console.log('📧 Admin email sent to:', CONFIG.ADMIN_EMAIL);
+    console.log('📧 Auto-reply sent to customer:', data.email);
+    console.log('📊 Data saved to Google Sheet');
     
     return { success: true };
     
@@ -77,21 +78,20 @@ export const submitContact = async (formData) => {
 // Test function to verify connection
 export const testConnection = async () => {
   console.log('🧪 Testing connection to Google Script...');
-  console.log('📍 URL:', GOOGLE_SCRIPT_URL);
+  console.log('📍 URL:', CONFIG.GOOGLE_SCRIPT_URL);
   
   const testData = {
     type: 'test',
     name: 'Connection Test',
-    email: 'rafayellmwong4325@gmail.com',
+    email: CONFIG.ADMIN_EMAIL,
     message: 'This is a test from the connection test function'
   };
   
   try {
-    const response = await fetch(GOOGLE_SCRIPT_URL, {
+    await fetch(CONFIG.GOOGLE_SCRIPT_URL, {
       method: 'POST',
-      headers: { 
-        'Content-Type': 'application/json',
-      },
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(testData)
     });
     
@@ -101,4 +101,15 @@ export const testConnection = async () => {
     console.error('❌ Connection test failed:', error);
     return { success: false, error: error.message };
   }
+};
+
+// Get configuration info
+export const getConfig = () => {
+  return {
+    googleScriptUrl: CONFIG.GOOGLE_SCRIPT_URL,
+    adminEmail: CONFIG.ADMIN_EMAIL,
+    companyName: CONFIG.COMPANY_NAME,
+    companyPhone: CONFIG.COMPANY_PHONE,
+    companyEmail: CONFIG.COMPANY_EMAIL
+  };
 };

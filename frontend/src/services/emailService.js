@@ -1,18 +1,19 @@
 // src/services/emailService.js
-// Email is handled by Google Apps Script - no EmailJS needed
+// Email is handled by Google Apps Script
 
-const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzXHmp7PyoUGbpPeKSxmn46e91adRkDKUPEqszf8mB642_YkticBQg2VHm9BW9JcuCu3Q/exec";
+import CONFIG from '../config';
 
 // Initialize (kept for compatibility)
 export const initEmailJS = () => {
   console.log("📧 Using Google Apps Script for email notifications");
-  console.log("📍 All emails will be sent to: rafayellmwong4325@gmail.com");
+  console.log("📍 Script URL:", CONFIG.GOOGLE_SCRIPT_URL);
+  console.log("📍 Admin email:", CONFIG.ADMIN_EMAIL);
 };
 
 // Send email for contact form (via Google Apps Script)
 export const sendContactEmail = async (formData) => {
   const data = {
-    type: 'contact',
+    type: CONFIG.FORM_TYPES.CONTACT,
     fullname: formData.fullname,
     email: formData.email,
     phone: formData.phone || "Not provided",
@@ -21,7 +22,7 @@ export const sendContactEmail = async (formData) => {
   };
   
   try {
-    await fetch(GOOGLE_SCRIPT_URL, {
+    await fetch(CONFIG.GOOGLE_SCRIPT_URL, {
       method: 'POST',
       mode: 'no-cors',
       headers: { 'Content-Type': 'application/json' },
@@ -39,7 +40,7 @@ export const sendContactEmail = async (formData) => {
 // Send email for review submission (via Google Apps Script)
 export const sendReviewEmail = async (formData) => {
   const data = {
-    type: 'review',
+    type: CONFIG.FORM_TYPES.REVIEW,
     name: formData.name,
     email: formData.email,
     company: formData.company || "Not provided",
@@ -50,7 +51,7 @@ export const sendReviewEmail = async (formData) => {
   };
   
   try {
-    await fetch(GOOGLE_SCRIPT_URL, {
+    await fetch(CONFIG.GOOGLE_SCRIPT_URL, {
       method: 'POST',
       mode: 'no-cors',
       headers: { 'Content-Type': 'application/json' },
