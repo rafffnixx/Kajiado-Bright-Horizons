@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import SEO from '../components/SEO';
 import CONFIG from '../config';
 import { submitReview } from '../services/googleSheetsService';
 
@@ -205,318 +206,338 @@ export default function Reviews() {
   });
 
   return (
-    <div className="reviews-page">
-      <section className="page-header">
-        <div className="container">
-          <h1>Client <span>Testimonials</span></h1>
-          <p>What our clients say about their experience with M.K GATHU</p>
-        </div>
-      </section>
+    <>
+      <SEO 
+        title="Client Testimonials - Real Reviews from Kenyan Businesses"
+        description="Read authentic reviews from businesses we've helped. See how M.K GATHU Financial Consulting has transformed finances for 500+ Kenyan companies."
+        path="/reviews"
+      />
+      
+      <div className="reviews-page">
+        <section className="page-header">
+          <div className="container">
+            <h1>Client <span>Testimonials</span></h1>
+            <p>What our clients say about their experience with M.K GATHU</p>
+          </div>
+        </section>
 
-      {/* Ratings Summary - Full Width at Top */}
-      <section className="ratings-summary">
-        <div className="container">
-          <div className="summary-card">
-            <div className="rating-score">
-              <h2>{averageRating}</h2>
-              <div className="stars">{renderStars(Math.round(averageRating))}</div>
-              <p>Based on {totalReviews} reviews</p>
-              <p className="verified-badge">
-                <i className="fas fa-check-circle"></i> {verifiedCount} Verified Reviews
-              </p>
-            </div>
-            <div className="rating-bars">
-              {ratingDistribution.map((item) => (
-                <div className="rating-bar-item" key={item.star}>
-                  <span>{item.star} Star</span>
-                  <div className="bar">
-                    <div className="fill" style={{width: `${item.percentage}%`}}></div>
+        {/* Ratings Summary - Full Width at Top */}
+        <section className="ratings-summary">
+          <div className="container">
+            <div className="summary-card">
+              <div className="rating-score">
+                <h2>{averageRating}</h2>
+                <div className="stars">{renderStars(Math.round(averageRating))}</div>
+                <p>Based on {totalReviews} reviews</p>
+                <p className="verified-badge">
+                  <i className="fas fa-check-circle"></i> {verifiedCount} Verified Reviews
+                </p>
+              </div>
+              <div className="rating-bars">
+                {ratingDistribution.map((item) => (
+                  <div className="rating-bar-item" key={item.star}>
+                    <span>{item.star} Star</span>
+                    <div className="bar">
+                      <div className="fill" style={{width: `${item.percentage}%`}}></div>
+                    </div>
+                    <span>{item.count}</span>
                   </div>
-                  <span>{item.count}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Filter Section */}
+        <section className="reviews-filter">
+          <div className="container">
+            <div className="filter-buttons">
+              {servicesList.map(service => (
+                <button 
+                  key={service}
+                  className={`filter-btn ${filter === service ? 'active' : ''}`}
+                  onClick={() => setFilter(service)}
+                >
+                  {service === 'all' ? 'All Services' : service}
+                </button>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Two Column Layout: Form on Right, Info on Left */}
+        <section className="write-review">
+          <div className="container">
+            <div className="contact-grid" style={{ alignItems: 'flex-start', marginBottom: '60px' }}>
+              {/* Left Column - Information */}
+              <div className="contact-info">
+                <h3><i className="fas fa-pen-alt"></i> Share Your Feedback</h3>
+                
+                <div className="contact-detail">
+                  <i className="fas fa-star"></i>
+                  <div>
+                    <strong>Why Your Review Matters</strong><br />
+                    Your feedback helps us improve our services and helps other clients make informed decisions.
+                  </div>
+                </div>
+                
+                <div className="contact-detail">
+                  <i className="fas fa-shield-alt"></i>
+                  <div>
+                    <strong>Privacy Guaranteed</strong><br />
+                    Your email will not be published. We only ask for verification purposes.
+                  </div>
+                </div>
+                
+                <div className="contact-detail">
+                  <i className="fas fa-clock"></i>
+                  <div>
+                    <strong>Quick & Easy</strong><br />
+                    Takes less than 2 minutes to share your experience with us.
+                  </div>
+                </div>
+                
+                <div className="contact-detail">
+                  <i className="fas fa-check-circle"></i>
+                  <div>
+                    <strong>Verification Process</strong><br />
+                    Reviews are verified before being published to ensure authenticity.
+                  </div>
+                </div>
+
+                <div className="contact-detail">
+                  <i className="fas fa-envelope"></i>
+                  <div>
+                    <strong>Alternative Contact</strong><br />
+                    Prefer to share privately? Email us at <a href={`mailto:${CONFIG.COMPANY_EMAIL}`}>{CONFIG.COMPANY_EMAIL}</a>
+                  </div>
+                </div>
+
+                {/* Review Tips */}
+                <div className="review-tips">
+                  <h4><i className="fas fa-lightbulb"></i> Review Tips</h4>
+                  <ul>
+                    <li>Be specific about the service you received</li>
+                    <li>Share how we helped solve your financial challenges</li>
+                    <li>Mention any standout team members (optional)</li>
+                    <li>Honest feedback helps us grow</li>
+                  </ul>
+                </div>
+
+                <div className="social-contact">
+                  <h4>Follow Us</h4>
+                  <div className="social-links">
+                    <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                      <i className="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                      <i className="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
+                      <i className="fab fa-twitter"></i>
+                    </a>
+                    <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                      <i className="fab fa-instagram"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              {/* Right Column - Review Form */}
+              <div className="contact-form">
+                <h3><i className="fas fa-pen-alt"></i> Write Your Review</h3>
+                
+                {submitted && (
+                  <div className="success-message">
+                    <i className="fas fa-check-circle"></i>
+                    <p>Thank you for your review! It will be published after verification.</p>
+                  </div>
+                )}
+                
+                {submissionError && (
+                  <div className="error-message">
+                    <i className="fas fa-exclamation-circle"></i>
+                    <p>{submissionError}</p>
+                  </div>
+                )}
+                
+                <form onSubmit={handleSubmitReview}>
+                  <div className="form-group">
+                    <label htmlFor="name">Full Name *</label>
+                    <input 
+                      type="text" 
+                      id="name"
+                      name="name" 
+                      value={formData.name} 
+                      onChange={handleInputChange}
+                      placeholder="Enter your full name"
+                      required
+                      disabled={isSubmitting}
+                    />
+                  </div>
+                  
+                  <div className="form-group">
+                    <label htmlFor="email">Email Address *</label>
+                    <input 
+                      type="email" 
+                      id="email"
+                      name="email" 
+                      value={formData.email} 
+                      onChange={handleInputChange}
+                      placeholder="Your email (will not be published)"
+                      required
+                      disabled={isSubmitting}
+                    />
+                  </div>
+                  
+                  <div className="form-group">
+                    <label htmlFor="company">Company Name</label>
+                    <input 
+                      type="text" 
+                      id="company"
+                      name="company" 
+                      value={formData.company} 
+                      onChange={handleInputChange}
+                      placeholder="Your company name"
+                      disabled={isSubmitting}
+                    />
+                  </div>
+                  
+                  <div className="form-group">
+                    <label htmlFor="position">Your Position</label>
+                    <input 
+                      type="text" 
+                      id="position"
+                      name="position" 
+                      value={formData.position} 
+                      onChange={handleInputChange}
+                      placeholder="e.g., CEO, Founder, Manager"
+                      disabled={isSubmitting}
+                    />
+                  </div>
+                  
+                  <div className="form-group">
+                    <label>Rating *</label>
+                    {renderRatingInput(formData.rating)}
+                  </div>
+                  
+                  <div className="form-group">
+                    <label htmlFor="service">Service Received</label>
+                    <select 
+                      id="service"
+                      name="service" 
+                      value={formData.service} 
+                      onChange={handleInputChange} 
+                      disabled={isSubmitting}
+                    >
+                      <option value="">Select a service</option>
+                      <option>Business Start-Up</option>
+                      <option>Tax & KRA Compliance</option>
+                      <option>Payroll Services</option>
+                      <option>Debt Tracking</option>
+                      <option>Financial Reports</option>
+                      <option>Business Advisory</option>
+                      <option>KRA Compliance Plus</option>
+                      <option>Other</option>
+                    </select>
+                  </div>
+                  
+                  <div className="form-group">
+                    <label htmlFor="review">Your Review *</label>
+                    <textarea 
+                      id="review"
+                      name="review" 
+                      rows="4" 
+                      value={formData.review} 
+                      onChange={handleInputChange}
+                      placeholder="Tell us about your experience with M.K GATHU Financial Consulting..."
+                      required
+                      disabled={isSubmitting}
+                    ></textarea>
+                  </div>
+                  
+                  <div className="form-group checkbox">
+                    <label>
+                      <input 
+                        type="checkbox" 
+                        name="agreeToTerms" 
+                        checked={formData.agreeToTerms}
+                        onChange={handleInputChange}
+                        disabled={isSubmitting}
+                      />
+                      I agree to the <a href="/terms">terms and conditions</a> and confirm this review is based on my genuine experience.
+                    </label>
+                  </div>
+                  
+                  <button 
+                    type="submit" 
+                    className="btn-gold" 
+                    style={{ width: '100%', justifyContent: 'center' }} 
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? (
+                      <><i className="fas fa-spinner fa-spin"></i> Submitting...</>
+                    ) : (
+                      <><i className="fas fa-paper-plane"></i> Submit Review</>
+                    )}
+                  </button>
+                </form>
+                
+                <div className="form-note">
+                  <p><i className="fas fa-lock"></i> Your information is secure and will not be shared with third parties.</p>
+                  <p><i className="fas fa-clock"></i> Reviews are typically verified within 24-48 hours.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Testimonials Grid - Below the form */}
+        <section className="testimonials-grid-section">
+          <div className="container">
+            <div className="section-header" style={{ marginBottom: '40px' }}>
+              <h2 className="section-title">What Our <span>Clients Say</span></h2>
+              <p className="section-subtitle">Real stories from businesses we've helped transform</p>
+            </div>
+            <div className="testimonials-grid">
+              {filteredTestimonials.map(testimonial => (
+                <div className="testimonial-card" key={testimonial.id}>
+                  <div className="testimonial-header">
+                    <div className="client-info">
+                      <div className="client-image">
+                        <img src={testimonial.image} alt={testimonial.name} />
+                      </div>
+                      <div>
+                        <h3>{testimonial.name}</h3>
+                        <p className="company">{testimonial.company}</p>
+                        <p className="position">{testimonial.position}</p>
+                      </div>
+                    </div>
+                    <div className="rating">
+                      {renderStars(testimonial.rating)}
+                    </div>
+                  </div>
+                  <div className="testimonial-content">
+                    <i className="fas fa-quote-left"></i>
+                    <p>"{testimonial.content}"</p>
+                  </div>
+                  <div className="testimonial-footer">
+                    <div className="footer-left">
+                      <span className="service-tag">{testimonial.service}</span>
+                      {testimonial.verified && (
+                        <span className="verified-tag">
+                          <i className="fas fa-check-circle"></i> Verified
+                        </span>
+                      )}
+                    </div>
+                    <span className="date">{new Date(testimonial.date).toLocaleDateString()}</span>
+                  </div>
                 </div>
               ))}
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* Filter Section */}
-      <section className="reviews-filter">
-        <div className="container">
-          <div className="filter-buttons">
-            {servicesList.map(service => (
-              <button 
-                key={service}
-                className={`filter-btn ${filter === service ? 'active' : ''}`}
-                onClick={() => setFilter(service)}
-              >
-                {service === 'all' ? 'All Services' : service}
-              </button>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Two Column Layout: Form on Right, Info on Left */}
-      <section className="write-review">
-        <div className="container">
-          <div className="contact-grid" style={{ alignItems: 'flex-start', marginBottom: '60px' }}>
-            {/* Left Column - Information */}
-            <div className="contact-info">
-              <h3><i className="fas fa-pen-alt"></i> Share Your Feedback</h3>
-              
-              <div className="contact-detail">
-                <i className="fas fa-star"></i>
-                <div>
-                  <strong>Why Your Review Matters</strong><br />
-                  Your feedback helps us improve our services and helps other clients make informed decisions.
-                </div>
-              </div>
-              
-              <div className="contact-detail">
-                <i className="fas fa-shield-alt"></i>
-                <div>
-                  <strong>Privacy Guaranteed</strong><br />
-                  Your email will not be published. We only ask for verification purposes.
-                </div>
-              </div>
-              
-              <div className="contact-detail">
-                <i className="fas fa-clock"></i>
-                <div>
-                  <strong>Quick & Easy</strong><br />
-                  Takes less than 2 minutes to share your experience with us.
-                </div>
-              </div>
-              
-              <div className="contact-detail">
-                <i className="fas fa-check-circle"></i>
-                <div>
-                  <strong>Verification Process</strong><br />
-                  Reviews are verified before being published to ensure authenticity.
-                </div>
-              </div>
-
-              <div className="contact-detail">
-                <i className="fas fa-envelope"></i>
-                <div>
-                  <strong>Alternative Contact</strong><br />
-                  Prefer to share privately? Email us at <a href={`mailto:${CONFIG.COMPANY_EMAIL}`}>{CONFIG.COMPANY_EMAIL}</a>
-                </div>
-              </div>
-
-              <div className="social-contact">
-                <h4>Follow Us</h4>
-                <div className="social-links">
-                  <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-                    <i className="fab fa-facebook-f"></i>
-                  </a>
-                  <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-                    <i className="fab fa-linkedin-in"></i>
-                  </a>
-                  <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
-                    <i className="fab fa-twitter"></i>
-                  </a>
-                  <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-                    <i className="fab fa-instagram"></i>
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            {/* Right Column - Review Form */}
-            <div className="contact-form">
-              <h3><i className="fas fa-pen-alt"></i> Write Your Review</h3>
-              
-              {submitted && (
-                <div className="success-message">
-                  <i className="fas fa-check-circle"></i>
-                  <p>Thank you for your review! It will be published after verification.</p>
-                </div>
-              )}
-              
-              {submissionError && (
-                <div className="error-message">
-                  <i className="fas fa-exclamation-circle"></i>
-                  <p>{submissionError}</p>
-                </div>
-              )}
-              
-              <form onSubmit={handleSubmitReview}>
-                <div className="form-group">
-                  <label htmlFor="name">Full Name *</label>
-                  <input 
-                    type="text" 
-                    id="name"
-                    name="name" 
-                    value={formData.name} 
-                    onChange={handleInputChange}
-                    placeholder="Enter your full name"
-                    required
-                    disabled={isSubmitting}
-                  />
-                </div>
-                
-                <div className="form-group">
-                  <label htmlFor="email">Email Address *</label>
-                  <input 
-                    type="email" 
-                    id="email"
-                    name="email" 
-                    value={formData.email} 
-                    onChange={handleInputChange}
-                    placeholder="Your email (will not be published)"
-                    required
-                    disabled={isSubmitting}
-                  />
-                </div>
-                
-                <div className="form-group">
-                  <label htmlFor="company">Company Name</label>
-                  <input 
-                    type="text" 
-                    id="company"
-                    name="company" 
-                    value={formData.company} 
-                    onChange={handleInputChange}
-                    placeholder="Your company name"
-                    disabled={isSubmitting}
-                  />
-                </div>
-                
-                <div className="form-group">
-                  <label htmlFor="position">Your Position</label>
-                  <input 
-                    type="text" 
-                    id="position"
-                    name="position" 
-                    value={formData.position} 
-                    onChange={handleInputChange}
-                    placeholder="e.g., CEO, Founder, Manager"
-                    disabled={isSubmitting}
-                  />
-                </div>
-                
-                <div className="form-group">
-                  <label>Rating *</label>
-                  {renderRatingInput(formData.rating)}
-                </div>
-                
-                <div className="form-group">
-                  <label htmlFor="service">Service Received</label>
-                  <select 
-                    id="service"
-                    name="service" 
-                    value={formData.service} 
-                    onChange={handleInputChange} 
-                    disabled={isSubmitting}
-                  >
-                    <option value="">Select a service</option>
-                    <option>Business Start-Up</option>
-                    <option>Tax & KRA Compliance</option>
-                    <option>Payroll Services</option>
-                    <option>Debt Tracking</option>
-                    <option>Financial Reports</option>
-                    <option>Business Advisory</option>
-                    <option>KRA Compliance Plus</option>
-                    <option>Other</option>
-                  </select>
-                </div>
-                
-                <div className="form-group">
-                  <label htmlFor="review">Your Review *</label>
-                  <textarea 
-                    id="review"
-                    name="review" 
-                    rows="4" 
-                    value={formData.review} 
-                    onChange={handleInputChange}
-                    placeholder="Tell us about your experience with M.K GATHU Financial Consulting..."
-                    required
-                    disabled={isSubmitting}
-                  ></textarea>
-                </div>
-                
-                <div className="form-group checkbox">
-                  <label>
-                    <input 
-                      type="checkbox" 
-                      name="agreeToTerms" 
-                      checked={formData.agreeToTerms}
-                      onChange={handleInputChange}
-                      disabled={isSubmitting}
-                    />
-                    I agree to the <a href="/terms">terms and conditions</a> and confirm this review is based on my genuine experience.
-                  </label>
-                </div>
-                
-                <button 
-                  type="submit" 
-                  className="btn-gold" 
-                  style={{ width: '100%', justifyContent: 'center' }} 
-                  disabled={isSubmitting}
-                >
-                  {isSubmitting ? (
-                    <><i className="fas fa-spinner fa-spin"></i> Submitting...</>
-                  ) : (
-                    <><i className="fas fa-paper-plane"></i> Submit Review</>
-                  )}
-                </button>
-              </form>
-              
-              <div className="form-note">
-                <p><i className="fas fa-lock"></i> Your information is secure and will not be shared with third parties.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonials Grid - Below the form */}
-      <section className="testimonials-grid-section">
-        <div className="container">
-          <div className="section-header" style={{ marginBottom: '40px' }}>
-            <h2 className="section-title">What Our <span>Clients Say</span></h2>
-            <p className="section-subtitle">Real stories from businesses we've helped transform</p>
-          </div>
-          <div className="testimonials-grid">
-            {filteredTestimonials.map(testimonial => (
-              <div className="testimonial-card" key={testimonial.id}>
-                <div className="testimonial-header">
-                  <div className="client-info">
-                    <div className="client-image">
-                      <img src={testimonial.image} alt={testimonial.name} />
-                    </div>
-                    <div>
-                      <h3>{testimonial.name}</h3>
-                      <p className="company">{testimonial.company}</p>
-                      <p className="position">{testimonial.position}</p>
-                    </div>
-                  </div>
-                  <div className="rating">
-                    {renderStars(testimonial.rating)}
-                  </div>
-                </div>
-                <div className="testimonial-content">
-                  <i className="fas fa-quote-left"></i>
-                  <p>"{testimonial.content}"</p>
-                </div>
-                <div className="testimonial-footer">
-                  <div className="footer-left">
-                    <span className="service-tag">{testimonial.service}</span>
-                    {testimonial.verified && (
-                      <span className="verified-tag">
-                        <i className="fas fa-check-circle"></i> Verified
-                      </span>
-                    )}
-                  </div>
-                  <span className="date">{new Date(testimonial.date).toLocaleDateString()}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-    </div>
+        </section>
+      </div>
+    </>
   );
 }

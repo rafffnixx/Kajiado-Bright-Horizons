@@ -1,5 +1,6 @@
 import React from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
+import SEO from '../components/SEO';
 
 export default function ServiceDetail() {
   const { id } = useParams();
@@ -291,111 +292,6 @@ export default function ServiceDetail() {
       faqs: [
         { q: 'What is ETR and do I need it?', a: 'ETR (Electronic Tax Register) is required for businesses making over KES 5 million annually in taxable supplies.' }
       ]
-    },
-    'growth-roadmaps': {
-      title: 'Growth Roadmaps',
-      icon: 'fas fa-chart-line',
-      tagline: 'Your Blueprint for Success',
-      description: 'Data-driven expansion plans, market entry & financial forecasting.',
-      fullDescription: `Transform your business goals into actionable growth plans. Our growth roadmap service provides you with a clear, step-by-step plan to achieve your business objectives. We combine market research, financial modeling, and strategic planning to create your path to success.`,
-      features: [
-        '3-5 year strategic growth plan',
-        'Market expansion strategies',
-        'Financial projections',
-        'Resource requirement planning',
-        'Milestone setting',
-        'Risk assessment',
-        'Competitive analysis'
-      ],
-      benefits: [
-        'Clear direction for growth',
-        'Realistic financial targets',
-        'Resource optimization',
-        'Risk mitigation',
-        'Investor-ready plans'
-      ],
-      process: [
-        'Goals and vision alignment',
-        'Market and competitor analysis',
-        'Strategic option development',
-        'Financial modeling',
-        'Roadmap creation',
-        'Implementation support'
-      ],
-      faqs: [
-        { q: 'How long does it take to create a roadmap?', a: 'Typically 4-6 weeks depending on business complexity and data availability.' }
-      ]
-    },
-    'pricing-guidance': {
-      title: 'Pricing Guidance',
-      icon: 'fas fa-tags',
-      tagline: 'Optimize Your Pricing for Profit',
-      description: 'Strategic pricing models to maximize margins and competitiveness.',
-      fullDescription: `Stop leaving money on the table with guesswork pricing. Our pricing guidance service helps you develop data-driven pricing strategies that maximize profitability while remaining competitive. We analyze your costs, market position, and customer value to find your optimal price points.`,
-      features: [
-        'Cost-plus pricing analysis',
-        'Value-based pricing models',
-        'Competitive pricing analysis',
-        'Price elasticity studies',
-        'Discount strategy optimization',
-        'Package and bundling strategies',
-        'Tiered pricing structures',
-        'Dynamic pricing recommendations'
-      ],
-      benefits: [
-        'Increased profit margins (typically 15-30%)',
-        'Better competitive positioning',
-        'Customer value alignment',
-        'Reduced price resistance',
-        'Data-driven pricing decisions'
-      ],
-      process: [
-        'Cost structure analysis',
-        'Market and competitor research',
-        'Customer value assessment',
-        'Pricing model development',
-        'Testing and validation',
-        'Implementation support'
-      ],
-      faqs: [
-        { q: 'How much can I increase prices without losing customers?', a: 'We analyze price sensitivity and customer segments to find the optimal balance between margin and volume.' }
-      ]
-    },
-    'capital-funding': {
-      title: 'Capital & Funding',
-      icon: 'fas fa-hand-holding-usd',
-      tagline: 'Get the Funding You Need',
-      description: 'Liaison with banks, investors and grant readiness for Kenyan SMEs.',
-      fullDescription: `Secure the capital you need to grow your business. We prepare your business for funding, connect you with the right financing partners, and help you navigate the application process. From bank loans to investor funding, we improve your chances of success.`,
-      features: [
-        'Funding needs assessment',
-        'Business plan development',
-        'Financial projections',
-        'Investor pitch deck creation',
-        'Bank loan application support',
-        'Grant application assistance',
-        'Investor introduction services',
-        'Due diligence preparation',
-        'Terms negotiation support'
-      ],
-      benefits: [
-        'Higher funding approval rates',
-        'Professional documentation',
-        'Access to funding networks',
-        'Better loan terms',
-        'Faster application processing'
-      ],
-      process: [
-        'Funding requirements assessment',
-        'Documentation preparation',
-        'Financial modeling',
-        'Lender/investor identification',
-        'Application submission',
-        'Follow-up and negotiation'
-      ],
-      faqs: [
-        { q: 'What are my funding options?', a: 'Options include bank loans, SACCO loans, government grants, angel investors, venture capital, and equipment financing.' }
-      ]
     }
   };
 
@@ -403,119 +299,162 @@ export default function ServiceDetail() {
 
   if (!service) {
     return (
-      <div className="service-not-found">
-        <div className="container">
-          <h1>Service Not Found</h1>
-          <p>Sorry, the service you're looking for doesn't exist.</p>
-          <button onClick={() => navigate('/services')} className="btn-gold">
-            Back to Services
-          </button>
+      <>
+        <SEO 
+          title="Service Not Found"
+          description="The service you're looking for does not exist. Please check our services page for available financial consulting services."
+          path={`/service/${id}`}
+          noIndex={true}
+        />
+        <div className="service-not-found">
+          <div className="container">
+            <h1>Service Not Found</h1>
+            <p>Sorry, the service you're looking for doesn't exist.</p>
+            <button onClick={() => navigate('/services')} className="btn-gold">
+              Back to Services
+            </button>
+          </div>
         </div>
-      </div>
+      </>
     );
   }
 
   return (
-    <div className="service-detail-page">
-      <section className="service-hero">
-        <div className="container">
-          <div className="service-hero-content">
-            <i className={service.icon}></i>
-            <span className="service-tagline">{service.tagline}</span>
-            <h1>{service.title}</h1>
-            <p>{service.description}</p>
-            <div className="service-hero-buttons">
-              <a href="/contact" className="btn-gold">
-                <i className="fas fa-calendar-check"></i> Get This Service
-              </a>
-              <button onClick={() => navigate('/services')} className="btn-outline">
-                <i className="fas fa-arrow-left"></i> Back to Services
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="service-full-description">
-        <div className="container">
-          <div className="description-content">
-            <h2>Service Overview</h2>
-            <p>{service.fullDescription}</p>
-          </div>
-        </div>
-      </section>
-
-      <section className="service-features">
-        <div className="container">
-          <div className="features-grid">
-            <div className="features-list">
-              <h2><i className="fas fa-check-circle"></i> What We Offer</h2>
-              <ul>
-                {service.features.map((feature, index) => (
-                  <li key={index}><i className="fas fa-check"></i> {feature}</li>
-                ))}
-              </ul>
-            </div>
-            <div className="benefits-list">
-              <h2><i className="fas fa-gem"></i> Key Benefits</h2>
-              <ul>
-                {service.benefits.map((benefit, index) => (
-                  <li key={index}><i className="fas fa-star"></i> {benefit}</li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="service-process">
-        <div className="container">
-          <h2>Our Process</h2>
-          <div className="process-steps">
-            {service.process.map((step, index) => (
-              <div className="process-step" key={index}>
-                <div className="step-number">{index + 1}</div>
-                <div className="step-content">
-                  <p>{step}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {service.faqs && (
-        <section className="service-faqs">
+    <>
+      <SEO 
+        title={`${service.title} - Financial Consulting Kenya`}
+        description={service.description}
+        path={`/service/${id}`}
+      />
+      
+      <div className="service-detail-page">
+        <section className="service-hero">
           <div className="container">
-            <h2>Frequently Asked Questions</h2>
-            <div className="faqs-grid">
-              {service.faqs.map((faq, index) => (
-                <div className="faq-item" key={index}>
-                  <h3><i className="fas fa-question-circle"></i> {faq.q}</h3>
-                  <p>{faq.a}</p>
+            <div className="service-hero-content">
+              <i className={service.icon}></i>
+              <span className="service-tagline">{service.tagline}</span>
+              <h1>{service.title}</h1>
+              <p>{service.description}</p>
+              <div className="service-hero-buttons">
+                <Link to="/contact" className="btn-gold">
+                  <i className="fas fa-calendar-check"></i> Get This Service
+                </Link>
+                <button onClick={() => navigate('/services')} className="btn-outline">
+                  <i className="fas fa-arrow-left"></i> Back to Services
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="service-full-description">
+          <div className="container">
+            <div className="description-content">
+              <h2>Service Overview</h2>
+              <p>{service.fullDescription}</p>
+            </div>
+          </div>
+        </section>
+
+        <section className="service-features">
+          <div className="container">
+            <div className="features-grid">
+              <div className="features-list">
+                <h2><i className="fas fa-check-circle"></i> What We Offer</h2>
+                <ul>
+                  {service.features.map((feature, index) => (
+                    <li key={index}><i className="fas fa-check"></i> {feature}</li>
+                  ))}
+                </ul>
+              </div>
+              <div className="benefits-list">
+                <h2><i className="fas fa-gem"></i> Key Benefits</h2>
+                <ul>
+                  {service.benefits.map((benefit, index) => (
+                    <li key={index}><i className="fas fa-star"></i> {benefit}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="service-process">
+          <div className="container">
+            <h2>Our Process</h2>
+            <div className="process-steps">
+              {service.process.map((step, index) => (
+                <div className="process-step" key={index}>
+                  <div className="step-number">{index + 1}</div>
+                  <div className="step-content">
+                    <p>{step}</p>
+                  </div>
                 </div>
               ))}
             </div>
           </div>
         </section>
-      )}
 
-      <section className="service-cta">
-        <div className="container">
-          <div className="cta-box">
-            <h2>Ready to Get Started with {service.title}?</h2>
-            <p>Contact us today for a free consultation and personalized quote</p>
-            <div className="cta-buttons">
-              <a href="/contact" className="btn-gold">
-                <i className="fas fa-calendar-check"></i> Book Free Consultation
-              </a>
-              <a href="tel:+254762610912" className="btn-outline">
-                <i className="fas fa-phone"></i> Call +254 762 610 912
-              </a>
+        {service.faqs && (
+          <section className="service-faqs">
+            <div className="container">
+              <h2>Frequently Asked Questions</h2>
+              <div className="faqs-grid">
+                {service.faqs.map((faq, index) => (
+                  <div className="faq-item" key={index}>
+                    <h3><i className="fas fa-question-circle"></i> {faq.q}</h3>
+                    <p>{faq.a}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* Related Services Section */}
+        <section className="related-services">
+          <div className="container">
+            <div className="section-header">
+              <h2 className="section-title">Related <span>Services</span></h2>
+              <p className="section-subtitle">You might also be interested in these services</p>
+            </div>
+            <div className="related-services-grid">
+              <div className="related-card" onClick={() => navigate('/service/tax-compliance')}>
+                <i className="fas fa-file-invoice"></i>
+                <h4>Tax & KRA Compliance</h4>
+                <p>Complete tax management services</p>
+              </div>
+              <div className="related-card" onClick={() => navigate('/service/payroll')}>
+                <i className="fas fa-users"></i>
+                <h4>Payroll Services</h4>
+                <p>Simplified payroll management</p>
+              </div>
+              <div className="related-card" onClick={() => navigate('/service/business-advisory')}>
+                <i className="fas fa-handshake"></i>
+                <h4>Business Advisory</h4>
+                <p>Strategic growth guidance</p>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
-    </div>
+        </section>
+
+        <section className="service-cta">
+          <div className="container">
+            <div className="cta-box">
+              <h2>Ready to Get Started with {service.title}?</h2>
+              <p>Contact us today for a free consultation and personalized quote</p>
+              <div className="cta-buttons">
+                <Link to="/contact" className="btn-gold">
+                  <i className="fas fa-calendar-check"></i> Book Free Consultation
+                </Link>
+                <a href="tel:+254762610912" className="btn-outline">
+                  <i className="fas fa-phone"></i> Call +254 762 610 912
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </>
   );
 }
