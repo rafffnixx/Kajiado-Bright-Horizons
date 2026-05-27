@@ -38,7 +38,8 @@ export default function Footer() {
               <img src={logoSrc} alt="M.K GATHU Logo" className="footer-logo-image" />
               <div className="footer-logo-text">
                 <h3>M.K GATHU</h3>
-                <p>FINANCIAL CONSULTING • KENYA</p>
+                <p>FINANCIAL CONSULTING</p>
+                <p>• KENYA</p>
               </div>
             </div>
             <p className="footer-description">
