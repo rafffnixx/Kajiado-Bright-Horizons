@@ -5,7 +5,6 @@
   "devCommand": "npm start",
   "framework": "create-react-app",
   "regions": ["iad1"],
-  "nodeVersion": "18.x",
   "rewrites": [
     {
       "source": "/api/(.*)",
