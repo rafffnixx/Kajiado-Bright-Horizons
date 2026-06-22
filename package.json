@@ -48,5 +48,12 @@
   "devDependencies": {
     "cross-env": "^7.0.3",
     "react-scripts": "5.0.1"
+  },
+  "overrides": {
+    "@babel/plugin-transform-explicit-resource-management": "7.27.0",
+    "ajv": "8.11.0",
+    "ajv-keywords": "5.1.0",
+    "schema-utils": "3.3.0",
+    "fork-ts-checker-webpack-plugin": "6.5.2"
   }
 }
