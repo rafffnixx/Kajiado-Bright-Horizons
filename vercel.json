@@ -1,15 +1,14 @@
 {
   "buildCommand": "npm run build",
   "outputDirectory": "build",
-  "installCommand": "npm install --legacy-peer-deps --no-package-lock",
+  "installCommand": "npm install --legacy-peer-deps",
   "devCommand": "npm start",
   "framework": "create-react-app",
   "regions": ["iad1"],
   "functions": {
     "api/**/*.js": {
       "maxDuration": 10,
-      "memory": 1024,
-      "runtime": "nodejs18.x"
+      "memory": 1024
     }
   },
   "rewrites": [
