@@ -1,5 +1,5 @@
 {
-  "buildCommand": "npm run build",
+  "buildCommand": "npm install --legacy-peer-deps --no-package-lock schema-utils@3.3.0 ajv@6.12.6 ajv-keywords@3.5.2 && npm run build",
   "outputDirectory": "build",
   "installCommand": "npm install --legacy-peer-deps --no-package-lock",
   "devCommand": "npm start",
