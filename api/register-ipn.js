@@ -1,6 +1,4 @@
 // api/register-ipn.js
-// Run this once to register your IPN URL and get notification_id
-
 const PESAPAL_CONSUMER_KEY = process.env.PESAPAL_CONSUMER_KEY;
 const PESAPAL_CONSUMER_SECRET = process.env.PESAPAL_CONSUMER_SECRET;
 const PESAPAL_ENVIRONMENT = process.env.PESAPAL_ENVIRONMENT || 'sandbox';
@@ -22,17 +20,34 @@ async function getAccessToken() {
     })
   });
   const data = await response.json();
+  
+  if (!data.token) {
+    throw new Error(data.error?.message || 'Failed to get access token');
+  }
   return data.token;
 }
 
 export default async function handler(req, res) {
+  // Enable CORS
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+  // Handle preflight
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+
+  // Only allow POST
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
   try {
     const token = await getAccessToken();
-    const baseUrl = process.env.REACT_APP_BASE_URL || 'http://localhost:3000';
+    const baseUrl = process.env.REACT_APP_BASE_URL || 'https://kajiado-bright-horizons.vercel.app';
+
+    console.log(`📤 Registering IPN URL: ${baseUrl}/api/pesapal-ipn`);
 
     // Register IPN URL
     const response = await fetch(`${BASE_URL}/api/URLSetup/RegisterIPN`, {
@@ -50,15 +65,25 @@ export default async function handler(req, res) {
 
     const data = await response.json();
 
-    res.status(200).json({
-      success: true,
-      notification_id: data.ipn_id,
-      message: 'IPN registered successfully. Save this notification_id in your .env file.',
-      full_response: data
-    });
+    if (data.ipn_id || data.ipn_url) {
+      console.log('✅ IPN registered successfully!');
+      
+      return res.status(200).json({
+        success: true,
+        notification_id: data.ipn_id || '1',
+        ipn_url: data.ipn_url || `${baseUrl}/api/pesapal-ipn`,
+        message: 'IPN registered successfully. Save the notification_id in your .env.local file.',
+        full_response: data
+      });
+    } else {
+      throw new Error(data.error?.message || 'Failed to register IPN');
+    }
 
   } catch (error) {
     console.error('❌ IPN registration error:', error);
-    res.status(500).json({ success: false, error: error.message });
+    res.status(500).json({ 
+      success: false, 
+      error: error.message || 'IPN registration failed' 
+    });
   }
 }

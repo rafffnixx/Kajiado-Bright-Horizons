@@ -62,10 +62,7 @@ export default async function handler(req, res) {
     // Generate reference
     const reference = `KCH${Date.now()}${Math.floor(Math.random() * 1000)}`;
     
-    const baseUrl = process.env.REACT_APP_BASE_URL || 
-                   (PESAPAL_ENVIRONMENT === 'production' 
-                     ? 'https://yourdomain.com' 
-                     : 'http://localhost:3000');
+    const baseUrl = process.env.REACT_APP_BASE_URL || 'https://kajiado-bright-horizons.vercel.app';
 
     // Clean phone
     const cleanPhone = phoneNumber?.replace(/^\+?254|^0/, '') || '700000000';
@@ -141,7 +138,6 @@ export default async function handler(req, res) {
 
     // Success - get redirect URL
     if (responseData.order_tracking_id) {
-      // The redirect_url is where the user should be sent
       const redirectUrl = responseData.redirect_url || 
                          `${BASE_URL}/payment-page/${responseData.order_tracking_id}`;
 
