@@ -1,8 +1,8 @@
 {
-  "buildCommand": "npm run build",
+  "buildCommand": "yarn build",
   "outputDirectory": "build",
-  "installCommand": "npm ci --legacy-peer-deps",
-  "devCommand": "npm start",
+  "installCommand": "yarn install --frozen-lockfile",
+  "devCommand": "yarn start",
   "framework": "create-react-app",
   "regions": ["iad1"],
   "rewrites": [
