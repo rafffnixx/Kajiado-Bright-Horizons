@@ -16,6 +16,8 @@ import Contact from './pages/Contact';
 import Donate from './pages/Donate';
 import Children from './pages/Children';
 import NotFound from './pages/NotFound';
+import DonationSuccess from './pages/DonationSuccess';
+
 
 // Import components
 import Navbar from './components/Navbar';
@@ -41,6 +43,8 @@ function App() {
               <Route path="/donate" element={<Donate />} />
               <Route path="/children" element={<Children />} />
               <Route path="*" element={<NotFound />} />
+              <Route path="/donation-success" element={<DonationSuccess />} />
+
             </Routes>
             <Footer />
           </div>

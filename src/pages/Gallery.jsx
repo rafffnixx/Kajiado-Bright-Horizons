@@ -9,13 +9,13 @@ export default function Gallery() {
   const categories = ['All', 'Daily Life', 'Education', 'Sports', 'Events'];
 
   const images = [
-    { id: 1, category: 'Daily Life', title: 'Morning Assembly', image: '/images/gallery/morning-assembly.jpg' },
+    { id: 1, category: 'Daily Life', title: 'Fun Time', image: '/images/gallery/morning-assembly.jpg' },
     { id: 2, category: 'Education', title: 'Classroom Session', image: '/images/gallery/classroom.jpg' },
     { id: 3, category: 'Sports', title: 'Football Match', image: '/images/gallery/football.jpg' },
     { id: 4, category: 'Events', title: 'Birthday Celebration', image: '/images/gallery/birthday.jpg' },
     { id: 5, category: 'Daily Life', title: 'Meal Time', image: '/images/gallery/meal-time.jpg' },
     { id: 6, category: 'Education', title: 'Library Time', image: '/images/gallery/library.jpg' },
-    { id: 7, category: 'Sports', title: 'Athletics Day', image: '/images/gallery/athletics.jpg' },
+    { id: 7, category: 'Anniversary', title: '20th Anniversary', image: '/images/gallery/athletics.jpg' },
     { id: 8, category: 'Events', title: 'Graduation Ceremony', image: '/images/gallery/graduation.jpg' },
   ];
 
@@ -26,8 +26,8 @@ export default function Gallery() {
   return (
     <>
       <SEO 
-        title="Gallery - kajiado Childrens Home"
-        description="View moments of joy, learning, and growth at kajiado Childrens Home. See our children in daily activities, education, sports, and special events."
+        title="Gallery - kajiado Bright Horizons"
+        description="View moments of joy, learning, and growth at kajiado Bright Horizons. See our children in daily activities, education, sports, and special events."
         path="/gallery"
       />
       
@@ -44,7 +44,7 @@ export default function Gallery() {
           <div className="container">
             <div className="hero-content-about">
               <h1>Our <span>Gallery</span></h1>
-              <p>Moments of joy, learning, and growth at kajiado Childrens Home</p>
+              <p>Moments of joy, learning, and growth at kajiado Bright Horizons</p>
             </div>
           </div>
         </section>

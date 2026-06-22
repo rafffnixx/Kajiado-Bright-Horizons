@@ -94,8 +94,8 @@ export default function Privacy() {
   return (
     <>
       <SEO 
-        title="Privacy Policy - kajiado Childrens Home"
-        description="Read kajiado Childrens Home privacy policy to understand how we collect, use, and protect your personal information when you donate, sponsor a child, or interact with our website."
+        title="Privacy Policy - kajiado Bright Horizons"
+        description="Read kajiado Bright Horizons privacy policy to understand how we collect, use, and protect your personal information when you donate, sponsor a child, or interact with our website."
         path="/privacy"
       />
       
@@ -115,7 +115,7 @@ export default function Privacy() {
             </div>
 
             <div className="legal-intro">
-              <p>At kajiado Childrens Home ("we," "us," or "our"), your privacy is important to us. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website or interact with us. Please read this Privacy Policy carefully. By using our website, you consent to the practices described in this policy.</p>
+              <p>At kajiado Bright Horizons ("we," "us," or "our"), your privacy is important to us. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website or interact with us. Please read this Privacy Policy carefully. By using our website, you consent to the practices described in this policy.</p>
             </div>
 
             {sections.map((section, index) => (
@@ -147,7 +147,7 @@ export default function Privacy() {
               <div className="legal-contact-details">
                 <p><i className="fas fa-envelope"></i> <strong>Email:</strong> <a href="mailto:privacy@kajiadochildrenhome.org">privacy@kajiadochildrenhome.org</a></p>
                 <p><i className="fas fa-phone"></i> <strong>Phone:</strong> <a href="tel:+254700123456">+254 700 123 456</a></p>
-                <p><i className="fas fa-map-marker-alt"></i> <strong>Address:</strong> kajiado Childrens Home, Kajiado Town, Kajiado County, Kenya</p>
+                <p><i className="fas fa-map-marker-alt"></i> <strong>Address:</strong> kajiado Bright Horizons, Kajiado Town, Kajiado County, Kenya</p>
               </div>
             </div>
 

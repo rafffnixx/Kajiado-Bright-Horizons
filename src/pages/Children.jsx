@@ -23,8 +23,8 @@ export default function Children() {
   return (
     <>
       <SEO 
-        title="Sponsor a Child - kajiado Childrens Home"
-        description="Meet the children at kajiado Childrens Home. Your sponsorship provides education, food, healthcare, and love to vulnerable children in Kajiado, Kenya."
+        title="Sponsor a ajiado Bright Horizons"
+        description="Meet the children at ajiado Bright Horizons. Your sponsorship provides education, food, healthcare, and love to vulnerable children in Kajiado, Kenya."
         path="/children"
       />
       
@@ -32,7 +32,7 @@ export default function Children() {
         <section className="page-header">
           <div className="container">
             <h1>Our <span>Children</span></h1>
-            <p>Meet the beautiful children who call kajiado Childrens Home their family</p>
+            <p>Meet the beautiful children who call ajiado Bright Horizons their home</p>
           </div>
         </section>
 

@@ -19,16 +19,16 @@ export default function Home() {
 
   const heroMessages = [
     {
-      title: "kajiado Bright Horizons",
+      title: "Kajiado Bright Horizons",
       subtitle: "Providing hope for the vulnerable, one child at a time",
       description: "Transforming lives through love, education, and faith since 1997",
-      bgImage: "/images/hero/hero-bg.jpg"
+      bgImage: "/images/hero/hero-bg.png"
     },
     {
       title: "Every Child Deserves a Chance",
       subtitle: "Help us provide shelter, food, and education",
       description: "Your support changes lives forever",
-      bgImage: "/images/hero/hero-bg2.jpg"
+      bgImage: "/images/hero/hero-bg2.png"
     },
     {
       title: "Building Bright Futures",
@@ -45,24 +45,36 @@ export default function Home() {
   ];
 
   const aboutImages = [
-    { src: "/images/about/kajiado-home.jpg", alt: "kajiado Bright Horizons", caption: "Our Home" },
-    { src: "/images/children/happy-children.jpg", alt: "Happy Children", caption: "Happy Children" },
-    { src: "/images/about/founder.jpg", alt: "Founder", caption: "Our Founder" },
-    { src: "/images/staff/staff1.jpg", alt: "Staff", caption: "Dedicated Staff" }
+    { src: "/images/about/kajiado-home.jpg", alt: "Kajiado Bright Horizons", caption: "Our Home" },
+    { src: "/images/children/happy-children.png", alt: "Happy Children", caption: "Happy Children" },
+    { src: "/images/about/founder.png", alt: "Founder", caption: "Our Founder" },
+    { src: "/images/staff/staff.jpg", alt: "Staff", caption: "Dedicated Staff" }
   ];
 
+  // Core Programs with LOGOS only (no icons)
   const corePrograms = [
-    { id: 'education', icon: 'fas fa-book', title: 'Education Program', desc: 'Quality education for every child, from primary through vocational training.' },
-    { id: 'healthcare', icon: 'fas fa-heartbeat', title: 'Healthcare Program', desc: 'Regular medical checkups, nutrition, and healthcare for all children.' },
-    { id: 'shelter', icon: 'fas fa-home', title: 'Shelter & Care', desc: 'Safe, loving home environment with proper care and support.' },
-    { id: 'mentorship', icon: 'fas fa-users', title: 'Mentorship', desc: 'Guidance and mentorship to help children build better futures.' }
-  ];
+    { 
+      id: 'education', 
+      title: 'Kajiado Valley School of Excellence', 
+      desc: 'Provides quality early childhood and primary education, nurturing young learners and supporting the mission of Kajiado Bright Horizons',
+      logo: '/images/programs/valley-school.jpg',
+      stats: '50+ students enrolled'
+    },
+    { 
+      id: 'healthcare', 
+      title: 'Bright Horizon Program', 
+      desc: 'Helping post-secondary students navigate their next steps to self-sufficiency.',
+      logo: '/images/programs/bright-horizons.png',
+      stats: '20+ alumni supported'
+    },
+    { 
+      id: "shelter", 
+      title: "Namanga Hope Center", 
+      desc: "Providing love, care, and hope to orphans, vulnerable children, the needy, and the elderly through education, mentorship, food support, and faith-based guidance.",
+      logo: '/images/programs/namanga-hope-center.jpg',
+      stats: '100+ lives impacted'
+    },
 
-  const partnerPrograms = [
-    { icon: "🌟", title: "Hope for Kajiado", desc: "Sustaining KCH through fundraising and support for over a decade" },
-    { icon: "📚", title: "Valley School of Excellence", desc: "State-of-the-art primary school providing quality education to KCH children and community" },
-    { icon: "🎓", title: "Bright Horizons Project", desc: "Helping post-secondary students navigate their next steps to self-sufficiency" },
-    { icon: "🍲", title: "Namanga Hope Center", desc: "Outreach to vulnerable communities, founded by KCH alumnus Richard Nyinge" }
   ];
 
   // Intersection Observer for scroll animations
@@ -129,8 +141,8 @@ export default function Home() {
   return (
     <>
       <SEO 
-        title="kajiado Bright Horizons - Providing Hope & Care to Vulnerable Children"
-        description="kajiado Bright Horizons provides shelter, education, healthcare, and love to orphaned and vulnerable children in Kajiado, Kenya. Support us through donations, sponsorship, or volunteering."
+        title="Kajiado Bright Horizons - Providing Hope & Care to Vulnerable Children"
+        description="Kajiado Bright Horizons provides shelter, education, healthcare, and love to orphaned and vulnerable children in Kajiado, Kenya. Support us through donations, sponsorship, or volunteering."
         path="/"
       />
       
@@ -173,18 +185,47 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Mission Statement */}
-        <div className="mission-statement">
+        {/* Mission & Vision Section - UPDATED */}
+        <div className="mission-vision-section">
           <div className="container">
-            <div className="mission-content">
-              <h2>Our Mission</h2>
-              <p>
-                To provide loving Christian care, shelter, food, clothing, medical and educational needs to children who have no other resources, ensuring every child receives <span className="highlight">love</span>, 
-                a <span className="highlight">full stomach</span>, 
-                <span className="highlight"> quality education</span>, 
-                <span className="highlight"> spiritual nourishment</span>, 
-                and <span className="highlight">hope for a better future</span>.
-              </p>
+            <div className="mission-vision-grid">
+              <div className="mission-card">
+                <div className="mv-icon">
+                  <i className="fas fa-bible"></i>
+                </div>
+                <h3>Our Mission</h3>
+                <p>
+                  To provide holistic development to children, aiming at building strong Christians through evangelizing by word and deed, thus fulfill scripture <strong>Luke 2:52</strong>.
+                </p>
+                <div className="scripture-ref">
+                  <i className="fas fa-quote-left"></i>
+                  "And Jesus grew in wisdom and stature, and in favor with God and man."
+                  <span>— Luke 2:52</span>
+                </div>
+              </div>
+              <div className="vision-card">
+                <div className="mv-icon">
+                  <i className="fas fa-church"></i>
+                </div>
+                <h3>Our Vision</h3>
+                <p>
+                  To have well molded and equipped Christians and so participate fully in God's call of mission and ministry.
+                </p>
+                <div className="vision-points">
+                  <div className="vision-point">
+                    <i className="fas fa-check-circle"></i>
+                    <span>Well Molded Christians</span>
+                  </div>
+                  <div className="vision-point">
+                    <i className="fas fa-check-circle"></i>
+                    <span>Equipped for Ministry</span>
+                  </div>
+                  <div className="vision-point">
+                    <i className="fas fa-check-circle"></i>
+                    <span>Fulfilling God's Call</span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -221,7 +262,7 @@ export default function Home() {
           </div>
         </div>
 
-        {/* About Section with Rotating Image Slider - Updated */}
+        {/* About Section with Rotating Image Slider */}
         <div 
           ref={aboutRef}
           id="about"
@@ -230,10 +271,10 @@ export default function Home() {
           <div className="container">
             <div className="about-flex">
               <div className="about-text">
-                <h2>About <span>kajiado Bright Horizons</span></h2>
-                <p>kajiado Bright Horizons (KCH) has been home to multi-generations of vulnerable children since <strong>1997</strong>. KCH works closely with Kenya Child Services to identify children who are the most desperate in need, with those admitted having no family, access to parental oversight, nor have their basic needs for protection met.</p>
-                <p>KCH provides physical and spiritual nourishment in a safe environment, supplemented by care by a loving staff, medical care and educational needs through secondary school. The children come from different African tribes and grow up as sisters and brothers. Currently, there are over <strong>100 children</strong> being cared for at KCH.</p>
-                <p>KCH is also a designated <strong>Kajiado Rescue Center</strong> for Kenya Child Services, who places vulnerable children on a temporary basis. Alumni of KCH remain active as mentors, volunteers, and some even serve as local board members.</p>
+                <h2>About <span>Kajiado Bright Horizons</span></h2>
+                <p>Kajiado Bright Horizons (KBH) has been home to multi-generations of vulnerable children since <strong>1997</strong>. KBH works closely with Kenya Child Services to identify children who are the most desperate in need, with those admitted having no family, access to parental oversight, nor have their basic needs for protection met.</p>
+                <p>KBH provides physical and spiritual nourishment in a safe environment, supplemented by care by a loving staff, medical care and educational needs through secondary school. The children come from different African tribes and grow up as sisters and brothers. Currently, there are over <strong>100 children</strong> being cared for at KBH.</p>
+                <p>KBH is also a designated <strong>Kajiado Rescue Center</strong> for Kenya Child Services, who places vulnerable children on a temporary basis. Alumni of KBH remain active as mentors, volunteers, and some even serve as local board members.</p>
                 <Link to="/about" className="btn-outline">
                   Read Our Story <i className="fas fa-arrow-right"></i>
                 </Link>
@@ -270,7 +311,7 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Core Programs Section */}
+        {/* Core Programs Section with LOGOS */}
         <div 
           ref={programsRef}
           id="programs"
@@ -284,31 +325,28 @@ export default function Home() {
             <div className="programs-grid">
               {corePrograms.map((program) => (
                 <div key={program.id} className="program-card">
-                  <div className="program-icon"><i className={program.icon}></i></div>
+                  <div className="program-logo-container">
+                    <img 
+                      src={program.logo} 
+                      alt={`${program.title} Logo`} 
+                      className="program-logo"
+                      loading="lazy"
+                      onError={(e) => {
+                        e.target.style.display = 'none';
+                        e.target.parentElement.innerHTML = `
+                          <div class="program-logo-fallback">${program.title.charAt(0)}</div>
+                        `;
+                      }}
+                    />
+                  </div>
                   <h3>{program.title}</h3>
-                  <p>{program.desc}</p>
+                  <p className="program-description">{program.desc}</p>
+                  <div className="program-stats">
+                    <i className="fas fa-users"></i> {program.stats}
+                  </div>
                   <Link to="/get-involved" className="program-link">
                     Support This Program <i className="fas fa-arrow-right"></i>
                   </Link>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Partner Programs Section - Updated from Partners to Partner Programs */}
-        <div className="partner-programs-section">
-          <div className="container">
-            <div className="section-header">
-              <h2 className="section-title">Partner <span>Programs</span></h2>
-              <p className="section-subtitle">Collaborative initiatives transforming lives through partnership</p>
-            </div>
-            <div className="partner-programs-grid">
-              {partnerPrograms.map((program, index) => (
-                <div className="partner-program-card" key={index}>
-                  <div className="partner-program-icon">{program.icon}</div>
-                  <h3>{program.title}</h3>
-                  <p>{program.desc}</p>
                 </div>
               ))}
             </div>
@@ -320,8 +358,8 @@ export default function Home() {
           <div className="container">
             <div className="testimonial-card">
               <i className="fas fa-quote-left"></i>
-              <p>"kajiado Bright Horizons gave me a second chance at life. Today, I'm a social worker helping children just like me. Richard Nyinge, founder of Namanga Hope Center, was admitted to KCH in 1997 as a six-year-old orphan and went on to earn a Master's degree in Divinity."</p>
-              <h4>— KCH Alumni Success Story</h4>
+              <p>"Kajiado Bright Horizons gave me a second chance at life. Today, I'm a social worker helping children just like me. Richard Nyinge, founder of Namanga Hope Center, was admitted to KBH in 1997 as a six-year-old orphan and went on to earn a Master's degree in Divinity."</p>
+              <h4>— KBH Alumni Success Story</h4>
             </div>
           </div>
         </div>
@@ -346,19 +384,142 @@ export default function Home() {
       </div>
 
       <style>{`
-        .partner-programs-section {
-          padding: 90px 0;
-          background: #080808;
+        /* Mission & Vision Section */
+        .mission-vision-section {
+          padding: 80px 0;
+          background: var(--bg-deep);
+          border-bottom: 1px solid var(--border-color);
         }
         
-        .partner-programs-grid {
+        .mission-vision-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 40px;
+        }
+        
+        .mission-card,
+        .vision-card {
+          background: var(--card-bg);
+          padding: 40px;
+          border-radius: 24px;
+          text-align: center;
+          border: 1px solid var(--border-color);
+          transition: all 0.3s ease;
+        }
+        
+        .mission-card:hover,
+        .vision-card:hover {
+          border-color: var(--primary-color);
+          transform: translateY(-5px);
+          box-shadow: 0 10px 30px rgba(59, 130, 246, 0.15);
+        }
+        
+        .mv-icon {
+          width: 70px;
+          height: 70px;
+          margin: 0 auto 20px;
+          background: rgba(59, 130, 246, 0.1);
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 2rem;
+          color: var(--primary-color);
+        }
+        
+        .mission-card h3,
+        .vision-card h3 {
+          font-size: 1.8rem;
+          margin-bottom: 16px;
+          color: var(--text-color);
+        }
+        
+        .mission-card p,
+        .vision-card p {
+          color: var(--text-muted);
+          line-height: 1.8;
+          font-size: 1.05rem;
+        }
+        
+        .mission-card strong {
+          color: var(--primary-color);
+        }
+        
+        .scripture-ref {
+          margin-top: 20px;
+          padding: 16px;
+          background: rgba(59, 130, 246, 0.05);
+          border-radius: 12px;
+          border-left: 3px solid var(--primary-color);
+          font-style: italic;
+          color: var(--text-color);
+          line-height: 1.6;
+        }
+        
+        .scripture-ref i {
+          color: var(--primary-color);
+          margin-right: 8px;
+          font-size: 0.8rem;
+        }
+        
+        .scripture-ref span {
+          display: block;
+          margin-top: 8px;
+          font-weight: 600;
+          color: var(--primary-color);
+          font-style: normal;
+        }
+        
+        .vision-points {
+          margin-top: 20px;
+          text-align: left;
+        }
+        
+        .vision-point {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          padding: 10px 0;
+          border-bottom: 1px solid var(--border-color);
+          color: var(--text-muted);
+        }
+        
+        .vision-point:last-child {
+          border-bottom: none;
+        }
+        
+        .vision-point i {
+          color: var(--primary-color);
+          font-size: 1.1rem;
+          min-width: 20px;
+        }
+        
+        .vision-point span {
+          color: var(--text-color);
+        }
+        
+        /* Core Programs with Logo Styles */
+        .programs-section {
+          padding: 90px 0;
+          background: var(--bg-deep);
+          transition: all 0.6s ease-out;
+          transform: translateY(30px);
+          opacity: 0;
+        }
+        
+        .programs-section.visible {
+          transform: translateY(0);
+          opacity: 1;
+        }
+        
+        .programs-grid {
           display: grid;
           grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
           gap: 32px;
           margin-top: 40px;
         }
         
-        .partner-program-card {
+        .program-card {
           background: var(--card-bg);
           padding: 32px;
           border-radius: 24px;
@@ -367,36 +528,123 @@ export default function Home() {
           transition: all 0.3s ease;
         }
         
-        .partner-program-card:hover {
+        .program-card:hover {
           border-color: var(--primary-color);
           transform: translateY(-5px);
+          box-shadow: 0 10px 30px rgba(59, 130, 246, 0.15);
         }
         
-        .partner-program-icon {
-          font-size: 3rem;
+        .program-logo-container {
+          width: 140px;
+          height: 140px;
+          margin: 0 auto 20px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: rgba(255, 255, 255, 0.05);
+          border-radius: 50%;
+          overflow: hidden;
+          padding: 24px;
+          border: 2px solid var(--border-color);
+          transition: all 0.3s ease;
+        }
+        
+        .program-card:hover .program-logo-container {
+          border-color: var(--primary-color);
+          box-shadow: 0 0 30px rgba(59, 130, 246, 0.15);
+        }
+        
+        .program-logo {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+          transition: transform 0.3s ease;
+        }
+        
+        .program-card:hover .program-logo {
+          transform: scale(1.05);
+        }
+        
+        .program-logo-fallback {
+          font-size: 3.5rem;
+          font-weight: 800;
+          color: var(--primary-color);
+          background: rgba(59, 130, 246, 0.1);
+          width: 80px;
+          height: 80px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        
+        .program-card h3 {
+          font-size: 1.2rem;
+          margin-bottom: 12px;
+          color: var(--text-color);
+        }
+        
+        .program-description {
+          color: var(--text-muted);
+          line-height: 1.6;
+          margin-bottom: 16px;
+          font-size: 0.95rem;
+        }
+        
+        .program-stats {
+          background: rgba(59, 130, 246, 0.1);
+          padding: 8px 16px;
+          border-radius: 20px;
+          font-size: 0.85rem;
+          color: var(--primary-color);
+          font-weight: 500;
+          display: inline-block;
           margin-bottom: 16px;
         }
         
-        .partner-program-card h3 {
-          font-size: 1.2rem;
-          margin-bottom: 12px;
-          color: #fff;
+        .program-link {
+          color: var(--primary-color);
+          font-weight: 600;
+          text-decoration: none;
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          transition: gap 0.3s ease;
         }
         
-        .partner-program-card p {
-          color: var(--text-muted);
-          line-height: 1.6;
-          font-size: 0.9rem;
+        .program-link:hover {
+          gap: 12px;
+        }
+        
+        @media (max-width: 968px) {
+          .mission-vision-grid {
+            grid-template-columns: 1fr;
+          }
         }
         
         @media (max-width: 768px) {
-          .partner-programs-grid {
+          .programs-grid {
             grid-template-columns: 1fr;
-            gap: 24px;
           }
           
-          .partner-programs-section {
+          .programs-section {
             padding: 60px 0;
+          }
+          
+          .program-logo-container {
+            width: 120px;
+            height: 120px;
+            padding: 20px;
+          }
+          
+          .mission-card,
+          .vision-card {
+            padding: 30px 20px;
+          }
+          
+          .mission-card h3,
+          .vision-card h3 {
+            font-size: 1.5rem;
           }
         }
       `}</style>

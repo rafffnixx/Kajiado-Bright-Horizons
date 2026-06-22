@@ -6,27 +6,57 @@ import './styles.css';
 export default function About() {
   // PARTNER PROGRAMS - Programs run by partner organizations
   const partnerPrograms = [
-    { icon: "🏫", title: "Valley School of Excellence", desc: "State-of-the-art primary school providing quality education to KCH children and the community" },
-    { icon: "🎓", title: "Bright Horizons Project", desc: "Helping post-secondary students navigate their next steps to self-sufficiency" },
-    { icon: "🍲", title: "Namanga Hope Center", desc: "Outreach to vulnerable communities, founded by KCH alumnus Richard Nyinge" }
+    { 
+      title: "Valley School of Excellence", 
+      desc: "State-of-the-art primary school providing quality education to KBH children and the community",
+      logo: "/images/programs/valley-school.jpg"
+    },
+    { 
+      icon: "🎓", 
+      title: "Bright Horizons Project", 
+      desc: "Helping post-secondary students navigate their next steps to self-sufficiency",
+      logo: "/images/programs/bright-horizons.png"
+    },
+    { 
+      icon: "🍲", 
+      title: "Namanga Hope Center", 
+      desc: "Outreach to vulnerable communities, founded by KBH alumnus Richard Nyinge",
+      logo: "/images/programs/namanga-hope-center.jpg"
+    }
   ];
 
-  // SUPPORTING PARTNERS - Organizations that support KCH
+  // SUPPORTING PARTNERS - Organizations that support KBH
   const supportingPartners = [
-    { icon: "🌟", title: "Hope for Kajiado (HFK)", desc: "Sustaining KCH through fundraising, campus improvements, and program development for over a decade" },
-    { icon: "🤝", title: "Kenya Child Services", desc: "Designated Kajiado Rescue Center for temporary placement of vulnerable children" },
-    { icon: "🌾", title: "Community Outreach Program", desc: "Education needs for orphans living with guardians" },
-    { icon: "🆘", title: "Emergency Relief", desc: "COVID-19, Drought, and Flood community relief projects" }
+    { 
+      icon: "🌟", 
+      title: "Hope for Kajiado (HFK)", 
+      desc: "Sustaining KBH through fundraising, campus improvements, and program development for over a decade",
+      logo: "/images/partners/hope-for-kajiado.jpg"
+    },
+    { 
+      icon: "🤝", 
+      title: "Kenya Child Services", 
+      desc: "Designated Kajiado Rescue Center for temporary placement of vulnerable children",
+      logo: "/images/partners/kenya-child-services.png"
+    },
+    { 
+      icon: "🌾", 
+      title: "Community Outreach Program", 
+      desc: "Education needs for orphans living with guardians",
+      logo: "/images/partners/community-outreach.png"
+    },
+    { 
+      icon: "🆘", 
+      title: "Emergency Relief", 
+      desc: "COVID-19, Drought, and Flood community relief projects",
+      logo: "/images/partners/emergency-relief.png"
+    }
   ];
 
   const services = [
     { icon: "❤️", title: "Love & Christian Care" },
-    { icon: "🏠", title: "Safe Shelter" },
     { icon: "🍲", title: "Nutritious Food" },
-    { icon: "👕", title: "Clothing" },
-    { icon: "🏥", title: "Medical Care" },
-    { icon: "📚", title: "Quality Education through Secondary School" },
-    { icon: "🙏", title: "Spiritual Nourishment" },
+    { icon: "📚", title: "Quality Education" },
     { icon: "⭐", title: "Hope for Future" }
   ];
 
@@ -47,8 +77,8 @@ export default function About() {
   return (
     <>
       <SEO 
-        title="About Us - kajiado Childrens Home"
-        description="kajiado Bright Horizons (KCH) has been home to multi-generations of vulnerable children since 1997. Learn about our mission to provide loving Christian care, shelter, education, and hope."
+        title="About Us - Kajiado Bright Horizons"
+        description="Kajiado Bright Horizons (KBH) has been home to multi-generations of vulnerable children since 1997. Learn about our mission to provide loving Christian care, shelter, education, and hope."
         path="/about"
       />
       
@@ -64,7 +94,7 @@ export default function About() {
           </div>
           <div className="container">
             <div className="hero-content-about">
-              <h1>About <span>kajiado Bright Horizons</span></h1>
+              <h1>About <span>Kajiado Bright Horizons</span></h1>
               <p>Home to multi-generations of vulnerable children since 1997</p>
             </div>
           </div>
@@ -76,58 +106,51 @@ export default function About() {
             <div className="about-flex">
               <div className="about-text">
                 <h2>Our <span>Story</span></h2>
-                <p>kajiado Bright Horizons (KCH) has been home to multi-generations of vulnerable children since <strong>1997</strong>. KCH works closely with Kenya Child Services to identify children who are the most desperate in need, with those admitted having no family, access to parental oversight, nor having their basic needs for protection met.</p>
-                <p>KCH provides physical and spiritual nourishment in a safe environment, supplemented by care from a loving staff, medical care, and educational needs through secondary school. The children come from different African tribes and grow up as sisters and brothers. Currently, there are over <strong>100 children</strong> being cared for at KCH.</p>
-                <p>KCH is also a designated <strong>Kajiado Rescue Center</strong> for Kenya Child Services, which places vulnerable children on a temporary basis. These children can stay as little as a few days to many months depending on their needs, with KCH absorbing the cost and care of these children.</p>
-                <p>Alumni of KCH remain active as mentors, volunteers, and some even serve as local board of management or board of trustee members alongside respected community leaders.</p>
+                <p>Kajiado Bright Horizons (KBH) has been home to multi-generations of vulnerable children since <strong>1997</strong>. KBH works closely with Kenya Child Services to identify children who are the most desperate in need, with those admitted having no family, access to parental oversight, nor having their basic needs for protection met.</p>
+                <p>KBH provides physical and spiritual nourishment in a safe environment, supplemented by care from a loving staff, medical care, and educational needs through secondary school. The children come from different African tribes and grow up as sisters and brothers. Currently, there are over <strong>100 children</strong> being cared for at KBH.</p>
+                <p>KBH is also a designated <strong>Kajiado Rescue Center</strong> for Kenya Child Services, which places vulnerable children on a temporary basis. These children can stay as little as a few days to many months depending on their needs, with KBH absorbing the cost and care of these children.</p>
+                <p>Alumni of KBH remain active as mentors, volunteers, and some even serve as local board of management or board of trustee members alongside respected community leaders.</p>
               </div>
               <div className="about-img">
-                <img src="/images/about/kajiado-home.jpg" alt="kajiado Bright Horizons" loading="lazy" />
+                <img src="/images/about/kajiado-home.jpg" alt="Kajiado Bright Horizons" loading="lazy" />
               </div>
             </div>
           </div>
         </section>
 
-        {/* Hope for Kajiado Partnership Section */}
-        <section className="hope-partnership">
-          <div className="container">
-            <div className="hope-content">
-              <h2>Hope for <span>Kajiado</span></h2>
-              <p>kajiado Bright Horizons provides loving Christian care, shelter, food, clothing, medical and educational needs to children who have no other resources. Hope for Kajiado (HFK) support of KCH has evolved for over a decade through campus improvements and increased programming.</p>
-              <div className="hope-grid">
-                <div className="hope-item">
-                  <i className="fas fa-building"></i>
-                  <h4>Capital Projects</h4>
-                  <p>Facility improvements, property and farm enhancements, and a new state-of-the-art primary school providing quality education.</p>
-                </div>
-                <div className="hope-item">
-                  <i className="fas fa-chart-line"></i>
-                  <h4>Programming Improvements</h4>
-                  <p>Enhanced on-campus medical care through added staffing, Community Outreach Program, and Bright Horizons Project for post-secondary students.</p>
-                </div>
-                <div className="hope-item">
-                  <i className="fas fa-hand-holding-heart"></i>
-                  <h4>Community Relief</h4>
-                  <p>COVID-19, drought, and flood community relief projects supporting vulnerable families.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
 
-        {/* Mission & Vision Section */}
+        {/* Mission & Vision Section - UPDATED */}
         <section className="mission-vision">
           <div className="container">
             <div className="mission-vision-grid">
               <div className="mission-card">
-                <i className="fas fa-quote-left"></i>
+                <i className="fas fa-bible"></i>
                 <h3>Our Mission</h3>
-                <p>To provide loving Christian care, shelter, food, clothing, medical care, and educational needs to children who have no other resources, ensuring every child receives love, emotional support, and hope for a brighter future.</p>
+                <p>To provide holistic development to children, aiming at building strong Christians through evangelizing by word and deed, thus fulfill scripture <strong>Luke 2:52</strong>.</p>
+                <div className="scripture-ref">
+                  <i className="fas fa-quote-left"></i>
+                  "And Jesus grew in wisdom and stature, and in favor with God and man."
+                  <span>— Luke 2:52</span>
+                </div>
               </div>
               <div className="vision-card">
-                <i className="fas fa-quote-left"></i>
-                <h3>Our Commitment</h3>
-                <p>KCH alumni remain active as mentors and volunteers. Some serve as local board of management or board of trustee members alongside respected community leaders, giving back to the home that raised them.</p>
+                <i className="fas fa-church"></i>
+                <h3>Our Vision</h3>
+                <p>To have well molded and equipped Christians and so participate fully in God's call of mission and ministry.</p>
+                <div className="vision-points">
+                  <div className="vision-point">
+                    <i className="fas fa-check-circle"></i>
+                    <span>Well Molded Christians</span>
+                  </div>
+                  <div className="vision-point">
+                    <i className="fas fa-check-circle"></i>
+                    <span>Equipped for Ministry</span>
+                  </div>
+                  <div className="vision-point">
+                    <i className="fas fa-check-circle"></i>
+                    <span>Fulfilling God's Call</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -151,7 +174,7 @@ export default function About() {
           </div>
         </section>
 
-        {/* Partner Programs Section */}
+        {/* Partner Programs Section with Logos */}
         <section className="partner-programs-section">
           <div className="container">
             <div className="section-header">
@@ -161,7 +184,20 @@ export default function About() {
             <div className="partner-programs-grid">
               {partnerPrograms.map((program, index) => (
                 <div className="partner-program-card" key={index}>
-                  <div className="partner-program-icon">{program.icon}</div>
+                  <div className="partner-logo-container">
+                    <img 
+                      src={program.logo} 
+                      alt={`${program.title} Logo`} 
+                      className="partner-logo"
+                      loading="lazy"
+                      onError={(e) => {
+                        e.target.style.display = 'none';
+                        e.target.parentElement.innerHTML = `
+                          <div class="partner-logo-fallback">${program.icon}</div>
+                        `;
+                      }}
+                    />
+                  </div>
                   <h3>{program.title}</h3>
                   <p>{program.desc}</p>
                 </div>
@@ -170,24 +206,6 @@ export default function About() {
           </div>
         </section>
 
-        {/* Supporting Partners Section */}
-        <section className="supporting-partners-section">
-          <div className="container">
-            <div className="section-header">
-              <h2 className="section-title">Supporting <span>Partners</span></h2>
-              <p className="section-subtitle">Organizations working together to support our mission</p>
-            </div>
-            <div className="supporting-partners-grid">
-              {supportingPartners.map((partner, index) => (
-                <div className="supporting-partner-card" key={index}>
-                  <div className="supporting-partner-icon">{partner.icon}</div>
-                  <h3>{partner.title}</h3>
-                  <p>{partner.desc}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
 
         {/* Staff Section */}
         <section className="staff-section">
@@ -230,7 +248,7 @@ export default function About() {
           <div className="container">
             <div className="sponsorship-cta-content">
               <h2>Child Sponsorship Program</h2>
-              <p>The Child Sponsorship Program at KCH enables you to have a direct impact on a child. A sponsorship partially covers the actual cost for each child, and your sponsored child knows you as their special supporter. They value the personal relationship developed throughout their childhood and look forward to writing to you and receiving your letters.</p>
+              <p>The Child Sponsorship Program at KBH enables you to have a direct impact on a child. A sponsorship partially covers the actual cost for each child, and your sponsored child knows you as their special supporter. They value the personal relationship developed throughout their childhood and look forward to writing to you and receiving your letters.</p>
               <p>If sponsorship isn't right for you, consider becoming a <strong>recurring donor</strong> to help meet the many needs of these young lives. Will you join us in helping these children achieve their goals?</p>
               <div className="sponsorship-cta-buttons">
                 <Link to="/children" className="btn-gold">
@@ -326,6 +344,114 @@ export default function About() {
           line-height: 1.6;
         }
         
+        /* Mission & Vision Section */
+        .mission-vision {
+          padding: 80px 0;
+          background: var(--bg-deep);
+          border-bottom: 1px solid var(--border-color);
+        }
+        
+        .mission-vision-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 40px;
+        }
+        
+        .mission-card,
+        .vision-card {
+          background: var(--card-bg);
+          padding: 40px;
+          border-radius: 24px;
+          text-align: center;
+          border: 1px solid var(--border-color);
+          transition: all 0.3s ease;
+        }
+        
+        .mission-card:hover,
+        .vision-card:hover {
+          border-color: var(--primary-color);
+          transform: translateY(-5px);
+          box-shadow: 0 10px 30px rgba(59, 130, 246, 0.15);
+        }
+        
+        .mission-card i,
+        .vision-card i {
+          font-size: 2.5rem;
+          color: var(--primary-color);
+          margin-bottom: 20px;
+        }
+        
+        .mission-card h3,
+        .vision-card h3 {
+          font-size: 1.8rem;
+          margin-bottom: 16px;
+          color: var(--text-color);
+        }
+        
+        .mission-card p,
+        .vision-card p {
+          color: var(--text-muted);
+          line-height: 1.8;
+          font-size: 1.05rem;
+        }
+        
+        .mission-card strong {
+          color: var(--primary-color);
+        }
+        
+        .scripture-ref {
+          margin-top: 20px;
+          padding: 16px;
+          background: rgba(59, 130, 246, 0.05);
+          border-radius: 12px;
+          border-left: 3px solid var(--primary-color);
+          font-style: italic;
+          color: var(--text-color);
+          line-height: 1.6;
+        }
+        
+        .scripture-ref i {
+          color: var(--primary-color);
+          margin-right: 8px;
+          font-size: 0.8rem;
+        }
+        
+        .scripture-ref span {
+          display: block;
+          margin-top: 8px;
+          font-weight: 600;
+          color: var(--primary-color);
+          font-style: normal;
+        }
+        
+        .vision-points {
+          margin-top: 20px;
+          text-align: left;
+        }
+        
+        .vision-point {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          padding: 10px 0;
+          border-bottom: 1px solid var(--border-color);
+          color: var(--text-muted);
+        }
+        
+        .vision-point:last-child {
+          border-bottom: none;
+        }
+        
+        .vision-point i {
+          color: var(--primary-color);
+          font-size: 1.1rem;
+          min-width: 20px;
+        }
+        
+        .vision-point span {
+          color: var(--text-color);
+        }
+        
         /* Partner Programs Section */
         .partner-programs-section {
           padding: 90px 0;
@@ -335,7 +461,7 @@ export default function About() {
         
         .partner-programs-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
           gap: 32px;
           margin-top: 40px;
         }
@@ -352,11 +478,7 @@ export default function About() {
         .partner-program-card:hover {
           border-color: var(--primary-color);
           transform: translateY(-5px);
-        }
-        
-        .partner-program-icon {
-          font-size: 3rem;
-          margin-bottom: 16px;
+          box-shadow: 0 10px 30px rgba(59, 130, 246, 0.15);
         }
         
         .partner-program-card h3 {
@@ -380,7 +502,7 @@ export default function About() {
         
         .supporting-partners-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
           gap: 32px;
           margin-top: 40px;
         }
@@ -397,11 +519,7 @@ export default function About() {
         .supporting-partner-card:hover {
           border-color: var(--primary-color);
           transform: translateY(-5px);
-        }
-        
-        .supporting-partner-icon {
-          font-size: 3rem;
-          margin-bottom: 16px;
+          box-shadow: 0 10px 30px rgba(59, 130, 246, 0.15);
         }
         
         .supporting-partner-card h3 {
@@ -414,6 +532,44 @@ export default function About() {
           color: var(--text-muted);
           line-height: 1.6;
           font-size: 0.9rem;
+        }
+        
+        /* Partner Logo Styles */
+        .partner-logo-container {
+          width: 120px;
+          height: 120px;
+          margin: 0 auto 20px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: rgba(255, 255, 255, 0.05);
+          border-radius: 50%;
+          overflow: hidden;
+          padding: 20px;
+          border: 2px solid var(--border-color);
+          transition: all 0.3s ease;
+        }
+        
+        .partner-program-card:hover .partner-logo-container,
+        .supporting-partner-card:hover .partner-logo-container {
+          border-color: var(--primary-color);
+          box-shadow: 0 0 30px rgba(59, 130, 246, 0.15);
+        }
+        
+        .partner-logo {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+          transition: transform 0.3s ease;
+        }
+        
+        .partner-program-card:hover .partner-logo,
+        .supporting-partner-card:hover .partner-logo {
+          transform: scale(1.05);
+        }
+        
+        .partner-logo-fallback {
+          font-size: 2.5rem;
         }
         
         .sponsorship-cta {
@@ -452,24 +608,14 @@ export default function About() {
           margin-top: 32px;
         }
         
-        /* Dark mode specific adjustments */
-        [data-theme="dark"] .partner-programs-section,
-        [data-theme="dark"] .supporting-partners-section,
-        [data-theme="dark"] .sponsorship-cta {
-          background: var(--bg-deep);
-        }
-        
-        /* Light mode specific adjustments */
-        [data-theme="light"] .partner-programs-section,
-        [data-theme="light"] .supporting-partners-section,
-        [data-theme="light"] .sponsorship-cta {
-          background: var(--bg-deep);
-        }
-        
         @media (max-width: 968px) {
           .hope-grid,
           .partner-programs-grid,
           .supporting-partners-grid {
+            grid-template-columns: 1fr;
+          }
+          
+          .mission-vision-grid {
             grid-template-columns: 1fr;
           }
         }
@@ -496,6 +642,22 @@ export default function About() {
           .sponsorship-cta-buttons {
             flex-direction: column;
             align-items: center;
+          }
+          
+          .mission-card,
+          .vision-card {
+            padding: 30px 20px;
+          }
+          
+          .mission-card h3,
+          .vision-card h3 {
+            font-size: 1.5rem;
+          }
+          
+          .partner-logo-container {
+            width: 100px;
+            height: 100px;
+            padding: 16px;
           }
         }
       `}</style>

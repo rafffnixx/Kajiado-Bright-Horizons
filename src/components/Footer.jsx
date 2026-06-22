@@ -38,12 +38,12 @@ export default function Footer() {
             <div className="footer-logo">
               <img src={logoSrc} alt="kajiado Bright Horizons Logo" className="footer-logo-image" />
               <div className="footer-logo-text">
-                <h3>kajiado Childrens Home</h3>
+                <h3>kajiado Bright Horizons</h3>
                 <p>MAKING A DIFFERENCE ONE CHILD AT A TIME</p>
               </div>
             </div>
             <p className="footer-description">
-              kajiado Childrens Home provides a safe and loving environment for abused, abandoned, 
+              kajiado Bright Horizons provides a safe and loving environment for abused, abandoned, 
               and orphaned children in Kajiado, Kenya. Since 1997, we have supported hundreds of children 
               by offering shelter, care, and opportunities for a better future.
             </p>
@@ -135,7 +135,7 @@ export default function Footer() {
         <div className="footer-bottom">
           <div className="footer-bottom-content">
             <div className="footer-copyright">
-              <p>&copy; {currentYear} kajiado Childrens Home. All rights reserved. Caring for vulnerable children in Kajiado, Kenya since 1997.</p>
+              <p>&copy; {currentYear} kajiado Bright Horizons. All rights reserved. Caring for vulnerable children in Kajiado, Kenya since 1997.</p>
             </div>
             <div className="footer-legal">
               <Link to="/terms" onClick={handleNavClick}>Terms of Service</Link>

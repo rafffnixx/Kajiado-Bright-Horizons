@@ -1,7 +1,7 @@
 // src/config.js
 const CONFIG = {
   ORG_NAME: "kajiado Bright Horizons",
-  ORG_SHORT_NAME: "KCH",
+  ORG_SHORT_NAME: "KBH",
   ORG_TAGLINE: "Providing Hope, Care & Education",
   ORG_PHONE: "+254 700 123 456",
   ORG_EMAIL: "info@kajiadochildrenhome.org",

@@ -24,52 +24,52 @@ export default function Events() {
       id: 2,
       title: "Children's Sports Day 2024",
       date: "January 20, 2024",
-      location: "Kajiado Children's Home Grounds",
+      location: "Kajiado Bright Horizons Grounds",
       description: "A fun-filled day of sports, games, and activities for the children.",
       image: "/images/events/sports-day.jpg",
       attendees: 120,
       raised: null
     },
-    {
+      {
       id: 3,
-      title: "Charity Walk & Run 2024",
+      title: "Launching Kajiado Valley School of Excellence",
       date: "February 10, 2024",
-      location: "Kajiado Town Center",
-      description: "5km walk/run to raise awareness and funds for children's healthcare.",
-      image: "/images/events/charity-walk.jpg",
+      location: "Kajiado Bright Horizon",
+      description: "A historic milestone for Kajiado Bright Horizons as we officially launched the Kajiado Valley School of Excellence. This state-of-the-art primary school provides quality education to both KCH children and the surrounding community. The launch ceremony was graced by community leaders, education officials, and well-wishers who share our vision of empowering children through education. The school now serves over 50 students with modern facilities, dedicated teachers, and a curriculum that nurtures academic excellence and character development.",
+      image: "/images/events/valley-school-launch.jpg",
       attendees: 300,
-      raised: "KES 250,000"
     },
     {
-      id: 4,
-      title: "Graduation Ceremony 2024",
-      date: "March 25, 2024",
-      location: "Kajiado Children's Home Hall",
-      description: "Celebrating our students moving to secondary school and vocational training.",
-      image: "/images/events/graduation.jpg",
-      attendees: 200,
-      raised: null
-    },
+    id: 4,
+    title: "Bright Horizon Workshop 2024",
+    date: "March 25, 2024",
+    location: "Kajiado Bright Horizon",
+    description: "An empowering workshop designed to equip post-secondary students with essential life skills, career guidance, and mentorship for their journey to self-sufficiency. The Bright Horizon Workshop brought together KCH alumni, industry professionals, and aspiring young adults for a day of learning, networking, and inspiration. Topics covered included CV writing, interview skills, entrepreneurship, financial literacy, and personal development. Participants left with renewed confidence, practical skills, and a clear roadmap for their future careers.",
+    image: "/images/events/bright-horizon-workshop.jpg",
+    attendees: 200,
+    raised: null
+  },
     {
-      id: 5,
-      title: "Family Fun Day 2024",
-      date: "June 15, 2024",
-      location: "Kajiado Children's Home",
-      description: "A day of games, food, and entertainment for children and families.",
-      image: "/images/events/family-day.jpg",
-      attendees: 350,
-      raised: "KES 100,000"
+      "id": 5,
+      "title": "20th Anniversary 2022",
+      "date": "August 15, 2022",
+      "location": "Kajiado Bright Horizons",
+      "description": "A joyful celebration marking 20 years of Kajiado Bright Horizons, bringing together alumni, partners, and community members. The day was filled with music, dance, and heartfelt stories of transformation. With over 350 attendees, the event highlighted the impact of two decades of care and support.     ",
+      "image": "/images/events/family-day.jpg",
+      "attendees": 350,
+      
     },
+
     {
-      id: 6,
-      title: "Christmas Party 2024",
-      date: "December 20, 2024",
-      location: "Kajiado Children's Home Hall",
-      description: "Annual Christmas celebration with gifts, food, and entertainment for all children.",
-      image: "/images/events/christmas.jpg",
-      attendees: 250,
-      raised: "KES 75,000"
+      "id": 6,
+      "title": "Birthday Party 2024",
+      "date": "December 20, 2024",
+      "location": "Kajiado Bright Horizons",
+      "description": "A festive end‑of‑year celebration honoring all children born in December, as part of our tradition of monthly birthday parties. The event brought together 250 children, staff, and supporters for cake, music, and games, creating joyful memories and a sense of family.",
+      "image": "/images/events/christmas.jpg",
+      "attendees": 250,
     }
+
   ];
 
   // Alumni Stories Data
@@ -83,7 +83,7 @@ export default function Events() {
       yearGraduated: 2026,
       achievement: "Bachelor's Degree in Information Technology",
       currentRole: "IT Solutions Developer & Founder of RaffCodes",
-      story: "Raphael came to KCH as a total orphan at age 9, joining in Grade 2. Despite the challenges, he persevered through primary and secondary school. With the support of KCH sponsors, he pursued a degree in Information Technology and graduated in August 2026. Today, he owns RaffCodes (raffcodes.vercel.app), an IT solutions company, and is giving back by developing this website for KCH. His journey from a vulnerable child to a successful entrepreneur is a testament to the power of love, support, and education.",
+      story: "Raphael came to KBH as a total orphan at age 9, joining in Grade 2. Despite the challenges, he persevered through primary and secondary school. With the support of KBH sponsors, he pursued a degree in Information Technology and graduated in August 2026. Today, he owns RaffCodes (raffcodes.vercel.app), an IT solutions company, and is giving back by developing this website for KBH. His journey from a vulnerable child to a successful entrepreneur is a testament to the power of love, support, and education.",
       image: "/images/alumni/raphael.jpg",
       icon: "💻",
       tags: ["IT Expert", "Entrepreneur", "Web Developer"]
@@ -97,7 +97,7 @@ export default function Events() {
       yearGraduated: 2026,
       achievement: "Diploma in Journalisma and Mass-Communication ",
       currentRole: "to be pprovided",
-      story: "Mary joined KCH at age 7 after losing both parents. She grew up at the home, excelling in her studies. With sponsorship support, she completed her education degree and is now a dedicated primary school teacher. She returns to KCH every holiday to mentor younger children and help with homework.",
+      story: "Mary joined KBH at age 7 after losing both parents. She grew up at the home, excelling in her studies. With sponsorship support, she completed her education degree and is now a dedicated primary school teacher. She returns to KBH every holiday to mentor younger children and help with homework.",
       image: "/images/alumni/mary.jpg",
       icon: "👩‍🏫",
       tags: ["Teacher", "Mentor", "Role Model"]
@@ -111,7 +111,7 @@ export default function Events() {
   "yearGraduated": 2005,
   "achievement": "Masters in Theology",
   "currentRole": "Founder Namanga Hope Center",
-  "story": "Richard joined KCH in 1997 at age 8, entering Grade 4. The care and support he received shaped his path toward faith and service. After graduating in 2005, he pursued higher education and earned a Masters in Theology. Inspired to give back, Richard founded Namanga Hope Center, which provides love and hope to orphans, vulnerable children, the needy, and the elderly. Today, the center supports over 85 children with school fees, food, and clothing, assists 20+ families in poverty with food staples, and runs mentorship and Bible study programs. Richard also mentors current KCH students, continuing the cycle of care and guidance he once received.",
+  "story": "Richard joined KBH in 1997 at age 8, entering Grade 4. The care and support he received shaped his path toward faith and service. After graduating in 2005, he pursued higher education and earned a Masters in Theology. Inspired to give back, Richard founded Namanga Hope Center, which provides love and hope to orphans, vulnerable children, the needy, and the elderly. Today, the center supports over 85 children with school fees, food, and clothing, assists 20+ families in poverty with food staples, and runs mentorship and Bible study programs. Richard also mentors current KBH students, continuing the cycle of care and guidance he once received.",
   "image": "/images/alumni/richard-nyinge.jpg",
   "icon": "🌟",
   "tags": ["Founder", "Mentor", "Community Leader"]
@@ -125,8 +125,8 @@ export default function Events() {
       gradeJoined: "Grade 4",
       yearGraduated: 2020,
       achievement: "Certificate in Culinary Arts",
-      currentRole: "Head Cook at KCH",
-      story: "Sarah's passion for cooking was discovered at KCH. After completing her culinary training, she returned to the home as the head cook, preparing nutritious meals for over 100 children. 'I learned to cook here, and now I cook for my younger brothers and sisters,' she shares.",
+      currentRole: "Head Cook at KBH",
+      story: "Sarah's passion for cooking was discovered at KBH. After completing her culinary training, she returned to the home as the head cook, preparing nutritious meals for over 100 children. 'I learned to cook here, and now I cook for my younger brothers and sisters,' she shares.",
       image: "/images/alumni/sarah.jpg",
       icon: "🍳",
       tags: ["Chef", "Nutrition Expert", "Caregiver"]
@@ -140,7 +140,7 @@ export default function Events() {
       yearGraduated: 2017,
       achievement: "Bachelor's Degree in Nursing",
       currentRole: "Registered Nurse at Kajiado Hospital",
-      story: "David was among the first children to join KCH in 2004. His dream of becoming a nurse came true with the support of the home. Now a registered nurse, he volunteers at KCH's medical clinic every weekend, providing free health checkups for the children.",
+      story: "David was among the first children to join KBH in 2004. His dream of becoming a nurse came true with the support of the home. Now a registered nurse, he volunteers at KBH's medical clinic every weekend, providing free health checkups for the children.",
       image: "/images/alumni/david.jpg",
       icon: "🏥",
       tags: ["Nurse", "Volunteer", "Healthcare Hero"]
@@ -153,8 +153,8 @@ export default function Events() {
       gradeJoined: "Grade 3",
       yearGraduated: 2022,
       achievement: "Diploma in Business Administration",
-      currentRole: "Administrative Assistant at KCH",
-      story: "Esther's organizational skills were noticed early at KCH. After completing her business diploma, she joined the KCH administrative team, helping manage records, sponsorships, and daily operations. 'This home raised me, now I help raise it,' she says proudly.",
+      currentRole: "Administrative Assistant at KBH",
+      story: "Esther's organizational skills were noticed early at KBH. After completing her business diploma, she joined the KBH administrative team, helping manage records, sponsorships, and daily operations. 'This home raised me, now I help raise it,' she says proudly.",
       image: "/images/alumni/esther.jpg",
       icon: "📊",
       tags: ["Administrator", "Organizer", "Team Player"]
@@ -180,15 +180,15 @@ export default function Events() {
   const alumniStats = [
     { number: "50+", label: "Alumni Members", icon: "fas fa-users" },
     { number: "15+", label: "University Graduates", icon: "fas fa-graduation-cap" },
-    { number: "10+", label: "Working at KCH", icon: "fas fa-heart" },
+    { number: "10+", label: "Working at KBH", icon: "fas fa-heart" },
     { number: "100%", label: "Giving Back", icon: "fas fa-hands-helping" }
   ];
 
   return (
     <>
       <SEO 
-        title="Events & Alumni Stories - Kajiado Children's Home"
-        description="Join our upcoming events, celebrate past successes, and read inspiring alumni success stories from Kajiado Children's Home."
+        title="Events & Alumni Stories - Kajiado Bright Horizons"
+        description="Join our upcoming events, celebrate past successes, and read inspiring alumni success stories from Kajiado Bright Horizons"
         path="/events"
       />
       
@@ -312,8 +312,8 @@ export default function Events() {
               {/* Alumni Hero Message */}
               <section className="alumni-hero">
                 <div className="alumni-hero-content">
-                  <h2>From <span>KCH</span> to Success</h2>
-                  <p>Our alumni are the living proof of what love, care, and education can achieve. Read their inspiring journeys from Kajiado Children's Home to becoming professionals, entrepreneurs, and community leaders.</p>
+                  <h2>From <span>KBH</span> to Success</h2>
+                  <p>Our alumni are the living proof of what love, care, and education can achieve. Read their inspiring journeys from Kajiado Bright Horizons to becoming professionals, entrepreneurs, and community leaders.</p>
                 </div>
               </section>
 
@@ -342,7 +342,7 @@ export default function Events() {
                     <div className="story-details">
                       <div className="detail-item">
                         <i className="fas fa-calendar-alt"></i>
-                        <span>Born: 2001 | Joined KCH: 2010 (Grade 2)</span>
+                        <span>Born: 2001 | Joined KBH: 2010 (Grade 2)</span>
                       </div>
                       <div className="detail-item">
                         <i className="fas fa-graduation-cap"></i>
@@ -354,11 +354,11 @@ export default function Events() {
                       </div>
                     </div>
                     <p className="story-description">
-                      Raphael came to KCH as a total orphan at age 9, joining in Grade 2. Despite the challenges, 
-                      he persevered through primary and secondary school. With the support of KCH sponsors, 
+                      Raphael came to KBH as a total orphan at age 9, joining in Grade 2. Despite the challenges, 
+                      he persevered through primary and secondary school. With the support of KBH sponsors, 
                       he pursued a degree in Information Technology and graduated in August 2026. Today, he owns 
                       RaffCodes (raffcodes.vercel.app), an IT solutions company, and is giving back by developing 
-                      this website for KCH. His journey from a vulnerable child to a successful entrepreneur is a 
+                      this website for KBH. His journey from a vulnerable child to a successful entrepreneur is a 
                       testament to the power of love, support, and education.
                     </p>
                     <div className="story-tags">
@@ -426,7 +426,7 @@ export default function Events() {
                                   <p>${story.currentRole}</p>
                                 </div>
                                 <div class="story-modal-body">
-                                  <p><strong>Born:</strong> ${story.yearBorn} | <strong>Joined KCH:</strong> ${story.yearJoined} (Grade ${story.gradeJoined})</p>
+                                  <p><strong>Born:</strong> ${story.yearBorn} | <strong>Joined KBH:</strong> ${story.yearJoined} (Grade ${story.gradeJoined})</p>
                                   <p><strong>Graduated:</strong> ${story.yearGraduated} - ${story.achievement}</p>
                                   <p>${story.story}</p>
                                   <div class="story-modal-tags">
@@ -452,8 +452,8 @@ export default function Events() {
               {/* Call to Action for Alumni */}
               <section className="alumni-cta">
                 <div className="alumni-cta-content">
-                  <h3>Are You a KCH Alumni?</h3>
-                  <p>We want to hear your story! Share your journey and inspire current children at KCH.</p>
+                  <h3>Are You a KBH Alumni?</h3>
+                  <p>We want to hear your story! Share your journey and inspire current children at KBH.</p>
                   <Link to="/contact" className="btn-gold">
                     <i className="fas fa-share-alt"></i> Share Your Story
                   </Link>

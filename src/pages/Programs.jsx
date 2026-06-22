@@ -11,9 +11,9 @@ export default function Programs() {
       icon: "",
       badge: "Education Program",
       image: "/images/programs/valley-school.jpg",
-      description: "State-of-the-art primary school providing quality education to KCH children and the community.",
+      description: "State-of-the-art primary school providing quality education to KBH children and the community.",
       details: [
-        "Private primary school located on KCH campus",
+        "Private primary school located on KBH campus",
         "Competency-based curriculum for knowledge, skills and attitudes",
         "Learner-centered system from ECD to Grade 6",
         "State-of-the-art facilities with latest technology",
@@ -53,14 +53,14 @@ export default function Programs() {
       image: "/images/programs/namanga-hope-center.jpg",
       description: "Providing love and hope to orphans, vulnerable children, the needy and the elderly.",
       details: [
-        "Founded by Richard Nyinge, KCH alumnus (admitted 1997 at age 6)",
+        "Founded by Richard Nyinge, KBH alumnus (admitted 1997 at age 6)",
         "Provides love and hope to orphans and vulnerable children",
         "Assists with educational and health needs",
         "Provides clothing, food and school fees for 85+ vulnerable children",
         "Food staples for 20+ families in abject poverty",
         "Child mentorship programs with life teachings",
         "Bible study to enrich faith",
-        "Richard and friends mentor KCH students"
+        "Richard and friends mentor KBH students"
       ],
       impact: "100+ people served monthly",
       supportText: "Join us in supporting Namanga Hope Center as they expand their services to the vulnerable in their community."
@@ -70,7 +70,7 @@ export default function Programs() {
   const otherPrograms = [
     {
       title: "Community Outreach Program",
-      description: "Education needs for orphans living with guardians, ensuring they receive support even when not residing at KCH.",
+      description: "Education needs for orphans living with guardians, ensuring they receive support even when not residing at KBH.",
       icon: "🌾"
     },
     {
@@ -94,8 +94,8 @@ export default function Programs() {
   return (
     <>
       <SEO 
-        title="Our Programs - kajiado Childrens Home"
-        description="Discover kajiado Childrens Home programs including Valley School of Excellence, Bright Horizons Project, and Namanga Hope Center. Support education, mentorship, and community outreach."
+        title="Our Programs - kajiado Bright Horizons"
+        description="Discover kajiado Bright Horizons programs including Valley School of Excellence, Bright Horizons Project, and Namanga Hope Center. Support education, mentorship, and community outreach."
         path="/programs"
       />
       
@@ -200,11 +200,11 @@ export default function Programs() {
           <div className="container">
             <div className="alumni-content">
               <i className="fas fa-quote-left"></i>
-              <h2>From KCH to Community Leader</h2>
-              <p>"Namanga Hope Center was founded by <strong>Richard Nyinge</strong>, an alumnus of KCH who was admitted in 1997 as a six-year-old orphan. He received nurturing at KCH throughout his childhood. His sponsor remained active in his life, assisting in his educational goals to attain a Master's degree in Divinity. Richard is now senior pastor of his church in Namanga, Kenya."</p>
-              <p className="alumni-message">Richard visits KCH often. He and his friends provide mentorship to KCH secondary and post-secondary students as they navigate their pathways to further education or entrepreneurship.</p>
+              <h2>From KBH to Community Leader</h2>
+              <p>"Namanga Hope Center was founded by <strong>Richard Nyinge</strong>, an alumnus of KBH who was admitted in 1997 as a six-year-old orphan. He received nurturing at KBH throughout his childhood. His sponsor remained active in his life, assisting in his educational goals to attain a Master's degree in Divinity. Richard is now senior pastor of his church in Namanga, Kenya."</p>
+              <p className="alumni-message">Richard visits KBH often. He and his friends provide mentorship to KBH secondary and post-secondary students as they navigate their pathways to further education or entrepreneurship.</p>
               <div className="alumni-quote">
-                <p>"The safety of these children is closely monitored to ensure they are cared for until they return to KCH."</p>
+                <p>"The safety of these children is closely monitored to ensure they are cared for until they return to KBH."</p>
               </div>
             </div>
           </div>

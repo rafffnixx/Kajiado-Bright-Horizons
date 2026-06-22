@@ -72,7 +72,7 @@ export default function GetInvolved() {
   return (
     <>
       <SEO 
-        title="Get Involved - Support kajiado Childrens Home"
+        title="Get Involved - Support kajiado Bright Horizons"
         description="Make a difference in children's lives through donations, sponsorship, or volunteering. Your support provides education, healthcare, and hope to vulnerable children in Kajiado, Kenya."
         path="/get-involved"
       />
@@ -193,7 +193,7 @@ export default function GetInvolved() {
               <i className="fas fa-university"></i>
               <h3>Bank Transfer Details</h3>
               <p><strong>Bank:</strong> Equity Bank</p>
-              <p><strong>Account Name:</strong> kajiado Childrens Home</p>
+              <p><strong>Account Name:</strong> kajiado Bright Horizons</p>
               <p><strong>Account Number:</strong> 1234567890</p>
               <p><strong>Branch:</strong> Kajiado Town</p>
             </div>

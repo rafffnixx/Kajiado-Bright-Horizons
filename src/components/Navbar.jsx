@@ -62,7 +62,6 @@ export default function Navbar() {
     { path: '/', label: 'Home', icon: 'fas fa-home' },
     { path: '/about', label: 'About', icon: 'fas fa-heart' },
     { path: '/donors-partners', label: 'Partners', icon: 'fas fa-handshake' },
-    { path: '/children', label: 'Sponsor a Child', icon: 'fas fa-child' },
     { path: '/events', label: 'Events', icon: 'fas fa-calendar-alt' },
     { path: '/gallery', label: 'Gallery', icon: 'fas fa-images' },
     { path: '/contact', label: 'Contact', icon: 'fas fa-envelope' },
@@ -109,7 +108,7 @@ export default function Navbar() {
               }}
             />
             <div className="logo-text">
-              <h1>Kajiado Childrens Home</h1>
+              <h1>kajiado Bright Horizons</h1>
             </div>
           </Link>
 
@@ -173,7 +172,7 @@ export default function Navbar() {
               }}
             />
             <div className="mobile-logo-text">
-              <h3>Kajiado Childrens Home</h3>
+              <h3>kajiado Bright Horizons</h3>
 
             </div>
           </div>

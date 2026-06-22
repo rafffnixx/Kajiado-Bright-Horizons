@@ -169,8 +169,8 @@ export default function Contact() {
   return (
     <>
       <SEO 
-        title="Contact Us - Kajiado Childrens Home"
-        description="Get in touch with Kajiado Childrens Home. Schedule a visit, reach out for inquiries, sponsorships, donations, or to learn how you can help vulnerable children in Kajiado, Kenya."
+        title="Contact Us - kajiado Bright Horizons"
+        description="Get in touch with kajiado Bright Horizons. Schedule a visit, reach out for inquiries, sponsorships, donations, or to learn how you can help vulnerable children in Kajiado, Kenya."
         path="/contact"
       />
       
@@ -617,7 +617,7 @@ export default function Contact() {
                   <i className="fas fa-map-marker-alt"></i>
                   <div>
                     <strong>Address</strong><br />
-                    Kajiado Children's Home<br />
+                    Kajiado Bright Horizons<br />
                     Kajiado Town, Kajiado County<br />
                     Kenya
                   </div>
@@ -684,7 +684,7 @@ export default function Contact() {
           <div className="container">
             <div className="map-container">
               <iframe
-                title="Kajiado Children's Home Exact Location"
+                title="Kajiado Bright Horizons Exact Location"
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.891262029455!2d36.7824536!3d-1.8527392!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182fdb89943c88f1%3A0xa58885f88ab92086!2sKajiado%20Children&#39;s%20Home!5e0!3m2!1sen!2ske!4v1742123456789!5m2!1sen!2ske"
                 width="100%"
                 height="400"
@@ -695,7 +695,7 @@ export default function Contact() {
               ></iframe>
             </div>
             <p className="map-caption">
-              <i className="fas fa-map-pin"></i> <strong>Kajiado Children's Home</strong><br />
+              <i className="fas fa-map-pin"></i> <strong>Kajiado Bright Horizons</strong><br />
               Coordinates: -1.8527392, 36.7850285<br />
               <a 
                 href="https://www.google.com/maps/place/Kajiado+Children's+Home/@-1.8527338,36.7824536,17z" 

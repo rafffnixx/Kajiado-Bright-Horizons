@@ -3,8 +3,8 @@ import React from 'react';
 import { Helmet } from 'react-helmet-async';
 
 const defaultSEO = {
-  title: 'Kajiado Children\'s Home - Hope & Care for Vulnerable Children',
-  titleTemplate: '%s | Kajiado Children\'s Home',
+  title: 'Kajiado Bright Horizons - Hope & Care for Vulnerable Children',
+  titleTemplate: '%s | Kajiado Bright Horizon',
   description: 'Providing shelter, education, healthcare, and love to orphaned and vulnerable children in Kajiado, Kenya since 1997. Support us through donations, sponsorship, or volunteering.',
   siteUrl: 'https://www.kajiadochildrenhome.org',
   image: 'https://www.kajiadochildrenhome.org/og-image.jpg',
@@ -13,7 +13,7 @@ const defaultSEO = {
 
 const SEO = ({ title, description, path, image, article, noIndex }) => {
   const seo = {
-    title: title ? `${title} | kajiado Childrens Home` : defaultSEO.title,
+    title: title ? `${title} | kajiado Bright Horizons` : defaultSEO.title,
     description: description || defaultSEO.description,
     image: image || defaultSEO.image,
     url: `${defaultSEO.siteUrl}${path || '/'}`,
@@ -81,7 +81,7 @@ const SEO = ({ title, description, path, image, article, noIndex }) => {
           ],
           "donation": {
             "@type": "DonateAction",
-            "name": "Support kajiado Childrens Home",
+            "name": "Support kajiado Bright Horizons",
             "url": `${defaultSEO.siteUrl}/donate`
           }
         })}
