@@ -6,7 +6,7 @@
   "author": "Kajiado Bright Horizons",
   "homepage": "https://www.kajiadochildrenhome.org",
   "dependencies": {
-    "@babel/plugin-transform-explicit-resource-management": "7.25.9",
+    "@babel/plugin-transform-explicit-resource-management": "7.26.0",
     "@fortawesome/fontawesome-free": "^6.7.2",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.8.0",
@@ -54,6 +54,6 @@
     "react-scripts": "5.0.1"
   },
   "overrides": {
-    "@babel/plugin-transform-explicit-resource-management": "7.25.9"
+    "@babel/plugin-transform-explicit-resource-management": "7.26.0"
   }
 }
