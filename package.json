@@ -49,10 +49,13 @@
     "cross-env": "^10.1.0",
     "react-scripts": "5.0.1"
   },
-  "resolutions": {
-    "ajv": "^8.12.0"
-  },
   "overrides": {
-    "ajv": "^8.12.0"
+    "ajv": "^8.12.0",
+    "ajv-keywords": "^5.1.0",
+    "fork-ts-checker-webpack-plugin": "^6.5.3"
+  },
+  "resolutions": {
+    "ajv": "^8.12.0",
+    "ajv-keywords": "^5.1.0"
   }
 }
