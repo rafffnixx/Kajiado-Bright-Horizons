@@ -38,7 +38,8 @@ module.exports = {
   PESAPAL_CONSUMER_KEY: env.PESAPAL_CONSUMER_KEY || process.env.PESAPAL_CONSUMER_KEY,
   PESAPAL_CONSUMER_SECRET: env.PESAPAL_CONSUMER_SECRET || process.env.PESAPAL_CONSUMER_SECRET,
   PESAPAL_ENVIRONMENT: env.PESAPAL_ENVIRONMENT || process.env.PESAPAL_ENVIRONMENT || 'sandbox',
-  REACT_APP_BASE_URL: 'https://kajiado-bright-horizons.vercel.app', // Hardcode for now
+  // FORCE the base URL to be your Vercel URL
+  REACT_APP_BASE_URL: 'https://kajiado-bright-horizons.vercel.app',
 };
 
 console.log('🔑 Loaded credentials:');
