@@ -22,13 +22,13 @@ export default function Home() {
       title: "Kajiado Bright Horizons",
       subtitle: "Providing hope for the vulnerable, one child at a time",
       description: "Transforming lives through love, education, and faith since 1997",
-      bgImage: "/images/hero/hero-bg.png"
+      bgImage: "/images/hero/hero-bg.jpg"
     },
     {
       title: "Every Child Deserves a Chance",
       subtitle: "Help us provide shelter, food, and education",
       description: "Your support changes lives forever",
-      bgImage: "/images/hero/hero-bg2.png"
+      bgImage: "/images/hero/hero-bg2.jpg"
     },
     {
       title: "Building Bright Futures",
@@ -46,9 +46,9 @@ export default function Home() {
 
   const aboutImages = [
     { src: "/images/about/kajiado-home.jpg", alt: "Kajiado Bright Horizons", caption: "Our Home" },
-    { src: "/images/children/happy-children.png", alt: "Happy Children", caption: "Happy Children" },
-    { src: "/images/about/founder.png", alt: "Founder", caption: "Our Founder" },
-    { src: "/images/staff/staff.jpg", alt: "Staff", caption: "Dedicated Staff" }
+    { src: "/images/children/happy-children.jpg", alt: "Happy Children", caption: "Happy Children" },
+    { src: "/images/about/founder.jpg", alt: "Founder", caption: "Our Founder" },
+    { src: "/images/staff/staff1.jpg", alt: "Staff", caption: "Dedicated Staff" }
   ];
 
   // Core Programs with LOGOS only (no icons)
@@ -57,21 +57,21 @@ export default function Home() {
       id: 'education', 
       title: 'Kajiado Valley School of Excellence', 
       desc: 'Provides quality early childhood and primary education, nurturing young learners and supporting the mission of Kajiado Bright Horizons',
-      logo: '/images/programs/valley-school.jpg',
+      logo: '/images/partners/kajiado-valley-school.jpg',
       stats: '50+ students enrolled'
     },
     { 
       id: 'healthcare', 
       title: 'Bright Horizon Program', 
       desc: 'Helping post-secondary students navigate their next steps to self-sufficiency.',
-      logo: '/images/programs/bright-horizons.png',
+      logo: '/images/partners/bright-horizons.jpg',
       stats: '20+ alumni supported'
     },
     { 
       id: "shelter", 
       title: "Namanga Hope Center", 
       desc: "Providing love, care, and hope to orphans, vulnerable children, the needy, and the elderly through education, mentorship, food support, and faith-based guidance.",
-      logo: '/images/programs/namanga-hope-center.jpg',
+      logo: '/images/partners/namanga-hope-center.jpg',
       stats: '100+ lives impacted'
     },
 

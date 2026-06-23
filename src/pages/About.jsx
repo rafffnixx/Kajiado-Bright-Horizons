@@ -9,19 +9,19 @@ export default function About() {
     { 
       title: "Valley School of Excellence", 
       desc: "State-of-the-art primary school providing quality education to KBH children and the community",
-      logo: "/images/programs/valley-school.jpg"
+      logo: "/images/partners/kajiado-valley-school.jpg"
     },
     { 
       icon: "🎓", 
       title: "Bright Horizons Project", 
       desc: "Helping post-secondary students navigate their next steps to self-sufficiency",
-      logo: "/images/programs/bright-horizons.png"
+      logo: "/images/partners/bright-horizons.jpg"
     },
     { 
       icon: "🍲", 
       title: "Namanga Hope Center", 
       desc: "Outreach to vulnerable communities, founded by KBH alumnus Richard Nyinge",
-      logo: "/images/programs/namanga-hope-center.jpg"
+      logo: "/images/partners/namanga-hope-center.jpg"
     }
   ];
 

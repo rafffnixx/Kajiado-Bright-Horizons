@@ -52,7 +52,7 @@ export default function DonorsPartners() {
     {
       id: 6,
       name: "Bright Horizons Project",
-      logo: "/images/partners/bright-horizons.png",
+      logo: "/images/partners/bright-horizons.jpg",
       type: "Education & Mentorship Partner",
       description: "Helping post-secondary students navigate their next steps to self-sufficiency through education and mentorship.",
       impact: "Post-secondary support",
@@ -70,7 +70,7 @@ export default function DonorsPartners() {
             {
       id: 8,
       name: "Bus Radio",
-      logo: "/images/partners/feed-the-needy.jpg",
+      logo: "/images/partners/bus-radio.jpg",
       type: "Education & Mentorship Partner",
       description: "Helping post-secondary students navigate their next steps to self-sufficiency through education and mentorship.",
       impact: "Post-secondary support",
@@ -82,9 +82,9 @@ export default function DonorsPartners() {
 
   const donors = [
     {
-      name: "Anonymous Foundation",
+      name: "mountain island charter school,",
       type: "Major Donor",
-      contribution: "KES 1,000,000+"
+      contribution: "Ongoing Support"
     },
     {
       name: "Kajiado County Government",
@@ -92,20 +92,28 @@ export default function DonorsPartners() {
       contribution: "Ongoing Support"
     },
     {
-      name: "Rotary Club of Kajiado",
+      name: "graceway church",
       type: "Community Partner",
-      contribution: "KES 500,000+"
+      contribution: "Ongoing Support"
     },
     {
-      name: "Nairobi Women's Group",
+      name: "Mrs. Kisch S Kindergarten",
       type: "Community Partner",
-      contribution: "KES 250,000+"
+      contribution: "Ongoing Support"
     },
     {
-      name: "M-Pesa Foundation",
-      type: "Corporate Partner",
-      contribution: "KES 750,000+"
-    }
+      name: "Gaye List",
+      type: "Full Sponsership",
+      contribution: "sponser since 2011"
+    },
+     {
+      name: "Nairobi University",
+      type: "regular visits",
+      contribution: "Ongoing Support"
+    },
+    
+    
+
   ];
 
   return (
