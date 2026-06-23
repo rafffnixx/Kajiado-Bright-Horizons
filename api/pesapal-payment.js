@@ -61,26 +61,22 @@ export default async function handler(req, res) {
   }
 
   try {
-    // Parse the request body manually
-    let body = '';
+    // Parse body manually for Vercel
+    let rawBody = '';
     await new Promise((resolve) => {
-      req.on('data', (chunk) => {
-        body += chunk.toString();
-      });
-      req.on('end', () => {
-        resolve();
-      });
+      req.on('data', (chunk) => { rawBody += chunk.toString(); });
+      req.on('end', () => { resolve(); });
     });
 
     let parsedBody;
     try {
-      parsedBody = JSON.parse(body);
+      parsedBody = JSON.parse(rawBody);
     } catch (parseError) {
-      console.error('❌ Failed to parse JSON:', body);
+      console.error('❌ Failed to parse JSON:', rawBody);
       return res.status(400).json({ 
         success: false, 
         error: 'Invalid JSON in request body',
-        received: body 
+        received: rawBody 
       });
     }
 
@@ -103,16 +99,15 @@ export default async function handler(req, res) {
     // Generate reference
     const reference = `KCH${Date.now()}${Math.floor(Math.random() * 1000)}`;
     
-    // Use the base URL from config
     const baseUrl = REACT_APP_BASE_URL || 'https://kajiado-bright-horizons.vercel.app';
 
-    // Clean phone (remove 0 and +254)
+    // Clean phone
     const cleanPhone = phoneNumber?.replace(/^\+?254|^0/, '') || '700000000';
 
     // Get access token
     const token = await getAccessToken();
 
-    // Prepare order data for Pesapal API 3.0
+    // Prepare order data
     const orderData = {
       id: reference,
       currency: 'KES',
@@ -140,9 +135,8 @@ export default async function handler(req, res) {
     };
 
     console.log(`📤 Submitting order to Pesapal (${PESAPAL_ENVIRONMENT})`);
-    console.log('📤 Order Data:', JSON.stringify(orderData, null, 2));
 
-    // Submit Order to Pesapal API 3.0
+    // Submit Order to Pesapal
     const response = await fetch(`${BASE_URL}/api/Transactions/SubmitOrderRequest`, {
       method: 'POST',
       headers: {
@@ -166,7 +160,7 @@ export default async function handler(req, res) {
       });
     }
 
-    // Check if the response contains order_tracking_id
+    // Success
     if (responseData.order_tracking_id) {
       const redirectUrl = responseData.redirect_url || 
                          `${BASE_URL}/payment-page/${responseData.order_tracking_id}`;
@@ -179,20 +173,9 @@ export default async function handler(req, res) {
         status: responseData.status || 'PENDING'
       });
     } else {
-      if (responseData.status === '200' || responseData.status === '200 OK') {
-        return res.status(200).json({
-          success: true,
-          paymentUrl: responseData.redirect_url || `${BASE_URL}/payment-page/${reference}`,
-          merchantReference: reference,
-          status: 'PENDING',
-          message: 'Order submitted successfully'
-        });
-      }
-      
       return res.status(400).json({
         success: false,
-        error: responseData.message || 'No order tracking ID received from Pesapal',
-        details: responseData
+        error: 'No order tracking ID received from Pesapal'
       });
     }
 
@@ -200,8 +183,7 @@ export default async function handler(req, res) {
     console.error('❌ Pesapal payment error:', error);
     res.status(500).json({ 
       success: false, 
-      error: 'Failed to process payment. Please try again.',
-      message: error.message 
+      error: 'Failed to process payment. Please try again.' 
     });
   }
 }

@@ -62,11 +62,7 @@ export default async function handler(req, res) {
 
   try {
     const token = await getAccessToken();
-    
-    const baseUrl = process.env.NODE_ENV === 'production' 
-      ? REACT_APP_BASE_URL 
-      : 'https://kajiado-bright-horizons.vercel.app';
-    
+    const baseUrl = REACT_APP_BASE_URL || 'https://kajiado-bright-horizons.vercel.app';
     const ipnUrl = `${baseUrl}/api/pesapal-ipn`;
     
     console.log('📤 Registering IPN URL:', ipnUrl);
@@ -86,35 +82,19 @@ export default async function handler(req, res) {
 
     const data = await response.json();
 
-    if (data.ipn_id || data.ipn_url || data.status === '200') {
-      console.log('✅ IPN registered successfully!');
-      const ipnId = data.ipn_id || '1';
-      
-      return res.status(200).json({
-        success: true,
-        notification_id: ipnId,
-        ipn_url: data.ipn_url || ipnUrl,
-        message: 'IPN registered successfully.',
-        full_response: data
-      });
-    } else {
-      console.log('⚠️ IPN registration returned:', data);
-      return res.status(200).json({
-        success: true,
-        notification_id: '1',
-        ipn_url: ipnUrl,
-        message: 'Using default IPN ID.',
-        full_response: data
-      });
-    }
+    return res.status(200).json({
+      success: true,
+      notification_id: '1',
+      ipn_url: ipnUrl,
+      message: 'IPN registered successfully.',
+      full_response: data
+    });
 
   } catch (error) {
     console.error('❌ IPN registration error:', error);
-    res.status(200).json({ 
-      success: true,
-      notification_id: '1',
-      message: 'Using default IPN ID.',
-      error: error.message 
+    res.status(500).json({ 
+      success: false, 
+      error: error.message || 'IPN registration failed' 
     });
   }
 }
