@@ -1,51 +1,9 @@
-// api/pesapal-payment.js
+// api/pesapal/payment.js
 const { 
-  PESAPAL_CONSUMER_KEY, 
-  PESAPAL_CONSUMER_SECRET, 
-  PESAPAL_ENVIRONMENT,
   PESAPAL_IPN_ID,
   REACT_APP_BASE_URL 
-} = require('./config.js');
-
-const BASE_URL = PESAPAL_ENVIRONMENT === 'production' 
-  ? 'https://pay.pesapal.com/v3'
-  : 'https://cybqa.pesapal.com/pesapalv3';
-
-async function getAccessToken() {
-  if (!PESAPAL_CONSUMER_KEY || !PESAPAL_CONSUMER_SECRET) {
-    console.error('❌ Missing Pesapal credentials!');
-    throw new Error('Consumer Key is required|Consumer Secret is required');
-  }
-
-  console.log('📡 Requesting token from:', `${BASE_URL}/api/Auth/RequestToken`);
-
-  const response = await fetch(`${BASE_URL}/api/Auth/RequestToken`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json'
-    },
-    body: JSON.stringify({
-      consumer_key: PESAPAL_CONSUMER_KEY,
-      consumer_secret: PESAPAL_CONSUMER_SECRET
-    })
-  });
-  
-  const data = await response.json();
-  console.log('📤 Auth Response Status:', response.status);
-  
-  if (response.status !== 200) {
-    console.log('📤 Auth Response Error:', JSON.stringify(data, null, 2));
-    throw new Error(data.error?.message || 'Failed to get access token');
-  }
-  
-  if (!data.token) {
-    throw new Error(data.error?.message || 'Failed to get access token');
-  }
-  
-  console.log('✅ Access token obtained successfully');
-  return data.token;
-}
+} = require('../shared/config.js');
+const { getAccessToken, BASE_URL } = require('./auth.js');
 
 module.exports = async function handler(req, res) {
   // Enable CORS
@@ -102,14 +60,14 @@ module.exports = async function handler(req, res) {
     // Get access token
     const token = await getAccessToken();
 
-    // Prepare order data with correct IPN ID
+    // Prepare order data
     const orderData = {
       id: reference,
       currency: 'KES',
       amount: amount.toString(),
       description: `Donation to Kajiado Children's Home`,
-      callback_url: `${baseUrl}/donation-success?reference=${reference}`,
-      notification_id: PESAPAL_IPN_ID, // Use the IPN ID from config
+      callback_url: `${baseUrl}/donation-success?reference=${reference}&amount=${amount}`,
+      notification_id: PESAPAL_IPN_ID,
       branch: 'Kajiado',
       billing_address: {
         email_address: email || 'donor@kajiadochildrenshome.org',
@@ -129,8 +87,7 @@ module.exports = async function handler(req, res) {
       }
     };
 
-    console.log(`📤 Submitting order to Pesapal (${PESAPAL_ENVIRONMENT})`);
-    console.log('📤 Order Data:', JSON.stringify(orderData, null, 2));
+    console.log(`📤 Submitting order to Pesapal`);
 
     // Submit Order to Pesapal API 3.0
     const response = await fetch(`${BASE_URL}/api/Transactions/SubmitOrderRequest`, {

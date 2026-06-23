@@ -1,36 +1,7 @@
-// api/check-payment.js
-const { 
-  PESAPAL_CONSUMER_KEY, 
-  PESAPAL_CONSUMER_SECRET, 
-  PESAPAL_ENVIRONMENT 
-} = require('./config.js');
-
-const BASE_URL = PESAPAL_ENVIRONMENT === 'production' 
-  ? 'https://pay.pesapal.com/v3'
-  : 'https://cybqa.pesapal.com/pesapalv3';
-
-async function getAccessToken() {
-  const response = await fetch(`${BASE_URL}/api/Auth/RequestToken`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json'
-    },
-    body: JSON.stringify({
-      consumer_key: PESAPAL_CONSUMER_KEY,
-      consumer_secret: PESAPAL_CONSUMER_SECRET
-    })
-  });
-  const data = await response.json();
-  
-  if (!data.token) {
-    throw new Error(data.error?.message || 'Failed to get access token');
-  }
-  return data.token;
-}
+// api/pesapal/check-status.js
+const { getAccessToken, BASE_URL } = require('./auth.js');
 
 module.exports = async function handler(req, res) {
-  // Enable CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
