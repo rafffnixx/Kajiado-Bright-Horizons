@@ -22,10 +22,10 @@ export default function Events() {
   const pastEvents = [
     {
       id: 2,
-      title: "Children's Sports Day 2024",
+      title: "Visiting Day",
       date: "January 20, 2024",
       location: "Kajiado Bright Horizons Grounds",
-      description: "A fun-filled day of sports, games, and activities for the children.",
+      description: "On January 20, 2024, families, guardians, and friends gathered at the Kajiado Bright Horizons Grounds for a heartwarming Visiting Day. This special occasion provided an opportunity for loved ones to connect with the children, share in their progress, and experience the nurturing environment of Bright Horizons. With over 120 attendees, the day was filled with joy, laughter, and meaningful conversations. Guests toured the grounds, engaged in interactive activities, and enjoyed performances that showcased the talents and growth of the children. Visiting Day reinforced the strong bond between the school, the children, and the wider community, highlighting the importance of family support in every child’s journey.",
       image: "/images/events/sports-day.jpg",
       attendees: 120,
       raised: null
@@ -41,8 +41,8 @@ export default function Events() {
     },
     {
     id: 4,
-    title: "Bright Horizon Workshop 2024",
-    date: "March 25, 2024",
+    title: "Bright Horizon Workshop 2024 Trip",
+    date: "August 25, 2024",
     location: "Kajiado Bright Horizon",
     description: "An empowering workshop designed to equip post-secondary students with essential life skills, career guidance, and mentorship for their journey to self-sufficiency. The Bright Horizon Workshop brought together KCH alumni, industry professionals, and aspiring young adults for a day of learning, networking, and inspiration. Topics covered included CV writing, interview skills, entrepreneurship, financial literacy, and personal development. Participants left with renewed confidence, practical skills, and a clear roadmap for their future careers.",
     image: "/images/events/bright-horizon-workshop.jpg",
@@ -102,63 +102,81 @@ export default function Events() {
       icon: "👩‍🏫",
       tags: ["Teacher", "Mentor", "Role Model"]
     },
-{
-  "id": 3,
-  "name": "Richard Nyinge",
-  "yearBorn": 1989,
-  "yearJoined": 1997,
-  "gradeJoined": "Grade 4",
-  "yearGraduated": 2005,
-  "achievement": "Masters in Theology",
-  "currentRole": "Founder Namanga Hope Center",
-  "story": "Richard joined KBH in 1997 at age 8, entering Grade 4. The care and support he received shaped his path toward faith and service. After graduating in 2005, he pursued higher education and earned a Masters in Theology. Inspired to give back, Richard founded Namanga Hope Center, which provides love and hope to orphans, vulnerable children, the needy, and the elderly. Today, the center supports over 85 children with school fees, food, and clothing, assists 20+ families in poverty with food staples, and runs mentorship and Bible study programs. Richard also mentors current KBH students, continuing the cycle of care and guidance he once received.",
-  "image": "/images/alumni/richard-nyinge.jpg",
-  "icon": "🌟",
-  "tags": ["Founder", "Mentor", "Community Leader"]
-},
+    {
+      "id": 3,
+      "name": "Raphael Mwongela",
+      "yearBorn": 2001,
+      "yearJoined": 2010,
+      "gradeJoined": "Grade 2",
+      "yearGraduated": 2026,
+      "achievement": "Degree in Information Technology",
+      "currentRole": "KBH Developer & Founder of RaffCodes IT Solutions",
+      "story": "Raphael joined KBH in 2010 at age 9 after losing his parents, entering in Grade 2. Despite the challenges of growing up as a total orphan, he excelled academically and spiritually, supported by the care and sponsorship provided at the home. His determination led him through primary and secondary school, and eventually to university where he pursued a degree in Information Technology. Graduating in 2026, Raphael founded RaffCodes IT Solutions, an innovative IT company. Today, he gives back to KBH by developing and maintaining its website, ensuring the home’s mission reaches more people. His journey from vulnerability to leadership demonstrates the transformative power of education, faith, and community support.",
+      "image": "/images/alumni/raphael.jpg",
+      "icon": "💻",
+      "tags": ["IT Expert", "Entrepreneur", "Web Developer", "Mentor"]
+    },
 
     {
-      id: 4,
-      name: "Sarah Kimani",
-      yearBorn: 1999,
-      yearJoined: 2008,
-      gradeJoined: "Grade 4",
-      yearGraduated: 2020,
-      achievement: "Certificate in Culinary Arts",
-      currentRole: "Head Cook at KBH",
-      story: "Sarah's passion for cooking was discovered at KBH. After completing her culinary training, she returned to the home as the head cook, preparing nutritious meals for over 100 children. 'I learned to cook here, and now I cook for my younger brothers and sisters,' she shares.",
-      image: "/images/alumni/sarah.jpg",
-      icon: "🍳",
-      tags: ["Chef", "Nutrition Expert", "Caregiver"]
+    "id": 4,
+    "name": "Emmanuel Kaako",
+    "yearBorn": 1980,
+    "yearJoined": 2001,
+    "gradeJoined": "Grade 4",
+    "yearGraduated": 2010,
+    "achievement": "Public Officer, Kajiado County",
+    "currentRole": "Public Officer",
+    "story": "Emmanuel joined Kajiado Children’s Home in 2001 at Grade 4. Coming from a challenging background, he found stability, education, and mentorship at the home. With the support of staff and sponsors, Emmanuel completed his schooling and graduated in 2010. His determination and commitment to service led him to become a Public Officer in Kajiado County, where he now works to improve community welfare and governance. Emmanuel’s journey reflects resilience, discipline, and a passion for giving back to society. He continues to mentor younger generations, showing them that with perseverance and support, they too can achieve their dreams.",
+    "image": "/images/alumni/emmanuel-kaako.jpg",
+    "icon": "🧑‍💼",
+    "tags": ["Officer", "Mentor", "Community Leader"]
     },
+
     {
-      id: 5,
-      name: "David Mwangi",
-      yearBorn: 1996,
-      yearJoined: 2004,
-      gradeJoined: "Grade 2",
-      yearGraduated: 2017,
-      achievement: "Bachelor's Degree in Nursing",
-      currentRole: "Registered Nurse at Kajiado Hospital",
-      story: "David was among the first children to join KBH in 2004. His dream of becoming a nurse came true with the support of the home. Now a registered nurse, he volunteers at KBH's medical clinic every weekend, providing free health checkups for the children.",
-      image: "/images/alumni/david.jpg",
-      icon: "🏥",
-      tags: ["Nurse", "Volunteer", "Healthcare Hero"]
+      "id": 5,
+      "name": "Abraham Salaash",
+      "yearBorn": 2001,
+      "yearJoined": 2007,
+      "gradeJoined": "Grade 2",
+      "yearGraduated": 2025,
+      "achievement": "Bachelor's Degree in Languages",
+      "currentRole": "Community Volunteer",
+      "story": "Abraham joined KBH in 2007 at Grade 2. Growing up in the home, he developed a strong passion for education and service. With the support of sponsors and mentors, he excelled academically and pursued a Bachelor's Degree in Languages, graduating in 2025. Inspired by the care he received, Abraham chose to serve in healthcare, working as a nurse and volunteering in community health initiatives. His dedication to helping others has made him a healthcare hero, offering both professional care and mentorship to vulnerable families. Abraham’s journey reflects compassion, resilience, and a commitment to giving back to society.",
+      "image": "/images/alumni/abraham-salaash.jpg",
+      "icon": "🏥",
+      "tags": ["Nurse", "Volunteer", "Healthcare Hero"]
     },
+
     {
       id: 6,
-      name: "Esther Njeri",
+      name: "Naomi ",
       yearBorn: 2000,
       yearJoined: 2009,
       gradeJoined: "Grade 3",
       yearGraduated: 2022,
-      achievement: "Diploma in Business Administration",
-      currentRole: "Administrative Assistant at KBH",
-      story: "Esther's organizational skills were noticed early at KBH. After completing her business diploma, she joined the KBH administrative team, helping manage records, sponsorships, and daily operations. 'This home raised me, now I help raise it,' she says proudly.",
+      achievement: "taillory",
+      currentRole: "KVSE Designer",
+      story: " organizational skills were noticed early at KBH. After completing her business diploma, she joined the KBH administrative team, helping manage records, sponsorships, and daily operations. 'This home raised me, now I help raise it,' she says proudly.",
       image: "/images/alumni/esther.jpg",
       icon: "📊",
       tags: ["Administrator", "Organizer", "Team Player"]
+    },
+
+        {
+      "id": 6,
+      "name": "Ziporah Sawaina",
+      "yearBorn": 1980,
+      "yearJoined": 2000,
+      "gradeJoined": "Grade 3",
+      "yearGraduated": 2007,
+      "achievement": "Bachelor's Degree in Journalism",
+      "currentRole": "Presenter at Bus Radio",
+      "story": "Ziporah joined Kajiado Children’s Home in 2000 at Grade 3. Growing up in the home, she discovered her passion for storytelling and communication. With the support of staff and sponsors, she excelled in her studies and pursued Journalism, graduating in 2007. Today, Ziporah works as a presenter at Bus Radio, where she uses her voice to inform, inspire, and connect with the community. She also advocates for social issues, drawing from her own experiences at KCH to highlight the importance of education and support for vulnerable children. Her journey reflects resilience, creativity, and a commitment to amplifying voices that need to be heard.",
+      "image": "/images/alumni/ziporah-sawaina.jpg",
+      "icon": "🎙️",
+      "tags": ["Journalist", "Presenter", "Advocate"]
     }
+
   ];
 
   const handleRegister = () => setShowForm(true);
@@ -330,56 +348,59 @@ export default function Events() {
                 </div>
               </section>
 
-              {/* Featured Story - Raphael Mwongela */}
+              {/* Featured Story - Richard Nyinge */}
               <section className="featured-story">
                 <div className="featured-badge">
                   <i className="fas fa-crown"></i> Featured Alumni
                 </div>
                 <div className="featured-story-card">
                   <div className="featured-story-content">
-                    <h3>Raphael Mwongela</h3>
-                    <p className="story-tagline">From Total Orphan to IT Entrepreneur</p>
+                    <h3>Richard Nyinge</h3>
+                    <p className="story-tagline">From Orphaned Child to Pastor & Founder</p>
                     <div className="story-details">
                       <div className="detail-item">
                         <i className="fas fa-calendar-alt"></i>
-                        <span>Born: 2001 | Joined KBH: 2010 (Grade 2)</span>
+                        <span>Born: 1989 | Joined KCH: 1997 (Grade 4)</span>
                       </div>
                       <div className="detail-item">
                         <i className="fas fa-graduation-cap"></i>
-                        <span>Graduated: August 2026 - Bachelor's in IT</span>
+                        <span>Graduated: 2005 – Masters in Divinity</span>
                       </div>
                       <div className="detail-item">
                         <i className="fas fa-briefcase"></i>
-                        <span>Founder: RaffCodes IT Solutions</span>
+                        <span>Founder: Namanga Hope Center</span>
                       </div>
                     </div>
                     <p className="story-description">
-                      Raphael came to KBH as a total orphan at age 9, joining in Grade 2. Despite the challenges, 
-                      he persevered through primary and secondary school. With the support of KBH sponsors, 
-                      he pursued a degree in Information Technology and graduated in August 2026. Today, he owns 
-                      RaffCodes (raffcodes.vercel.app), an IT solutions company, and is giving back by developing 
-                      this website for KBH. His journey from a vulnerable child to a successful entrepreneur is a 
-                      testament to the power of love, support, and education.
+                      Richard lost his mother in 1996 at age 7, leaving five siblings orphaned. 
+                      In 1997, Edward Marona brought him to Kajiado Children’s Home, where his life changed. 
+                      Though adjusting was difficult, he grew spiritually under Pastor John Matinda’s mentorship 
+                      and was supported by sponsors Linda and Warren Bannister through high school and Moffat Bible College. 
+                      Richard graduated in 2014 and later earned a Masters in Divinity. Inspired by God’s faithfulness, 
+                      he founded Namanga Hope Center, serving orphans, vulnerable children, and the elderly. 
+                      His journey reflects resilience, faith, and a commitment to give back by mentoring children at KCH 
+                      and planting churches in remote areas.
                     </p>
                     <div className="story-tags">
-                      {alumniStories[0].tags.map((tag, idx) => (
+                      {["Pastor", "Founder", "Mentor", "Community Leader"].map((tag, idx) => (
                         <span key={idx} className="story-tag">{tag}</span>
                       ))}
                     </div>
                     <a 
-                      href="https://raffcodes.vercel.app" 
+                      href="mailto:nyingerichard@yahoo.com" 
                       target="_blank" 
                       rel="noopener noreferrer" 
                       className="btn-outline"
                     >
-                      <i className="fas fa-external-link-alt"></i> Visit RaffCodes
+                      <i className="fas fa-envelope"></i> Contact Richard
                     </a>
                   </div>
                   <div className="featured-story-image">
-                    <img src="/images/alumni/raphael-featured.jpg" alt="Raphael Mwongela" />
+                    <img src="/images/alumni/richard-nyinge-featured.jpg" alt="Richard Nyinge" />
                   </div>
                 </div>
               </section>
+
 
               {/* All Alumni Stories Grid */}
               <section className="all-stories">

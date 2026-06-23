@@ -15,7 +15,7 @@ export default function Gallery() {
     { id: 4, category: 'Events', title: 'Birthday Celebration', image: '/images/gallery/birthday.jpg' },
     { id: 5, category: 'Daily Life', title: 'Meal Time', image: '/images/gallery/meal-time.jpg' },
     { id: 6, category: 'Education', title: 'Library Time', image: '/images/gallery/library.jpg' },
-    { id: 7, category: 'Anniversary', title: '20th Anniversary', image: '/images/gallery/athletics.jpg' },
+    { id: 7, category: 'Anniversary', title: '20th Anniversary', image: '/images/gallery/anniversary.jpg' },
     { id: 8, category: 'Events', title: 'Graduation Ceremony', image: '/images/gallery/graduation.jpg' },
   ];
 
