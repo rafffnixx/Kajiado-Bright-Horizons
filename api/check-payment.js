@@ -1,9 +1,9 @@
 // api/check-payment.js
-// Check payment status by orderTrackingId
-
-const PESAPAL_CONSUMER_KEY = process.env.PESAPAL_CONSUMER_KEY;
-const PESAPAL_CONSUMER_SECRET = process.env.PESAPAL_CONSUMER_SECRET;
-const PESAPAL_ENVIRONMENT = process.env.PESAPAL_ENVIRONMENT || 'sandbox';
+const { 
+  PESAPAL_CONSUMER_KEY, 
+  PESAPAL_CONSUMER_SECRET, 
+  PESAPAL_ENVIRONMENT 
+} = require('./config.js');
 
 const BASE_URL = PESAPAL_ENVIRONMENT === 'production' 
   ? 'https://pay.pesapal.com/v3'
@@ -22,10 +22,23 @@ async function getAccessToken() {
     })
   });
   const data = await response.json();
+  
+  if (!data.token) {
+    throw new Error(data.error?.message || 'Failed to get access token');
+  }
   return data.token;
 }
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
+  // Enable CORS
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+
   if (req.method !== 'GET') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
@@ -34,7 +47,10 @@ export default async function handler(req, res) {
     const { orderTrackingId } = req.query;
 
     if (!orderTrackingId) {
-      return res.status(400).json({ error: 'orderTrackingId is required' });
+      return res.status(400).json({ 
+        success: false, 
+        error: 'orderTrackingId is required' 
+      });
     }
 
     const token = await getAccessToken();
@@ -52,6 +68,7 @@ export default async function handler(req, res) {
     });
 
     const data = await response.json();
+    console.log('📊 Payment Status Check:', JSON.stringify(data, null, 2));
 
     res.status(200).json({
       success: true,
@@ -59,12 +76,17 @@ export default async function handler(req, res) {
       amount: data.amount,
       currency: data.currency,
       payment_method: data.payment_method,
-      payment_date: data.payment_date,
-      orderTrackingId: orderTrackingId
+      payment_date: data.created_date,
+      merchantReference: data.merchant_reference,
+      payment_status_description: data.payment_status_description,
+      confirmation_code: data.confirmation_code
     });
 
   } catch (error) {
     console.error('❌ Check payment error:', error);
-    res.status(500).json({ success: false, error: error.message });
+    res.status(500).json({ 
+      success: false, 
+      error: error.message 
+    });
   }
-}
+};
