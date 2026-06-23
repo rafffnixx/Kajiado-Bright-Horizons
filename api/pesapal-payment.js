@@ -3,6 +3,7 @@ const {
   PESAPAL_CONSUMER_KEY, 
   PESAPAL_CONSUMER_SECRET, 
   PESAPAL_ENVIRONMENT,
+  PESAPAL_IPN_ID,
   REACT_APP_BASE_URL 
 } = require('./config.js');
 
@@ -98,15 +99,17 @@ module.exports = async function handler(req, res) {
     const baseUrl = REACT_APP_BASE_URL || 'https://kajiado-bright-horizons.vercel.app';
     const cleanPhone = phoneNumber?.replace(/^\+?254|^0/, '') || '700000000';
 
+    // Get access token
     const token = await getAccessToken();
 
+    // Prepare order data for Pesapal API 3.0
     const orderData = {
       id: reference,
       currency: 'KES',
       amount: amount.toString(),
       description: `Donation to Kajiado Children's Home`,
       callback_url: `${baseUrl}/donation-success?reference=${reference}`,
-      notification_id: '1',
+      notification_id: PESAPAL_IPN_ID || '1', // Use IPN ID from config
       branch: 'Kajiado',
       billing_address: {
         email_address: email || 'donor@kajiadochildrenshome.org',
@@ -127,7 +130,9 @@ module.exports = async function handler(req, res) {
     };
 
     console.log(`📤 Submitting order to Pesapal (${PESAPAL_ENVIRONMENT})`);
+    console.log('📤 Order Data:', JSON.stringify(orderData, null, 2));
 
+    // Submit Order to Pesapal API 3.0
     const response = await fetch(`${BASE_URL}/api/Transactions/SubmitOrderRequest`, {
       method: 'POST',
       headers: {
@@ -141,14 +146,49 @@ module.exports = async function handler(req, res) {
     const responseData = await response.json();
     console.log('📤 Pesapal Response:', JSON.stringify(responseData, null, 2));
 
+    // Check for errors
     if (responseData.error) {
       console.error('❌ Pesapal error:', responseData.error);
+      
+      // If error is about IPN, try with default ID
+      if (responseData.error.message && responseData.error.message.includes('IPN')) {
+        console.log('🔄 Retrying with default IPN ID...');
+        orderData.notification_id = '1';
+        
+        const retryResponse = await fetch(`${BASE_URL}/api/Transactions/SubmitOrderRequest`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify(orderData)
+        });
+        
+        const retryData = await retryResponse.json();
+        console.log('📤 Retry Response:', JSON.stringify(retryData, null, 2));
+        
+        if (retryData.order_tracking_id) {
+          const redirectUrl = retryData.redirect_url || 
+                             `${BASE_URL}/payment-page/${retryData.order_tracking_id}`;
+          return res.status(200).json({
+            success: true,
+            paymentUrl: redirectUrl,
+            orderTrackingId: retryData.order_tracking_id,
+            merchantReference: reference,
+            status: retryData.status || 'PENDING'
+          });
+        }
+      }
+      
       return res.status(400).json({
         success: false,
-        error: responseData.error.message || 'Payment initiation failed'
+        error: responseData.error.message || 'Payment initiation failed',
+        code: responseData.error.code
       });
     }
 
+    // Success - get redirect URL
     if (responseData.order_tracking_id) {
       const redirectUrl = responseData.redirect_url || 
                          `${BASE_URL}/payment-page/${responseData.order_tracking_id}`;

@@ -81,12 +81,13 @@ module.exports = async function handler(req, res) {
     });
 
     const data = await response.json();
+    console.log('📤 IPN Registration Response:', JSON.stringify(data, null, 2));
 
     // Return success even if registration fails
     return res.status(200).json({
       success: true,
-      notification_id: '1',
-      ipn_url: ipnUrl,
+      notification_id: data.ipn_id || '1',
+      ipn_url: data.ipn_url || ipnUrl,
       message: 'IPN registered successfully.',
       full_response: data
     });
