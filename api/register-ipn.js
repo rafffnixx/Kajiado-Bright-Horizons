@@ -32,6 +32,7 @@ async function getAccessToken() {
   
   const data = await response.json();
   console.log('📤 Auth Response Status:', response.status);
+  console.log('📤 Auth Response:', JSON.stringify(data, null, 2));
   
   if (response.status !== 200) {
     console.log('📤 Auth Response Error:', JSON.stringify(data, null, 2));
@@ -67,6 +68,14 @@ module.exports = async function handler(req, res) {
     
     console.log('📤 Registering IPN URL:', ipnUrl);
 
+    // Build the request body
+    const requestBody = {
+      url: ipnUrl,
+      ipn_notification_type: 'GET'
+    };
+    
+    console.log('📤 Request Body:', JSON.stringify(requestBody, null, 2));
+
     const response = await fetch(`${BASE_URL}/api/URLSetup/RegisterIPN`, {
       method: 'POST',
       headers: {
@@ -74,14 +83,45 @@ module.exports = async function handler(req, res) {
         'Accept': 'application/json',
         'Authorization': `Bearer ${token}`
       },
-      body: JSON.stringify({
-        ipn_url: ipnUrl,
-        ipn_notification_type: 'GET'
-      })
+      body: JSON.stringify(requestBody)
     });
 
     const data = await response.json();
     console.log('📤 IPN Registration Response:', JSON.stringify(data, null, 2));
+
+    // If registration fails, try to get existing IPN from list
+    if (data.error) {
+      console.log('⚠️ Registration failed, trying to get existing IPN...');
+      try {
+        const listResponse = await fetch(`${BASE_URL}/api/URLSetup/GetIpnList`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        const listData = await listResponse.json();
+        console.log('📤 IPN List:', JSON.stringify(listData, null, 2));
+        
+        // If we find our IPN URL, use its ID
+        if (Array.isArray(listData)) {
+          const found = listData.find(item => item.url === ipnUrl);
+          if (found) {
+            console.log('✅ Found existing IPN with ID:', found.ipn_id);
+            return res.status(200).json({
+              success: true,
+              notification_id: found.ipn_id,
+              ipn_url: found.url,
+              message: 'Using existing IPN',
+              full_response: found
+            });
+          }
+        }
+      } catch (listError) {
+        console.error('❌ Failed to get IPN list:', listError);
+      }
+    }
 
     // Return success even if registration fails
     return res.status(200).json({
