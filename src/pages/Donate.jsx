@@ -50,6 +50,9 @@ export default function Donate() {
       return;
     }
 
+    // Store amount in localStorage for the success page
+    localStorage.setItem('donationAmount', amount.toString());
+
     // For M-PESA, validate phone number
     if (paymentMethod === 'mpesa') {
       if (!mpesaData.phoneNumber || mpesaData.phoneNumber.length < 9) {
@@ -83,10 +86,14 @@ export default function Donate() {
         window.location.href = data.paymentUrl;
       } else {
         alert(`❌ Payment failed: ${data.error || 'Please try again'}`);
+        // Clear the stored amount if payment fails
+        localStorage.removeItem('donationAmount');
       }
     } catch (error) {
       console.error('Pesapal Error:', error);
       alert('❌ There was an error processing your payment. Please try again.');
+      // Clear the stored amount if payment fails
+      localStorage.removeItem('donationAmount');
     } finally {
       setIsProcessing(false);
     }
@@ -190,174 +197,171 @@ export default function Donate() {
                 </div>
 
                 {/* Payment Method Details */}
-                <div className="payment-details">
-                  {/* M-PESA via Pesapal */}
-                  {activeTab === 'mpesa' && (
-                    <div className="payment-method-detail">
-                      <h4><i className="fas fa-mobile-alt"></i> M-PESA via Pesapal</h4>
-                      <div className="paybill-info">
-                        <div className="paybill-row">
-                          <span className="label">Paybill Number:</span>
-                          <span className="value highlight">123456</span>
-                        </div>
-                        <div className="paybill-row">
-                          <span className="label">Account Number:</span>
-                          <span className="value">KCH{Date.now()}</span>
-                        </div>
-                        <p className="paybill-note">
-                          <i className="fas fa-info-circle"></i>
-                          You will be redirected to Pesapal's secure page to complete your payment
-                        </p>
+                {activeTab === 'mpesa' && (
+                  <div className="payment-method-detail">
+                    <h4><i className="fas fa-mobile-alt"></i> M-PESA via Pesapal</h4>
+                    <div className="paybill-info">
+                      <div className="paybill-row">
+                        <span className="label">Paybill Number:</span>
+                        <span className="value highlight">123456</span>
                       </div>
-                      
-                      <form onSubmit={(e) => handlePesapalPayment(e, 'mpesa')}>
-                        <div className="form-group">
-                          <label>Full Name</label>
-                          <input
-                            type="text"
-                            placeholder="Enter your full name"
-                            value={formData.fullName}
-                            onChange={(e) => setFormData({...formData, fullName: e.target.value})}
-                          />
-                        </div>
-
-                        <div className="form-group">
-                          <label>Email Address</label>
-                          <input
-                            type="email"
-                            placeholder="your@email.com"
-                            value={formData.email}
-                            onChange={(e) => setFormData({...formData, email: e.target.value})}
-                          />
-                        </div>
-
-                        <div className="form-group">
-                          <label>M-PESA Phone Number *</label>
-                          <div className="phone-input-wrapper">
-                            <span className="phone-prefix">+254</span>
-                            <input
-                              type="tel"
-                              placeholder="712345678"
-                              value={mpesaData.phoneNumber}
-                              onChange={(e) => {
-                                const value = e.target.value.replace(/\D/g, '');
-                                setMpesaData({...mpesaData, phoneNumber: value});
-                              }}
-                              required
-                              disabled={isProcessing}
-                              maxLength="9"
-                            />
-                          </div>
-                          <small className="input-hint">Enter phone number without 0 or +254 (e.g., 712345678)</small>
-                        </div>
-
-                        <button 
-                          type="submit" 
-                          className="btn-gold mpesa-btn"
-                          disabled={isProcessing || getTotalAmount() === 0}
-                        >
-                          {isProcessing ? (
-                            <><i className="fas fa-spinner fa-spin"></i> Processing...</>
-                          ) : (
-                            <><i className="fas fa-mobile-alt"></i> Pay KES {getTotalAmount().toLocaleString()} via Pesapal</>
-                          )}
-                        </button>
-                      </form>
-
-                      <div className="mpesa-steps">
-                        <h5>How it works:</h5>
-                        <ol>
-                          <li>Enter your M-PESA phone number</li>
-                          <li>Click "Pay via Pesapal"</li>
-                          <li>You'll be redirected to Pesapal's secure page</li>
-                          <li>Choose M-PESA as payment method</li>
-                          <li>You'll receive a prompt on your phone</li>
-                          <li>Enter your PIN to confirm</li>
-                        </ol>
+                      <div className="paybill-row">
+                        <span className="label">Account Number:</span>
+                        <span className="value">KCH{Date.now()}</span>
                       </div>
-                    </div>
-                  )}
-
-                  {/* Card Payment via Pesapal */}
-                  {activeTab === 'card' && (
-                    <div className="payment-method-detail">
-                      <h4><i className="fas fa-credit-card"></i> Card Payment via Pesapal</h4>
-                      <p className="secure-note">
-                        <i className="fas fa-lock"></i> Secure payment processed by Pesapal (PCI-DSS certified)
+                      <p className="paybill-note">
+                        <i className="fas fa-info-circle"></i>
+                        You will be redirected to Pesapal's secure page to complete your payment
                       </p>
-                      
-                      <div className="card-info">
-                        <div className="card-logos">
-                          <i className="fab fa-cc-visa"></i>
-                          <i className="fab fa-cc-mastercard"></i>
-                          <i className="fab fa-cc-amex"></i>
-                        </div>
-                        <p className="card-description">
-                          You will be redirected to Pesapal's secure payment page where you can enter your card details.
-                          Pesapal is <strong>PCI-DSS certified</strong>, ensuring your card data is handled with the highest security standards.
-                        </p>
-                      </div>
-                      
-                      <form onSubmit={(e) => handlePesapalPayment(e, 'card')}>
-                        <div className="form-group">
-                          <label>Full Name *</label>
-                          <input 
-                            type="text" 
-                            placeholder="Enter your full name"
-                            value={formData.fullName}
-                            onChange={(e) => setFormData({...formData, fullName: e.target.value})}
-                            required
-                          />
-                        </div>
-
-                        <div className="form-group">
-                          <label>Email Address *</label>
-                          <input 
-                            type="email" 
-                            placeholder="your@email.com"
-                            value={formData.email}
-                            onChange={(e) => setFormData({...formData, email: e.target.value})}
-                            required
-                          />
-                        </div>
-
-                        <div className="form-group">
-                          <label>Phone Number</label>
-                          <input 
-                            type="tel" 
-                            placeholder="+254 712 345 678"
-                            value={formData.phone}
-                            onChange={(e) => setFormData({...formData, phone: e.target.value})}
-                          />
-                        </div>
-
-                        <button 
-                          type="submit" 
-                          className="btn-gold"
-                          disabled={isProcessing || getTotalAmount() === 0}
-                          style={{width: '100%', justifyContent: 'center', marginTop: '16px'}}
-                        >
-                          {isProcessing ? (
-                            <><i className="fas fa-spinner fa-spin"></i> Processing...</>
-                          ) : (
-                            <><i className="fas fa-credit-card"></i> Pay KES {getTotalAmount().toLocaleString()} via Pesapal</>
-                          )}
-                        </button>
-                      </form>
-
-                      <div className="mpesa-steps">
-                        <h5>How it works:</h5>
-                        <ol>
-                          <li>Enter your personal details</li>
-                          <li>Click "Pay via Pesapal"</li>
-                          <li>You'll be redirected to Pesapal's secure page</li>
-                          <li>Enter your card details on the PCI-DSS certified page</li>
-                          <li>Complete the payment</li>
-                        </ol>
-                      </div>
                     </div>
-                  )}
-                </div>
+                    
+                    <form onSubmit={(e) => handlePesapalPayment(e, 'mpesa')}>
+                      <div className="form-group">
+                        <label>Full Name</label>
+                        <input
+                          type="text"
+                          placeholder="Enter your full name"
+                          value={formData.fullName}
+                          onChange={(e) => setFormData({...formData, fullName: e.target.value})}
+                        />
+                      </div>
+
+                      <div className="form-group">
+                        <label>Email Address</label>
+                        <input
+                          type="email"
+                          placeholder="your@email.com"
+                          value={formData.email}
+                          onChange={(e) => setFormData({...formData, email: e.target.value})}
+                        />
+                      </div>
+
+                      <div className="form-group">
+                        <label>M-PESA Phone Number *</label>
+                        <div className="phone-input-wrapper">
+                          <span className="phone-prefix">+254</span>
+                          <input
+                            type="tel"
+                            placeholder="712345678"
+                            value={mpesaData.phoneNumber}
+                            onChange={(e) => {
+                              const value = e.target.value.replace(/\D/g, '');
+                              setMpesaData({...mpesaData, phoneNumber: value});
+                            }}
+                            required
+                            disabled={isProcessing}
+                            maxLength="9"
+                          />
+                        </div>
+                        <small className="input-hint">Enter phone number without 0 or +254 (e.g., 712345678)</small>
+                      </div>
+
+                      <button 
+                        type="submit" 
+                        className="btn-gold mpesa-btn"
+                        disabled={isProcessing || getTotalAmount() === 0}
+                      >
+                        {isProcessing ? (
+                          <><i className="fas fa-spinner fa-spin"></i> Processing...</>
+                        ) : (
+                          <><i className="fas fa-mobile-alt"></i> Pay KES {getTotalAmount().toLocaleString()} via Pesapal</>
+                        )}
+                      </button>
+                    </form>
+
+                    <div className="mpesa-steps">
+                      <h5>How it works:</h5>
+                      <ol>
+                        <li>Enter your M-PESA phone number</li>
+                        <li>Click "Pay via Pesapal"</li>
+                        <li>You'll be redirected to Pesapal's secure page</li>
+                        <li>Choose M-PESA as payment method</li>
+                        <li>You'll receive a prompt on your phone</li>
+                        <li>Enter your PIN to confirm</li>
+                      </ol>
+                    </div>
+                  </div>
+                )}
+
+                {/* Card Payment via Pesapal */}
+                {activeTab === 'card' && (
+                  <div className="payment-method-detail">
+                    <h4><i className="fas fa-credit-card"></i> Card Payment via Pesapal</h4>
+                    <p className="secure-note">
+                      <i className="fas fa-lock"></i> Secure payment processed by Pesapal (PCI-DSS certified)
+                    </p>
+                    
+                    <div className="card-info">
+                      <div className="card-logos">
+                        <i className="fab fa-cc-visa"></i>
+                        <i className="fab fa-cc-mastercard"></i>
+                        <i className="fab fa-cc-amex"></i>
+                      </div>
+                      <p className="card-description">
+                        You will be redirected to Pesapal's secure payment page where you can enter your card details.
+                        Pesapal is <strong>PCI-DSS certified</strong>, ensuring your card data is handled with the highest security standards.
+                      </p>
+                    </div>
+                    
+                    <form onSubmit={(e) => handlePesapalPayment(e, 'card')}>
+                      <div className="form-group">
+                        <label>Full Name *</label>
+                        <input 
+                          type="text" 
+                          placeholder="Enter your full name"
+                          value={formData.fullName}
+                          onChange={(e) => setFormData({...formData, fullName: e.target.value})}
+                          required
+                        />
+                      </div>
+
+                      <div className="form-group">
+                        <label>Email Address *</label>
+                        <input 
+                          type="email" 
+                          placeholder="your@email.com"
+                          value={formData.email}
+                          onChange={(e) => setFormData({...formData, email: e.target.value})}
+                          required
+                        />
+                      </div>
+
+                      <div className="form-group">
+                        <label>Phone Number</label>
+                        <input 
+                          type="tel" 
+                          placeholder="+254 712 345 678"
+                          value={formData.phone}
+                          onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                        />
+                      </div>
+
+                      <button 
+                        type="submit" 
+                        className="btn-gold"
+                        disabled={isProcessing || getTotalAmount() === 0}
+                        style={{width: '100%', justifyContent: 'center', marginTop: '16px'}}
+                      >
+                        {isProcessing ? (
+                          <><i className="fas fa-spinner fa-spin"></i> Processing...</>
+                        ) : (
+                          <><i className="fas fa-credit-card"></i> Pay KES {getTotalAmount().toLocaleString()} via Pesapal</>
+                        )}
+                      </button>
+                    </form>
+
+                    <div className="mpesa-steps">
+                      <h5>How it works:</h5>
+                      <ol>
+                        <li>Enter your personal details</li>
+                        <li>Click "Pay via Pesapal"</li>
+                        <li>You'll be redirected to Pesapal's secure page</li>
+                        <li>Enter your card details on the PCI-DSS certified page</li>
+                        <li>Complete the payment</li>
+                      </ol>
+                    </div>
+                  </div>
+                )}
 
                 {/* Personal Information */}
                 <div className="personal-info">
