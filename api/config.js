@@ -1,19 +1,14 @@
 // api/config.js
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const fs = require('fs');
+const path = require('path');
 
 // Load environment variables from .env file
 function loadEnv() {
-  const envPath = path.join(__dirname, '..', '.env');
+  const envPath = path.join(process.cwd(), '.env');
   console.log('📁 Looking for .env at:', envPath);
   
   if (!fs.existsSync(envPath)) {
     console.error('❌ .env NOT found at:', envPath);
-    // Try process.env as fallback
     return {};
   }
   
@@ -39,12 +34,14 @@ function loadEnv() {
 // Load once
 const env = loadEnv();
 
-export const PESAPAL_CONSUMER_KEY = env.PESAPAL_CONSUMER_KEY || process.env.PESAPAL_CONSUMER_KEY;
-export const PESAPAL_CONSUMER_SECRET = env.PESAPAL_CONSUMER_SECRET || process.env.PESAPAL_CONSUMER_SECRET;
-export const PESAPAL_ENVIRONMENT = env.PESAPAL_ENVIRONMENT || process.env.PESAPAL_ENVIRONMENT || 'sandbox';
-export const REACT_APP_BASE_URL = env.REACT_APP_BASE_URL || process.env.REACT_APP_BASE_URL || 'https://kajiado-bright-horizons.vercel.app';
+module.exports = {
+  PESAPAL_CONSUMER_KEY: env.PESAPAL_CONSUMER_KEY || process.env.PESAPAL_CONSUMER_KEY,
+  PESAPAL_CONSUMER_SECRET: env.PESAPAL_CONSUMER_SECRET || process.env.PESAPAL_CONSUMER_SECRET,
+  PESAPAL_ENVIRONMENT: env.PESAPAL_ENVIRONMENT || process.env.PESAPAL_ENVIRONMENT || 'sandbox',
+  REACT_APP_BASE_URL: env.REACT_APP_BASE_URL || process.env.REACT_APP_BASE_URL || 'https://kajiado-bright-horizons.vercel.app'
+};
 
 console.log('🔑 Loaded credentials:');
-console.log('   Consumer Key:', PESAPAL_CONSUMER_KEY ? PESAPAL_CONSUMER_KEY.substring(0, 15) + '...' : '❌ MISSING');
-console.log('   Consumer Secret:', PESAPAL_CONSUMER_SECRET ? '✅ Present' : '❌ MISSING');
-console.log('   Environment:', PESAPAL_ENVIRONMENT);
+console.log('   Consumer Key:', module.exports.PESAPAL_CONSUMER_KEY ? module.exports.PESAPAL_CONSUMER_KEY.substring(0, 15) + '...' : '❌ MISSING');
+console.log('   Consumer Secret:', module.exports.PESAPAL_CONSUMER_SECRET ? '✅ Present' : '❌ MISSING');
+console.log('   Environment:', module.exports.PESAPAL_ENVIRONMENT);

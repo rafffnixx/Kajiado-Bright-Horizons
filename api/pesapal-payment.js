@@ -1,10 +1,10 @@
 // api/pesapal-payment.js
-import { 
+const { 
   PESAPAL_CONSUMER_KEY, 
   PESAPAL_CONSUMER_SECRET, 
   PESAPAL_ENVIRONMENT,
   REACT_APP_BASE_URL 
-} from './config.js';
+} = require('./config.js');
 
 const BASE_URL = PESAPAL_ENVIRONMENT === 'production' 
   ? 'https://pay.pesapal.com/v3'
@@ -46,7 +46,7 @@ async function getAccessToken() {
   return data.token;
 }
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   // Enable CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
@@ -61,7 +61,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    // Parse body manually for Vercel
+    // Parse body
     let rawBody = '';
     await new Promise((resolve) => {
       req.on('data', (chunk) => { rawBody += chunk.toString(); });
@@ -72,11 +72,10 @@ export default async function handler(req, res) {
     try {
       parsedBody = JSON.parse(rawBody);
     } catch (parseError) {
-      console.error('❌ Failed to parse JSON:', rawBody);
+      console.error('❌ Failed to parse JSON');
       return res.status(400).json({ 
         success: false, 
-        error: 'Invalid JSON in request body',
-        received: rawBody 
+        error: 'Invalid JSON in request body'
       });
     }
 
@@ -88,7 +87,6 @@ export default async function handler(req, res) {
       donationType = 'one-time'
     } = parsedBody;
 
-    // Validate amount
     if (!amount || amount < 10) {
       return res.status(400).json({ 
         success: false, 
@@ -96,18 +94,12 @@ export default async function handler(req, res) {
       });
     }
 
-    // Generate reference
     const reference = `KCH${Date.now()}${Math.floor(Math.random() * 1000)}`;
-    
     const baseUrl = REACT_APP_BASE_URL || 'https://kajiado-bright-horizons.vercel.app';
-
-    // Clean phone
     const cleanPhone = phoneNumber?.replace(/^\+?254|^0/, '') || '700000000';
 
-    // Get access token
     const token = await getAccessToken();
 
-    // Prepare order data
     const orderData = {
       id: reference,
       currency: 'KES',
@@ -136,7 +128,6 @@ export default async function handler(req, res) {
 
     console.log(`📤 Submitting order to Pesapal (${PESAPAL_ENVIRONMENT})`);
 
-    // Submit Order to Pesapal
     const response = await fetch(`${BASE_URL}/api/Transactions/SubmitOrderRequest`, {
       method: 'POST',
       headers: {
@@ -150,17 +141,14 @@ export default async function handler(req, res) {
     const responseData = await response.json();
     console.log('📤 Pesapal Response:', JSON.stringify(responseData, null, 2));
 
-    // Check for errors
     if (responseData.error) {
       console.error('❌ Pesapal error:', responseData.error);
       return res.status(400).json({
         success: false,
-        error: responseData.error.message || 'Payment initiation failed',
-        code: responseData.error.code
+        error: responseData.error.message || 'Payment initiation failed'
       });
     }
 
-    // Success
     if (responseData.order_tracking_id) {
       const redirectUrl = responseData.redirect_url || 
                          `${BASE_URL}/payment-page/${responseData.order_tracking_id}`;
@@ -186,4 +174,4 @@ export default async function handler(req, res) {
       error: 'Failed to process payment. Please try again.' 
     });
   }
-}
+};
