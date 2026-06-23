@@ -1,14 +1,23 @@
 // api/pesapal-payment.js
-const PESAPAL_CONSUMER_KEY = process.env.PESAPAL_CONSUMER_KEY;
-const PESAPAL_CONSUMER_SECRET = process.env.PESAPAL_CONSUMER_SECRET;
-const PESAPAL_ENVIRONMENT = process.env.PESAPAL_ENVIRONMENT || 'sandbox';
-const PESAPAL_IPN_ID = process.env.PESAPAL_IPN_ID || '1';
+import { 
+  PESAPAL_CONSUMER_KEY, 
+  PESAPAL_CONSUMER_SECRET, 
+  PESAPAL_ENVIRONMENT,
+  REACT_APP_BASE_URL 
+} from './config.js';
 
 const BASE_URL = PESAPAL_ENVIRONMENT === 'production' 
   ? 'https://pay.pesapal.com/v3'
   : 'https://cybqa.pesapal.com/pesapalv3';
 
 async function getAccessToken() {
+  if (!PESAPAL_CONSUMER_KEY || !PESAPAL_CONSUMER_SECRET) {
+    console.error('❌ Missing Pesapal credentials!');
+    throw new Error('Consumer Key is required|Consumer Secret is required');
+  }
+
+  console.log('📡 Requesting token from:', `${BASE_URL}/api/Auth/RequestToken`);
+
   const response = await fetch(`${BASE_URL}/api/Auth/RequestToken`, {
     method: 'POST',
     headers: {
@@ -20,11 +29,20 @@ async function getAccessToken() {
       consumer_secret: PESAPAL_CONSUMER_SECRET
     })
   });
+  
   const data = await response.json();
+  console.log('📤 Auth Response Status:', response.status);
+  
+  if (response.status !== 200) {
+    console.log('📤 Auth Response Error:', JSON.stringify(data, null, 2));
+    throw new Error(data.error?.message || 'Failed to get access token');
+  }
   
   if (!data.token) {
     throw new Error(data.error?.message || 'Failed to get access token');
   }
+  
+  console.log('✅ Access token obtained successfully');
   return data.token;
 }
 
@@ -43,15 +61,38 @@ export default async function handler(req, res) {
   }
 
   try {
+    // Parse the request body manually
+    let body = '';
+    await new Promise((resolve) => {
+      req.on('data', (chunk) => {
+        body += chunk.toString();
+      });
+      req.on('end', () => {
+        resolve();
+      });
+    });
+
+    let parsedBody;
+    try {
+      parsedBody = JSON.parse(body);
+    } catch (parseError) {
+      console.error('❌ Failed to parse JSON:', body);
+      return res.status(400).json({ 
+        success: false, 
+        error: 'Invalid JSON in request body',
+        received: body 
+      });
+    }
+
     const { 
       amount, 
       phoneNumber, 
       email, 
       fullName, 
       donationType = 'one-time'
-    } = req.body;
+    } = parsedBody;
 
-    // Validate
+    // Validate amount
     if (!amount || amount < 10) {
       return res.status(400).json({ 
         success: false, 
@@ -62,24 +103,24 @@ export default async function handler(req, res) {
     // Generate reference
     const reference = `KCH${Date.now()}${Math.floor(Math.random() * 1000)}`;
     
-    const baseUrl = process.env.REACT_APP_BASE_URL || 'https://kajiado-bright-horizons.vercel.app';
+    // Use the base URL from config
+    const baseUrl = REACT_APP_BASE_URL || 'https://kajiado-bright-horizons.vercel.app';
 
-    // Clean phone
+    // Clean phone (remove 0 and +254)
     const cleanPhone = phoneNumber?.replace(/^\+?254|^0/, '') || '700000000';
 
     // Get access token
     const token = await getAccessToken();
 
-    // Prepare order data for Pesapal API 3.0 - SubmitOrderRequest
+    // Prepare order data for Pesapal API 3.0
     const orderData = {
       id: reference,
       currency: 'KES',
       amount: amount.toString(),
       description: `Donation to Kajiado Children's Home`,
       callback_url: `${baseUrl}/donation-success?reference=${reference}`,
-      notification_id: PESAPAL_IPN_ID,
+      notification_id: '1',
       branch: 'Kajiado',
-      
       billing_address: {
         email_address: email || 'donor@kajiadochildrenshome.org',
         phone_number: `254${cleanPhone}`,
@@ -91,19 +132,6 @@ export default async function handler(req, res) {
         state: 'Kajiado County',
         postal_code: '01100'
       },
-      
-      shipping_address: {
-        email_address: email || 'donor@kajiadochildrenshome.org',
-        phone_number: `254${cleanPhone}`,
-        country_code: 'KE',
-        first_name: fullName?.split(' ')[0] || 'Kajiado',
-        last_name: fullName?.split(' ').slice(1).join(' ') || 'Donor',
-        line1: 'Kajiado Town',
-        city: 'Kajiado',
-        state: 'Kajiado County',
-        postal_code: '01100'
-      },
-      
       metadata: {
         donation_type: donationType,
         source: 'kajiado_childrens_home_website',
@@ -112,9 +140,10 @@ export default async function handler(req, res) {
     };
 
     console.log(`📤 Submitting order to Pesapal (${PESAPAL_ENVIRONMENT})`);
+    console.log('📤 Order Data:', JSON.stringify(orderData, null, 2));
 
     // Submit Order to Pesapal API 3.0
-    const response = await fetch(`${BASE_URL}/api/Transactions/SubmitOrder`, {
+    const response = await fetch(`${BASE_URL}/api/Transactions/SubmitOrderRequest`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -125,6 +154,7 @@ export default async function handler(req, res) {
     });
 
     const responseData = await response.json();
+    console.log('📤 Pesapal Response:', JSON.stringify(responseData, null, 2));
 
     // Check for errors
     if (responseData.error) {
@@ -136,7 +166,7 @@ export default async function handler(req, res) {
       });
     }
 
-    // Success - get redirect URL
+    // Check if the response contains order_tracking_id
     if (responseData.order_tracking_id) {
       const redirectUrl = responseData.redirect_url || 
                          `${BASE_URL}/payment-page/${responseData.order_tracking_id}`;
@@ -149,9 +179,20 @@ export default async function handler(req, res) {
         status: responseData.status || 'PENDING'
       });
     } else {
+      if (responseData.status === '200' || responseData.status === '200 OK') {
+        return res.status(200).json({
+          success: true,
+          paymentUrl: responseData.redirect_url || `${BASE_URL}/payment-page/${reference}`,
+          merchantReference: reference,
+          status: 'PENDING',
+          message: 'Order submitted successfully'
+        });
+      }
+      
       return res.status(400).json({
         success: false,
-        error: 'No order tracking ID received from Pesapal'
+        error: responseData.message || 'No order tracking ID received from Pesapal',
+        details: responseData
       });
     }
 
@@ -159,7 +200,8 @@ export default async function handler(req, res) {
     console.error('❌ Pesapal payment error:', error);
     res.status(500).json({ 
       success: false, 
-      error: 'Failed to process payment. Please try again.' 
+      error: 'Failed to process payment. Please try again.',
+      message: error.message 
     });
   }
 }

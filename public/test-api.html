@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Pesapal API</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; max-width: 600px; margin: 0 auto; }
+        button { padding: 10px 20px; margin: 5px; cursor: pointer; background: #3B82F6; color: white; border: none; border-radius: 5px; }
+        button:hover { background: #2563EB; }
+        pre { background: #f4f4f4; padding: 15px; border-radius: 5px; overflow: auto; white-space: pre-wrap; word-wrap: break-word; }
+        .success { color: green; }
+        .error { color: red; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Test Pesapal Payment</h1>
+    
+    <div>
+        <button onclick="testRegisterIPN()">📡 Register IPN</button>
+        <button onclick="testPayment('mpesa')">📱 M-PESA</button>
+        <button onclick="testPayment('card')">💳 Card</button>
+    </div>
+
+    <h3>Response:</h3>
+    <pre id="result">Click a button to test...</pre>
+
+    <script>
+        async function testRegisterIPN() {
+            const result = document.getElementById('result');
+            result.textContent = '⏳ Registering IPN...';
+            
+            try {
+                const response = await fetch('/api/register-ipn', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                const data = await response.json();
+                result.textContent = JSON.stringify(data, null, 2);
+                result.className = data.success ? 'success' : 'error';
+            } catch (error) {
+                result.textContent = '❌ Error: ' + error.message;
+                result.className = 'error';
+            }
+        }
+
+        async function testPayment(method) {
+            const result = document.getElementById('result');
+            result.textContent = `⏳ Processing ${method.toUpperCase()} payment...`;
+            
+            const paymentData = {
+                amount: 1000,
+                phoneNumber: '712345678',
+                email: 'test@example.com',
+                fullName: 'Test Donor',
+                donationType: 'one-time',
+                paymentMethod: method
+            };
+            
+            try {
+                const response = await fetch('/api/pesapal-payment', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(paymentData)
+                });
+                
+                const data = await response.json();
+                result.textContent = JSON.stringify(data, null, 2);
+                
+                if (data.success && data.paymentUrl) {
+                    result.className = 'success';
+                    result.textContent += '\n\n✅ Redirecting to: ' + data.paymentUrl;
+                    // Uncomment to auto-redirect
+                    // setTimeout(() => window.location.href = data.paymentUrl, 2000);
+                } else {
+                    result.className = 'error';
+                }
+            } catch (error) {
+                result.textContent = '❌ Error: ' + error.message;
+                result.className = 'error';
+            }
+        }
+    </script>
+</body>
+</html>
