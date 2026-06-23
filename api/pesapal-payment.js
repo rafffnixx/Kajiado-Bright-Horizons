@@ -102,14 +102,14 @@ module.exports = async function handler(req, res) {
     // Get access token
     const token = await getAccessToken();
 
-    // Prepare order data for Pesapal API 3.0
+    // Prepare order data with correct IPN ID
     const orderData = {
       id: reference,
       currency: 'KES',
       amount: amount.toString(),
       description: `Donation to Kajiado Children's Home`,
       callback_url: `${baseUrl}/donation-success?reference=${reference}`,
-      notification_id: PESAPAL_IPN_ID || '1', // Use IPN ID from config
+      notification_id: PESAPAL_IPN_ID, // Use the IPN ID from config
       branch: 'Kajiado',
       billing_address: {
         email_address: email || 'donor@kajiadochildrenshome.org',
@@ -149,38 +149,6 @@ module.exports = async function handler(req, res) {
     // Check for errors
     if (responseData.error) {
       console.error('❌ Pesapal error:', responseData.error);
-      
-      // If error is about IPN, try with default ID
-      if (responseData.error.message && responseData.error.message.includes('IPN')) {
-        console.log('🔄 Retrying with default IPN ID...');
-        orderData.notification_id = '1';
-        
-        const retryResponse = await fetch(`${BASE_URL}/api/Transactions/SubmitOrderRequest`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'Authorization': `Bearer ${token}`
-          },
-          body: JSON.stringify(orderData)
-        });
-        
-        const retryData = await retryResponse.json();
-        console.log('📤 Retry Response:', JSON.stringify(retryData, null, 2));
-        
-        if (retryData.order_tracking_id) {
-          const redirectUrl = retryData.redirect_url || 
-                             `${BASE_URL}/payment-page/${retryData.order_tracking_id}`;
-          return res.status(200).json({
-            success: true,
-            paymentUrl: redirectUrl,
-            orderTrackingId: retryData.order_tracking_id,
-            merchantReference: reference,
-            status: retryData.status || 'PENDING'
-          });
-        }
-      }
-      
       return res.status(400).json({
         success: false,
         error: responseData.error.message || 'Payment initiation failed',

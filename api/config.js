@@ -2,7 +2,6 @@
 const fs = require('fs');
 const path = require('path');
 
-// Load environment variables from .env file
 function loadEnv() {
   const envPath = path.join(process.cwd(), '.env');
   console.log('📁 Looking for .env at:', envPath);
@@ -31,19 +30,19 @@ function loadEnv() {
   return env;
 }
 
-// Load once
 const env = loadEnv();
 
 module.exports = {
   PESAPAL_CONSUMER_KEY: env.PESAPAL_CONSUMER_KEY || process.env.PESAPAL_CONSUMER_KEY,
   PESAPAL_CONSUMER_SECRET: env.PESAPAL_CONSUMER_SECRET || process.env.PESAPAL_CONSUMER_SECRET,
   PESAPAL_ENVIRONMENT: env.PESAPAL_ENVIRONMENT || process.env.PESAPAL_ENVIRONMENT || 'sandbox',
-  // FORCE the base URL to be your Vercel URL
-  REACT_APP_BASE_URL: 'https://kajiado-bright-horizons.vercel.app',
+  PESAPAL_IPN_ID: env.PESAPAL_IPN_ID || process.env.PESAPAL_IPN_ID || '3d55d047-c5ed-4643-80b5-da3a2bcc1058',
+  REACT_APP_BASE_URL: env.REACT_APP_BASE_URL || process.env.REACT_APP_BASE_URL || 'https://kajiado-bright-horizons.vercel.app',
 };
 
 console.log('🔑 Loaded credentials:');
 console.log('   Consumer Key:', module.exports.PESAPAL_CONSUMER_KEY ? module.exports.PESAPAL_CONSUMER_KEY.substring(0, 15) + '...' : '❌ MISSING');
 console.log('   Consumer Secret:', module.exports.PESAPAL_CONSUMER_SECRET ? '✅ Present' : '❌ MISSING');
 console.log('   Environment:', module.exports.PESAPAL_ENVIRONMENT);
+console.log('   IPN ID:', module.exports.PESAPAL_IPN_ID);
 console.log('   Base URL:', module.exports.REACT_APP_BASE_URL);

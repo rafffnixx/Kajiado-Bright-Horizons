@@ -32,7 +32,6 @@ async function getAccessToken() {
   
   const data = await response.json();
   console.log('📤 Auth Response Status:', response.status);
-  console.log('📤 Auth Response:', JSON.stringify(data, null, 2));
   
   if (response.status !== 200) {
     console.log('📤 Auth Response Error:', JSON.stringify(data, null, 2));
@@ -68,7 +67,6 @@ module.exports = async function handler(req, res) {
     
     console.log('📤 Registering IPN URL:', ipnUrl);
 
-    // Build the request body
     const requestBody = {
       url: ipnUrl,
       ipn_notification_type: 'GET'
@@ -89,6 +87,16 @@ module.exports = async function handler(req, res) {
     const data = await response.json();
     console.log('📤 IPN Registration Response:', JSON.stringify(data, null, 2));
 
+    if (data.ipn_id) {
+      return res.status(200).json({
+        success: true,
+        notification_id: data.ipn_id,
+        ipn_url: data.url || ipnUrl,
+        message: 'IPN registered successfully.',
+        full_response: data
+      });
+    }
+
     // If registration fails, try to get existing IPN from list
     if (data.error) {
       console.log('⚠️ Registration failed, trying to get existing IPN...');
@@ -104,7 +112,6 @@ module.exports = async function handler(req, res) {
         const listData = await listResponse.json();
         console.log('📤 IPN List:', JSON.stringify(listData, null, 2));
         
-        // If we find our IPN URL, use its ID
         if (Array.isArray(listData)) {
           const found = listData.find(item => item.url === ipnUrl);
           if (found) {
@@ -123,21 +130,19 @@ module.exports = async function handler(req, res) {
       }
     }
 
-    // Return success even if registration fails
     return res.status(200).json({
       success: true,
-      notification_id: data.ipn_id || '1',
+      notification_id: data.ipn_id || '3d55d047-c5ed-4643-80b5-da3a2bcc1058',
       ipn_url: data.ipn_url || ipnUrl,
-      message: 'IPN registered successfully.',
+      message: 'Using default IPN ID.',
       full_response: data
     });
 
   } catch (error) {
     console.error('❌ IPN registration error:', error);
-    // Still return success with default ID
     res.status(200).json({ 
       success: true,
-      notification_id: '1',
+      notification_id: '3d55d047-c5ed-4643-80b5-da3a2bcc1058',
       message: 'Using default IPN ID.',
       error: error.message 
     });
