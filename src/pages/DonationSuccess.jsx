@@ -23,7 +23,8 @@ export default function DonationSuccess() {
         // Use the orderTrackingId from Pesapal or the reference
         const trackingId = orderTrackingId || reference;
         
-        const response = await fetch(`/api/check-payment?orderTrackingId=${trackingId}`);
+        // ✅ UPDATED: Correct API endpoint
+        const response = await fetch(`/api/pesapal/check-status?orderTrackingId=${trackingId}`);
         const data = await response.json();
 
         if (data.success && data.status === 'COMPLETED') {

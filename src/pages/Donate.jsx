@@ -64,7 +64,8 @@ export default function Donate() {
     setIsProcessing(true);
 
     try {
-      const response = await fetch('/api/pesapal-payment', {
+      // ✅ UPDATED: Correct API endpoint
+      const response = await fetch('/api/pesapal/payment', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
