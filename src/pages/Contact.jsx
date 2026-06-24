@@ -169,9 +169,10 @@ export default function Contact() {
   return (
     <>
       <SEO 
-        title="Contact Us - kajiado Bright Horizons"
-        description="Get in touch with kajiado Bright Horizons. Schedule a visit, reach out for inquiries, sponsorships, donations, or to learn how you can help vulnerable children in Kajiado, Kenya."
+        title="Contact Us"
+        description="Get in touch with Kajiado Bright Horizons. Reach out for inquiries, sponsorships, donations, or to learn how you can help vulnerable children."
         path="/contact"
+        keywords={['contact Kajiado Bright Horizons', 'childrens home Kenya', 'inquiries', 'support']}
       />
       
       <div className="contact-page">

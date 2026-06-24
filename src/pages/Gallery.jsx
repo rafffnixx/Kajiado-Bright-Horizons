@@ -26,9 +26,10 @@ export default function Gallery() {
   return (
     <>
       <SEO 
-        title="Gallery - kajiado Bright Horizons"
-        description="View moments of joy, learning, and growth at kajiado Bright Horizons. See our children in daily activities, education, sports, and special events."
+        title="Gallery"
+        description="Explore photos of our children, events, and daily life at Kajiado Bright Horizons. See the joy and hope we bring to vulnerable children."
         path="/gallery"
+        keywords={['Kajiado Bright Horizons photos', 'childrens home gallery', 'orphanage Kenya photos', 'charity images']}
       />
       
       <div className="gallery-page">

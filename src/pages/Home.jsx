@@ -141,9 +141,10 @@ export default function Home() {
   return (
     <>
       <SEO 
-        title="Kajiado Bright Horizons - Providing Hope & Care to Vulnerable Children"
+        title="Home"
         description="Kajiado Bright Horizons provides shelter, education, healthcare, and love to orphaned and vulnerable children in Kajiado, Kenya. Support us through donations, sponsorship, or volunteering."
         path="/"
+        keywords={['Kajiado Bright Horizons', 'childrens home', 'orphanage Kenya', 'child sponsorship', 'donate to charity', 'Kajiado', 'vulnerable children', 'Christian care']}
       />
       
       <div className="home-page">

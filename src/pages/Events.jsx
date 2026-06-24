@@ -205,9 +205,10 @@ export default function Events() {
   return (
     <>
       <SEO 
-        title="Events & Alumni Stories - Kajiado Bright Horizons"
-        description="Join our upcoming events, celebrate past successes, and read inspiring alumni success stories from Kajiado Bright Horizons"
+        title="Events"
+        description="Join our upcoming events and celebrate past successes. Support vulnerable children in Kajiado through our fundraising galas, sports days, and charity walks."
         path="/events"
+        keywords={['charity events Kenya', 'fundraising Kajiado', 'childrens home events', 'sports day', 'fundraising gala']}
       />
       
       <div className="events-page">

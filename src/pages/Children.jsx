@@ -21,12 +21,12 @@ export default function Children() {
   ];
 
   return (
-    <>
-      <SEO 
-        title="Sponsor a ajiado Bright Horizons"
-        description="Meet the children at ajiado Bright Horizons. Your sponsorship provides education, food, healthcare, and love to vulnerable children in Kajiado, Kenya."
-        path="/children"
-      />
+      <>
+        <SEO 
+          title="Sponsor a ajiado Bright Horizons"
+          description="Meet the children at ajiado Bright Horizons. Your sponsorship provides education, food, healthcare, and love to vulnerable children in Kajiado, Kenya."
+          path="/children"
+        />
       
       <div className="children-page">
         <section className="page-header">

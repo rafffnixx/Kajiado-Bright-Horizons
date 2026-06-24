@@ -95,11 +95,12 @@ export default function Donate() {
 
   return (
     <>
-      <SEO 
-        title="Donate - Kajiado Bright Horizons"
-        description="Support vulnerable children in Kajiado through M-PESA, Airtel Money, or card payments via Pesapal. Every contribution makes a difference."
-        path="/donate"
-      />
+    <SEO 
+      title="Donate"
+      description="Support vulnerable children in Kajiado through M-PESA, Airtel Money, or card payments. Every contribution makes a difference in a child's life."
+      path="/donate"
+      keywords={['donate to charity', 'child sponsorship', 'M-PESA donation', 'support orphans Kenya', 'Kajiado Bright Horizons donation']}
+    />
       
       <div className="donate-page">
         <section className="about-hero">

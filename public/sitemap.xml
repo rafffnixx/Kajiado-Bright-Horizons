@@ -1,74 +1,129 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <!-- Main Pages -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+        xmlns:video="http://www.google.com/schemas/sitemap-video/1.1"
+        xmlns:news="http://www.google.com/schemas/sitemap-news/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <!-- Homepage -->
   <url>
-    <loc>https://www.kajiadochildrenhome.org/</loc>
-    <lastmod>2026-06-03</lastmod>
-    <changefreq>weekly</changefreq>
+    <loc>https://kajiado-bright-horizons.vercel.app/</loc>
+    <lastmod>2026-06-24</lastmod>
+    <changefreq>daily</changefreq>
     <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://kajiado-bright-horizons.vercel.app/images/hero/hero-bg.jpg</image:loc>
+      <image:title>Kajiado Bright Horizons - Home</image:title>
+    </image:image>
   </url>
+
+  <!-- About Page -->
   <url>
-    <loc>https://www.kajiadochildrenhome.org/about</loc>
-    <lastmod>2026-06-03</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://www.kajiadochildrenhome.org/children</loc>
-    <lastmod>2026-06-03</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://www.kajiadochildrenhome.org/get-involved</loc>
-    <lastmod>2026-06-03</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://www.kajiadochildrenhome.org/donate</loc>
-    <lastmod>2026-06-03</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://www.kajiadochildrenhome.org/contact</loc>
-    <lastmod>2026-06-03</lastmod>
+    <loc>https://kajiado-bright-horizons.vercel.app/about</loc>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://kajiado-bright-horizons.vercel.app/images/about/kajiado-home.jpg</image:loc>
+      <image:title>About Kajiado Bright Horizons</image:title>
+    </image:image>
   </url>
-  
-  <!-- Secondary Pages -->
+
+  <!-- Donate Page -->
   <url>
-    <loc>https://www.kajiadochildrenhome.org/donors-partners</loc>
-    <lastmod>2026-06-03</lastmod>
+    <loc>https://kajiado-bright-horizons.vercel.app/donate</loc>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://kajiado-bright-horizons.vercel.app/images/hero/donate-hero.jpg</image:loc>
+      <image:title>Donate to Kajiado Bright Horizons</image:title>
+    </image:image>
   </url>
+
+  <!-- Children/Sponsorship Page -->
   <url>
-    <loc>https://www.kajiadochildrenhome.org/events</loc>
-    <lastmod>2026-06-03</lastmod>
+    <loc>https://kajiado-bright-horizons.vercel.app/children</loc>
+    <lastmod>2026-06-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://kajiado-bright-horizons.vercel.app/images/children/happy-children.png</image:loc>
+      <image:title>Sponsor a Child at Kajiado Bright Horizons</image:title>
+    </image:image>
+  </url>
+
+  <!-- Events Page -->
+  <url>
+    <loc>https://kajiado-bright-horizons.vercel.app/events</loc>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://kajiado-bright-horizons.vercel.app/images/events/sports-day.jpg</image:loc>
+      <image:title>Events at Kajiado Bright Horizons</image:title>
+    </image:image>
   </url>
+
+  <!-- Gallery Page -->
   <url>
-    <loc>https://www.kajiadochildrenhome.org/gallery</loc>
-    <lastmod>2026-06-03</lastmod>
+    <loc>https://kajiado-bright-horizons.vercel.app/gallery</loc>
+    <lastmod>2026-06-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://kajiado-bright-horizons.vercel.app/images/gallery/morning-assembly.jpg</image:loc>
+      <image:title>Gallery - Kajiado Bright Horizons</image:title>
+    </image:image>
+  </url>
+
+  <!-- Contact Page -->
+  <url>
+    <loc>https://kajiado-bright-horizons.vercel.app/contact</loc>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
-  
-  <!-- Legal Pages -->
+
+  <!-- Get Involved Page -->
   <url>
-    <loc>https://www.kajiadochildrenhome.org/terms</loc>
-    <lastmod>2026-06-03</lastmod>
+    <loc>https://kajiado-bright-horizons.vercel.app/get-involved</loc>
+    <lastmod>2026-06-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Donors & Partners Page -->
+  <url>
+    <loc>https://kajiado-bright-horizons.vercel.app/donors-partners</loc>
+    <lastmod>2026-06-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- Programs Page -->
+  <url>
+    <loc>https://kajiado-bright-horizons.vercel.app/programs</loc>
+    <lastmod>2026-06-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- Privacy Page -->
+  <url>
+    <loc>https://kajiado-bright-horizons.vercel.app/privacy</loc>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
+
+  <!-- Terms Page -->
   <url>
-    <loc>https://www.kajiadochildrenhome.org/privacy</loc>
-    <lastmod>2026-06-03</lastmod>
+    <loc>https://kajiado-bright-horizons.vercel.app/terms</loc>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
+
+  <!-- 404 Page (No need to index) -->
 </urlset>

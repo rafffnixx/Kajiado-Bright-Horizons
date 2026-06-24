@@ -76,11 +76,12 @@ export default function About() {
 
   return (
     <>
-      <SEO 
-        title="About Us - Kajiado Bright Horizons"
-        description="Kajiado Bright Horizons (KBH) has been home to multi-generations of vulnerable children since 1997. Learn about our mission to provide loving Christian care, shelter, education, and hope."
-        path="/about"
-      />
+    <SEO 
+      title="About Us"
+      description="Kajiado Bright Horizons (KBH) has been home to multi-generations of vulnerable children since 1997. Learn about our mission to provide loving Christian care, shelter, education, and hope."
+      path="/about"
+      keywords={['about Kajiado Bright Horizons', 'childrens home history', 'mission', 'vision', 'Christian childrens home', 'Kenya charity']}
+    />
       
       <div className="about-page">
         {/* Hero Section */}

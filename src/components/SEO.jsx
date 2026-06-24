@@ -2,114 +2,157 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 
-const defaultSEO = {
-  title: 'Kajiado Bright Horizons - Hope & Care for Vulnerable Children',
-  titleTemplate: '%s | Kajiado Bright Horizon',
-  description: 'Providing shelter, education, healthcare, and love to orphaned and vulnerable children in Kajiado, Kenya since 1997. Support us through donations, sponsorship, or volunteering.',
-  siteUrl: 'https://www.kajiadochildrenhome.org',
-  image: 'https://www.kajiadochildrenhome.org/og-image.jpg',
-  twitterHandle: '@kajiadochildren',
-};
+const SEO = ({ 
+  title, 
+  description, 
+  path, 
+  image, 
+  type = 'website',
+  keywords = [],
+  author = 'Kajiado Bright Horizons',
+  publishedDate,
+  modifiedDate,
+  children 
+}) => {
+  const siteName = 'Kajiado Bright Horizons';
+  const defaultDescription = 'Providing hope, care, and education to vulnerable children in Kajiado, Kenya. Support orphaned and vulnerable children through sponsorship, donations, and volunteering.';
+  const defaultImage = 'https://kajiado-bright-horizons.vercel.app/images/og-image.jpg';
+  const url = `https://kajiado-bright-horizons.vercel.app${path || ''}`;
+  
+  const metaDescription = description || defaultDescription;
+  const metaImage = image || defaultImage;
+  const metaKeywords = keywords.length > 0 ? keywords.join(', ') : 'Kajiado Bright Horizons, childrens home, orphanage, charity, donations, child sponsorship, Kenya, Kajiado, vulnerable children, Christian care, education, shelter, feeding program';
 
-const SEO = ({ title, description, path, image, article, noIndex }) => {
-  const seo = {
-    title: title ? `${title} | kajiado Bright Horizons` : defaultSEO.title,
-    description: description || defaultSEO.description,
-    image: image || defaultSEO.image,
-    url: `${defaultSEO.siteUrl}${path || '/'}`,
+  // Organization structured data
+  const organizationSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'Kajiado Bright Horizons',
+    url: 'https://kajiado-bright-horizons.vercel.app',
+    logo: 'https://kajiado-bright-horizons.vercel.app/logo.png',
+    description: defaultDescription,
+    email: 'info@kajiadochildrenhome.org',
+    telephone: '+254700123456',
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Kajiado',
+      addressRegion: 'Kajiado County',
+      addressCountry: 'KE',
+      streetAddress: 'Kajiado Town'
+    },
+    sameAs: [
+      'https://www.facebook.com/kajiadochildrenshome',
+      'https://twitter.com/kajiadochildren',
+      'https://www.instagram.com/kajiadochildrenshome'
+    ]
   };
+
+  // Website structured data
+  const websiteSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: siteName,
+    url: 'https://kajiado-bright-horizons.vercel.app',
+    description: defaultDescription,
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: 'https://kajiado-bright-horizons.vercel.app/search?q={search_term_string}',
+      'query-input': 'required name=search_term_string'
+    }
+  };
+
+  // Breadcrumb structured data (if path is provided)
+  const breadcrumbSchema = path ? {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://kajiado-bright-horizons.vercel.app/'
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: title || 'Kajiado Bright Horizons',
+        item: url
+      }
+    ]
+  } : null;
 
   return (
     <Helmet>
-      {/* Basic Meta Tags */}
-      <title>{seo.title}</title>
-      <meta name="description" content={seo.description} />
-      <meta name="keywords" content="kajiado Bright Horizons, orphanage Kenya, sponsor a child Kenya, donate to children, vulnerable children, child sponsorship, children's charity Kenya" />
-      <meta name="author" content="kajiado Bright Horizons" />
-      <meta name="theme-color" content="#3B82F6" />
-      {noIndex && <meta name="robots" content="noindex, nofollow" />}
-      
-      {/* Open Graph / Facebook */}
-      <meta property="og:title" content={seo.title} />
-      <meta property="og:description" content={seo.description} />
-      <meta property="og:image" content={seo.image} />
-      <meta property="og:url" content={seo.url} />
-      <meta property="og:type" content={article ? 'article' : 'website'} />
-      <meta property="og:site_name" content="kajiado Bright Horizons" />
-      <meta property="og:locale" content="en_KE" />
-      
-      {/* Twitter Card */}
-      <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:title" content={seo.title} />
-      <meta name="twitter:description" content={seo.description} />
-      <meta name="twitter:image" content={seo.image} />
-      <meta name="twitter:site" content={defaultSEO.twitterHandle} />
+      {/* Primary Meta Tags */}
+      <title>{title ? `${title} | ${siteName}` : siteName}</title>
+      <meta name="title" content={title ? `${title} | ${siteName}` : siteName} />
+      <meta name="description" content={metaDescription} />
+      <meta name="keywords" content={metaKeywords} />
+      <meta name="robots" content="index, follow" />
+      <meta name="author" content={author} />
       
       {/* Canonical URL */}
-      <link rel="canonical" href={seo.url} />
+      <link rel="canonical" href={url} />
       
-      {/* Structured Data - Organization (NGO) */}
+      {/* Open Graph / Facebook */}
+      <meta property="og:type" content={type} />
+      <meta property="og:url" content={url} />
+      <meta property="og:title" content={title ? `${title} | ${siteName}` : siteName} />
+      <meta property="og:description" content={metaDescription} />
+      <meta property="og:image" content={metaImage} />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+      <meta property="og:site_name" content={siteName} />
+      <meta property="og:locale" content="en_KE" />
+      
+      {/* Twitter */}
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:url" content={url} />
+      <meta name="twitter:title" content={title ? `${title} | ${siteName}` : siteName} />
+      <meta name="twitter:description" content={metaDescription} />
+      <meta name="twitter:image" content={metaImage} />
+      <meta name="twitter:site" content="@kajiadochildren" />
+      <meta name="twitter:creator" content="@kajiadochildren" />
+      
+      {/* Article meta (if type is article) */}
+      {type === 'article' && (
+        <>
+          <meta property="article:published_time" content={publishedDate} />
+          <meta property="article:modified_time" content={modifiedDate} />
+          <meta property="article:author" content={author} />
+          <meta property="article:tag" content={metaKeywords} />
+        </>
+      )}
+      
+      {/* Favicon and App Icons */}
+      <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+      <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+      <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+      <link rel="manifest" href="/site.webmanifest" />
+      <meta name="msapplication-TileColor" content="#2563eb" />
+      <meta name="theme-color" content="#2563eb" />
+      
+      {/* Additional SEO */}
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
+      <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+      <meta name="format-detection" content="telephone=yes" />
+      <meta name="msapplication-tap-highlight" content="no" />
+      
+      {/* Structured Data */}
       <script type="application/ld+json">
-        {JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "NGO",
-          "name": "kajiado Bright Horizons",
-          "url": defaultSEO.siteUrl,
-          "logo": `${defaultSEO.siteUrl}/logo.jpg`,
-          "image": seo.image,
-          "description": defaultSEO.description,
-          "foundingDate": "1997",
-          "address": {
-            "@type": "PostalAddress",
-            "streetAddress": "Kajiado Town",
-            "addressLocality": "Kajiado",
-            "addressRegion": "Kajiado County",
-            "addressCountry": "KE"
-          },
-          "contactPoint": {
-            "@type": "ContactPoint",
-            "telephone": "+254700123456",
-            "contactType": "customer service",
-            "email": "info@kajiadochildrenhome.org",
-            "availableLanguage": ["English", "Swahili", "Maa"]
-          },
-          "sameAs": [
-            "https://www.facebook.com/kajiadochildrenshome",
-            "https://twitter.com/kajiadochildren",
-            "https://www.instagram.com/kajiadochildrenshome",
-            "https://www.linkedin.com/company/kajiado-childrens-home"
-          ],
-          "donation": {
-            "@type": "DonateAction",
-            "name": "Support kajiado Bright Horizons",
-            "url": `${defaultSEO.siteUrl}/donate`
-          }
-        })}
+        {JSON.stringify(organizationSchema)}
       </script>
-      
-      {/* Additional Structured Data for Breadcrumbs (if applicable) */}
-      {path && path !== '/' && (
+      <script type="application/ld+json">
+        {JSON.stringify(websiteSchema)}
+      </script>
+      {breadcrumbSchema && (
         <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "BreadcrumbList",
-            "itemListElement": [
-              {
-                "@type": "ListItem",
-                "position": 1,
-                "name": "Home",
-                "item": defaultSEO.siteUrl
-              },
-              {
-                "@type": "ListItem",
-                "position": 2,
-                "name": title || "Page",
-                "item": seo.url
-              }
-            ]
-          })}
+          {JSON.stringify(breadcrumbSchema)}
         </script>
       )}
+      
+      {children}
     </Helmet>
   );
 };

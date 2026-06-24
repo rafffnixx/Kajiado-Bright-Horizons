@@ -1,7 +1,7 @@
 {
-  "short_name": "kajiado Bright Horizons",
-  "name": "kajiado Bright Horizons - Hope & Care for Vulnerable Children",
-  "description": "Providing shelter, education, healthcare, and love to orphaned and vulnerable children in Kajiado, Kenya since 1997.",
+  "short_name": "Kajiado Children",
+  "name": "Kajiado Bright Horizons",
+  "description": "Providing shelter, education, healthcare, and love to vulnerable children in Kajiado, Kenya since 1997.",
   "icons": [
     {
       "src": "favicon.ico",
@@ -11,16 +11,44 @@
     {
       "src": "logo192.png",
       "type": "image/png",
-      "sizes": "192x192"
+      "sizes": "192x192",
+      "purpose": "any maskable"
     },
     {
       "src": "logo512.png",
       "type": "image/png",
-      "sizes": "512x512"
+      "sizes": "512x512",
+      "purpose": "any maskable"
     }
   ],
   "start_url": ".",
   "display": "standalone",
   "theme_color": "#3B82F6",
-  "background_color": "#030303"
+  "background_color": "#030303",
+  "orientation": "portrait-primary",
+  "categories": ["charity", "education", "social"],
+  "prefer_related_applications": false,
+  "shortcuts": [
+    {
+      "name": "Donate",
+      "short_name": "Donate",
+      "description": "Make a donation to support children",
+      "url": "/donate",
+      "icons": [{ "src": "logo192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Sponsor a Child",
+      "short_name": "Sponsor",
+      "description": "Sponsor a child's education and care",
+      "url": "/children",
+      "icons": [{ "src": "logo192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Contact Us",
+      "short_name": "Contact",
+      "description": "Get in touch with us",
+      "url": "/contact",
+      "icons": [{ "src": "logo192.png", "sizes": "192x192" }]
+    }
+  ]
 }

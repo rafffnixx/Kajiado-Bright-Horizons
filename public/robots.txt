@@ -1,54 +1,42 @@
-{
-  "short_name": "Kajiado Children",
-  "name": "kajiado Bright Horizons",
-  "description": "Providing shelter, education, healthcare, and love to vulnerable children in Kajiado, Kenya since 1997.",
-  "icons": [
-    {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
-    },
-    {
-      "src": "logo192.png",
-      "type": "image/png",
-      "sizes": "192x192",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "logo512.png",
-      "type": "image/png",
-      "sizes": "512x512",
-      "purpose": "any maskable"
-    }
-  ],
-  "start_url": ".",
-  "display": "standalone",
-  "theme_color": "#3B82F6",
-  "background_color": "#030303",
-  "orientation": "portrait-primary",
-  "categories": ["charity", "education", "social"],
-  "prefer_related_applications": false,
-  "shortcuts": [
-    {
-      "name": "Donate",
-      "short_name": "Donate",
-      "description": "Make a donation to support children",
-      "url": "/donate",
-      "icons": [{ "src": "logo192.png", "sizes": "192x192" }]
-    },
-    {
-      "name": "Sponsor a Child",
-      "short_name": "Sponsor",
-      "description": "Sponsor a child's education and care",
-      "url": "/children",
-      "icons": [{ "src": "logo192.png", "sizes": "192x192" }]
-    },
-    {
-      "name": "Contact Us",
-      "short_name": "Contact",
-      "description": "Get in touch with us",
-      "url": "/contact",
-      "icons": [{ "src": "logo192.png", "sizes": "192x192" }]
-    }
-  ]
-}
+# Robots.txt for Kajiado Bright Horizons
+# Allow all crawlers to index the site
+
+User-agent: *
+Allow: /
+Allow: /about
+Allow: /donate
+Allow: /children
+Allow: /events
+Allow: /gallery
+Allow: /contact
+Allow: /get-involved
+Allow: /donors-partners
+Allow: /programs
+
+# Block admin and API routes
+Disallow: /api/
+Disallow: /admin/
+Disallow: /private/
+Disallow: /config/
+Disallow: /scripts/
+
+# Block unnecessary resources
+Disallow: /images/hero/
+Disallow: /images/events/
+Disallow: /images/gallery/
+
+# Specify sitemap location
+Sitemap: https://kajiado-bright-horizons.vercel.app/sitemap.xml
+
+# Crawl delay for slower bots
+User-agent: AhrefsBot
+Crawl-delay: 10
+
+User-agent: SemrushBot
+Crawl-delay: 10
+
+# Allow Google bot specifically
+User-agent: Googlebot
+Allow: /
+Disallow: /api/
+Disallow: /admin/
