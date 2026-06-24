@@ -65,7 +65,7 @@ module.exports = async function handler(req, res) {
       id: reference,
       currency: 'KES',
       amount: amount.toString(),
-      description: `Donation to Kajiado Children's Home`,
+      description: `Donation to Kajiado Bright Horizon Home`,
       callback_url: `${baseUrl}/donation-success?reference=${reference}&amount=${amount}`,
       notification_id: PESAPAL_IPN_ID,
       branch: 'Kajiado',
