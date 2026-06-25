@@ -28,9 +28,7 @@ export default function DonationSuccess() {
       try {
         const trackingId = orderTrackingId || reference;
         
-        // Poll for status every 3 seconds, up to 15 times (45 seconds)
         const pollStatus = async (attempt = 0) => {
-          // Update status messages based on attempt
           if (attempt === 0) {
             setStatusMessage('🔍 Checking payment status...');
           } else if (attempt === 1) {
@@ -47,7 +45,6 @@ export default function DonationSuccess() {
             setStatusMessage('⏳ Taking longer than expected. Please wait...');
           }
 
-          // Max 15 attempts (45 seconds)
           if (attempt > 15) {
             setLoading(false);
             setPaymentStatus('TIMEOUT');
@@ -66,22 +63,15 @@ export default function DonationSuccess() {
 
             console.log(`📊 Poll attempt ${attempt + 1}:`, data);
 
-            // ============================================
-            // ✅ PAYMENT COMPLETED - LOG TO SHEETS HERE
-            // ============================================
             if (data.success && data.status === 'COMPLETED') {
               setPaymentStatus('COMPLETED');
               setStatusMessage('✅ Payment confirmed successfully!');
               
               const amount = searchParams.get('amount') || localStorage.getItem('donationAmount') || '0';
-              
-              // Get donation data from localStorage
               const donorData = JSON.parse(localStorage.getItem('donationData') || '{}');
               
-              // ✅ LOG TO GOOGLE SHEETS (only after confirmation)
               try {
                 setStatusMessage('📊 Saving your donation record...');
-                
                 const logResult = await logDonation({
                   fullName: donorData.fullName || 'Anonymous',
                   email: donorData.email || '',
@@ -107,10 +97,8 @@ export default function DonationSuccess() {
                 console.error('❌ Failed to log donation to Google Sheets:', logError);
                 setLogError('Could not save donation record, but your payment is confirmed.');
                 setStatusMessage('✅ Payment confirmed! (Record saving pending)');
-                // Don't stop the flow if logging fails - user should still see success
               }
               
-              // Clean up localStorage
               localStorage.removeItem('donationData');
               localStorage.removeItem('donationAmount');
               
@@ -124,15 +112,10 @@ export default function DonationSuccess() {
               });
               setLoading(false);
               return;
-            } 
-            // ============================================
-            // ❌ PAYMENT FAILED
-            // ============================================
-            else if (data.status === 'FAILED' || data.status === 'CANCELLED') {
+            } else if (data.status === 'FAILED' || data.status === 'CANCELLED') {
               setPaymentStatus('FAILED');
               setStatusMessage('❌ Payment was not completed');
               
-              // Log failed payment attempt to sheets (optional)
               try {
                 const donorData = JSON.parse(localStorage.getItem('donationData') || '{}');
                 await logDonation({
@@ -160,25 +143,16 @@ export default function DonationSuccess() {
               });
               setLoading(false);
               return;
-            } 
-            // ============================================
-            // ⏳ STILL PENDING - Continue polling
-            // ============================================
-            else {
-              // Still pending, poll again after 3 seconds
+            } else {
               setPollCount(attempt + 1);
               setPaymentStatus('PENDING');
-              
-              // Update status message with more detail
               if (attempt >= 5) {
                 setStatusMessage(`⏳ Payment still processing (${attempt + 1}/15)... Please wait`);
               }
-              
               setTimeout(() => pollStatus(attempt + 1), 3000);
             }
           } catch (err) {
             console.error('Polling error:', err);
-            // Continue polling on error
             setStatusMessage(`⚠️ Network issue, retrying... (${attempt + 1}/15)`);
             setTimeout(() => pollStatus(attempt + 1), 3000);
           }
@@ -197,7 +171,7 @@ export default function DonationSuccess() {
   }, [reference, orderTrackingId, searchParams]);
 
   // ============================================
-  // RENDER: LOADING STATE
+  // LOADING STATE
   // ============================================
   if (loading) {
     return (
@@ -209,28 +183,26 @@ export default function DonationSuccess() {
         />
         <div className="donation-success-page">
           <div className="container">
-            <div className="success-card">
-              <div className="loading-spinner">
+            <div className="status-card status-loading">
+              <div className="status-icon loading-icon">
                 <i className="fas fa-spinner fa-spin"></i>
-                <p className="status-message">{statusMessage}</p>
-                {pollCount > 0 && (
-                  <div className="progress-container">
-                    <div className="progress-bar">
-                      <div 
-                        className="progress-fill" 
-                        style={{ width: `${(pollCount / 15) * 100}%` }}
-                      ></div>
-                    </div>
-                    <p className="poll-count">Checking payment... ({pollCount}/15)</p>
-                  </div>
-                )}
-                {pollCount > 3 && (
-                  <p className="status-hint">Please don't refresh the page. We're confirming your payment.</p>
-                )}
-                {pollCount > 8 && (
-                  <p className="status-hint">Payments can take up to 60 seconds to process. Thank you for your patience.</p>
-                )}
               </div>
+              <h2 className="status-title">Processing Payment</h2>
+              <p className="status-message">{statusMessage}</p>
+              {pollCount > 0 && (
+                <div className="progress-container">
+                  <div className="progress-bar">
+                    <div className="progress-fill" style={{ width: `${(pollCount / 15) * 100}%` }}></div>
+                  </div>
+                  <p className="poll-count">Checking payment... ({pollCount}/15)</p>
+                </div>
+              )}
+              {pollCount > 3 && (
+                <p className="status-hint">Please don't refresh the page. We're confirming your payment.</p>
+              )}
+              {pollCount > 8 && (
+                <p className="status-hint">Payments can take up to 60 seconds to process. Thank you for your patience.</p>
+              )}
             </div>
           </div>
         </div>
@@ -239,7 +211,7 @@ export default function DonationSuccess() {
   }
 
   // ============================================
-  // RENDER: ERROR STATE
+  // ERROR STATE
   // ============================================
   if (error) {
     return (
@@ -251,17 +223,17 @@ export default function DonationSuccess() {
         />
         <div className="donation-success-page">
           <div className="container">
-            <div className="success-card error-card">
-              <div className="error-icon">
+            <div className="status-card status-error">
+              <div className="status-icon error-icon">
                 <i className="fas fa-exclamation-circle"></i>
               </div>
-              <h1>Payment Verification Failed</h1>
-              <p className="error-message">{error}</p>
-              <div className="success-actions">
-                <Link to="/donate" className="btn-gold">
+              <h2 className="status-title">Verification Failed</h2>
+              <p className="status-message">{error}</p>
+              <div className="status-actions">
+                <Link to="/donate" className="btn-primary">
                   <i className="fas fa-redo"></i> Try Again
                 </Link>
-                <Link to="/contact" className="btn-outline">
+                <Link to="/contact" className="btn-secondary">
                   <i className="fas fa-envelope"></i> Contact Us
                 </Link>
               </div>
@@ -273,7 +245,7 @@ export default function DonationSuccess() {
   }
 
   // ============================================
-  // RENDER: PENDING / TIMEOUT STATE
+  // PENDING / TIMEOUT STATE
   // ============================================
   if (donationData?.status === 'PENDING' || donationData?.status === 'TIMEOUT') {
     return (
@@ -285,31 +257,31 @@ export default function DonationSuccess() {
         />
         <div className="donation-success-page">
           <div className="container">
-            <div className="success-card pending-card">
-              <div className="pending-icon">
+            <div className="status-card status-pending">
+              <div className="status-icon pending-icon">
                 <i className="fas fa-clock"></i>
               </div>
-              <h1>Payment Processing</h1>
-              <p className="pending-message">{donationData.message || 'Your payment is being processed. Please wait for confirmation.'}</p>
-              <div className="donation-details">
-                <div className="detail-item">
-                  <span className="label">Transaction Reference:</span>
-                  <span className="value">{donationData.reference}</span>
+              <h2 className="status-title">Payment Processing</h2>
+              <p className="status-message">{donationData.message || 'Your payment is being processed. Please wait for confirmation.'}</p>
+              <div className="status-details">
+                <div className="detail-row">
+                  <span className="detail-label">Transaction Reference</span>
+                  <span className="detail-value">{donationData.reference}</span>
                 </div>
-                <div className="detail-item">
-                  <span className="label">Amount:</span>
-                  <span className="value highlight">KES {donationData.amount}</span>
+                <div className="detail-row">
+                  <span className="detail-label">Amount</span>
+                  <span className="detail-value highlight">KES {donationData.amount}</span>
                 </div>
-                <div className="detail-item">
-                  <span className="label">Status:</span>
-                  <span className="value pending">⏳ {paymentStatus}</span>
+                <div className="detail-row">
+                  <span className="detail-label">Status</span>
+                  <span className="detail-value status-badge pending">⏳ PENDING</span>
                 </div>
               </div>
-              <div className="success-actions">
-                <Link to="/" className="btn-gold">
+              <div className="status-actions">
+                <Link to="/" className="btn-primary">
                   <i className="fas fa-home"></i> Return Home
                 </Link>
-                <Link to="/contact" className="btn-outline">
+                <Link to="/contact" className="btn-secondary">
                   <i className="fas fa-envelope"></i> Contact Us
                 </Link>
               </div>
@@ -321,7 +293,7 @@ export default function DonationSuccess() {
   }
 
   // ============================================
-  // RENDER: FAILED / CANCELLED STATE
+  // FAILED / CANCELLED STATE
   // ============================================
   if (donationData?.status === 'FAILED' || donationData?.status === 'CANCELLED') {
     return (
@@ -333,31 +305,31 @@ export default function DonationSuccess() {
         />
         <div className="donation-success-page">
           <div className="container">
-            <div className="success-card error-card">
-              <div className="error-icon">
+            <div className="status-card status-failed">
+              <div className="status-icon failed-icon">
                 <i className="fas fa-times-circle"></i>
               </div>
-              <h1>Payment Not Completed</h1>
-              <p className="error-message">{donationData.message || 'Your payment was not completed. Please try again.'}</p>
-              <div className="donation-details">
-                <div className="detail-item">
-                  <span className="label">Transaction Reference:</span>
-                  <span className="value">{donationData.reference}</span>
+              <h2 className="status-title">Payment Not Completed</h2>
+              <p className="status-message">{donationData.message || 'Your payment was not completed. Please try again.'}</p>
+              <div className="status-details">
+                <div className="detail-row">
+                  <span className="detail-label">Transaction Reference</span>
+                  <span className="detail-value">{donationData.reference}</span>
                 </div>
-                <div className="detail-item">
-                  <span className="label">Amount:</span>
-                  <span className="value highlight">KES {donationData.amount}</span>
+                <div className="detail-row">
+                  <span className="detail-label">Amount</span>
+                  <span className="detail-value highlight">KES {donationData.amount}</span>
                 </div>
-                <div className="detail-item">
-                  <span className="label">Status:</span>
-                  <span className="value failed">❌ {donationData.status}</span>
+                <div className="detail-row">
+                  <span className="detail-label">Status</span>
+                  <span className="detail-value status-badge failed">❌ {donationData.status}</span>
                 </div>
               </div>
-              <div className="success-actions">
-                <Link to="/donate" className="btn-gold">
+              <div className="status-actions">
+                <Link to="/donate" className="btn-primary">
                   <i className="fas fa-redo"></i> Try Again
                 </Link>
-                <Link to="/contact" className="btn-outline">
+                <Link to="/contact" className="btn-secondary">
                   <i className="fas fa-envelope"></i> Contact Us
                 </Link>
               </div>
@@ -369,7 +341,7 @@ export default function DonationSuccess() {
   }
 
   // ============================================
-  // RENDER: SUCCESS STATE
+  // SUCCESS STATE
   // ============================================
   return (
     <>
@@ -381,66 +353,66 @@ export default function DonationSuccess() {
       
       <div className="donation-success-page">
         <div className="container">
-          <div className="success-card">
-            <div className="success-icon">
+          <div className="status-card status-success">
+            <div className="status-icon success-icon">
               <i className="fas fa-check-circle"></i>
             </div>
-            <h1>🎉 Thank You for Your Donation!</h1>
-            <p className="success-message">
+            <h2 className="status-title">🎉 Thank You for Your Donation!</h2>
+            <p className="status-message">
               Your generous contribution will help us provide love, care, education, and hope to vulnerable children at Kajiado Children's Home.
             </p>
             
             {donationData && (
-              <div className="donation-details">
-                <div className="detail-item">
-                  <span className="label">Transaction Reference:</span>
-                  <span className="value">{donationData.reference}</span>
+              <div className="status-details">
+                <div className="detail-row">
+                  <span className="detail-label">Transaction Reference</span>
+                  <span className="detail-value">{donationData.reference}</span>
                 </div>
-                <div className="detail-item">
-                  <span className="label">Amount:</span>
-                  <span className="value highlight">KES {donationData.amount}</span>
+                <div className="detail-row">
+                  <span className="detail-label">Amount</span>
+                  <span className="detail-value highlight">KES {donationData.amount}</span>
                 </div>
-                <div className="detail-item">
-                  <span className="label">Status:</span>
-                  <span className="value success">✅ {donationData.status}</span>
+                <div className="detail-row">
+                  <span className="detail-label">Status</span>
+                  <span className="detail-value status-badge success">✅ COMPLETED</span>
                 </div>
                 {donationData.paymentMethod && donationData.paymentMethod !== 'N/A' && (
-                  <div className="detail-item">
-                    <span className="label">Payment Method:</span>
-                    <span className="value">{donationData.paymentMethod}</span>
+                  <div className="detail-row">
+                    <span className="detail-label">Payment Method</span>
+                    <span className="detail-value">{donationData.paymentMethod}</span>
                   </div>
                 )}
                 {donationData.confirmationCode && donationData.confirmationCode !== 'N/A' && (
-                  <div className="detail-item">
-                    <span className="label">Confirmation Code:</span>
-                    <span className="value">{donationData.confirmationCode}</span>
+                  <div className="detail-row">
+                    <span className="detail-label">Confirmation Code</span>
+                    <span className="detail-value">{donationData.confirmationCode}</span>
                   </div>
                 )}
                 {isLogged && (
-                  <div className="detail-item" style={{ borderTop: '1px solid #4caf50', marginTop: '8px', paddingTop: '12px' }}>
-                    <span className="label">📊 Data Status:</span>
-                    <span className="value success">✅ Logged to Google Sheets</span>
+                  <div className="detail-row success-log">
+                    <span className="detail-label">📊 Data Status</span>
+                    <span className="detail-value status-badge success">✅ Logged to Google Sheets</span>
                   </div>
                 )}
                 {logError && (
-                  <div className="detail-item" style={{ borderTop: '1px solid #f44336', marginTop: '8px', paddingTop: '12px' }}>
-                    <span className="label">⚠️ Data Status:</span>
-                    <span className="value failed">{logError}</span>
+                  <div className="detail-row error-log">
+                    <span className="detail-label">⚠️ Data Status</span>
+                    <span className="detail-value status-badge warning">{logError}</span>
                   </div>
                 )}
               </div>
             )}
 
-            <div className="success-actions">
-              <Link to="/" className="btn-gold">
+            <div className="status-actions">
+              <Link to="/" className="btn-primary">
                 <i className="fas fa-home"></i> Return Home
               </Link>
-              <Link to="/contact" className="btn-outline">
+              <Link to="/contact" className="btn-secondary">
                 <i className="fas fa-envelope"></i> Contact Us
               </Link>
             </div>
 
-            <div className="impact-message">
+            <div className="impact-section">
               <h3>Your Impact</h3>
               <p>Your donation will help provide:</p>
               <ul>
@@ -461,7 +433,7 @@ export default function DonationSuccess() {
 
       <style>{`
         /* ============================================
-           PAGE CONTAINER - FIXED NAVBAR OVERLAP
+           PAGE CONTAINER
            ============================================ */
         .donation-success-page {
           min-height: 100vh;
@@ -470,12 +442,8 @@ export default function DonationSuccess() {
           justify-content: center;
           background: linear-gradient(135deg, #f0f4f8 0%, #e2e8f0 100%);
           padding: 120px 20px 60px;
-          margin-top: 0;
         }
         
-        /* ============================================
-           CONTAINER
-           ============================================ */
         .donation-success-page .container {
           width: 100%;
           max-width: 1200px;
@@ -484,56 +452,100 @@ export default function DonationSuccess() {
         }
         
         /* ============================================
-           SUCCESS CARD
+           STATUS CARD - BASE
            ============================================ */
-        .success-card {
-          max-width: 620px;
+        .status-card {
+          max-width: 600px;
           margin: 0 auto;
           background: #ffffff;
           padding: 50px 45px;
           border-radius: 24px;
           box-shadow: 0 20px 60px rgba(0, 0, 0, 0.10);
-          border: 1px solid rgba(255, 255, 255, 0.2);
-          backdrop-filter: blur(10px);
+          text-align: center;
           transition: all 0.3s ease;
+          position: relative;
+          overflow: hidden;
         }
         
-        .success-card:hover {
+        .status-card::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 6px;
+        }
+        
+        .status-card:hover {
           box-shadow: 0 25px 70px rgba(0, 0, 0, 0.12);
           transform: translateY(-2px);
         }
         
         /* ============================================
-           ICONS
+           STATUS CARD - VARIANTS
            ============================================ */
-        .success-icon {
-          font-size: 4.5rem;
+        /* Success */
+        .status-success::before {
+          background: linear-gradient(90deg, #4caf50, #66bb6a);
+        }
+        
+        .status-success .status-icon {
           color: #4caf50;
+        }
+        
+        /* Error / Failed */
+        .status-error::before,
+        .status-failed::before {
+          background: linear-gradient(90deg, #f44336, #ef5350);
+        }
+        
+        .status-error .status-icon,
+        .status-failed .status-icon {
+          color: #f44336;
+        }
+        
+        /* Pending / Loading */
+        .status-pending::before,
+        .status-loading::before {
+          background: linear-gradient(90deg, #ff9800, #ffa726);
+        }
+        
+        .status-pending .status-icon,
+        .status-loading .status-icon {
+          color: #ff9800;
+        }
+        
+        /* ============================================
+           STATUS ICONS
+           ============================================ */
+        .status-icon {
+          font-size: 4.5rem;
           margin-bottom: 16px;
           display: block;
+        }
+        
+        .success-icon {
           animation: successPop 0.6s ease;
         }
         
+        .failed-icon,
         .error-icon {
-          font-size: 4.5rem;
-          color: #f44336;
-          margin-bottom: 16px;
-          display: block;
           animation: shake 0.5s ease;
         }
         
         .pending-icon {
-          font-size: 4.5rem;
-          color: #ff9800;
-          margin-bottom: 16px;
-          display: block;
           animation: pulse 1.5s ease-in-out infinite;
         }
         
+        .loading-icon i {
+          animation: spin 1s linear infinite;
+          display: inline-block;
+        }
+        
         @keyframes successPop {
-          0% { transform: scale(0); opacity: 0; }
-          50% { transform: scale(1.2); }
-          100% { transform: scale(1); opacity: 1; }
+          0% { transform: scale(0) rotate(-20deg); opacity: 0; }
+          50% { transform: scale(1.2) rotate(5deg); }
+          100% { transform: scale(1) rotate(0deg); opacity: 1; }
         }
         
         @keyframes shake {
@@ -549,10 +561,14 @@ export default function DonationSuccess() {
           50% { transform: scale(1.1); opacity: 0.7; }
         }
         
+        @keyframes spin {
+          to { transform: rotate(360deg); }
+        }
+        
         /* ============================================
-           HEADINGS & TEXT
+           STATUS TITLE & MESSAGE
            ============================================ */
-        .success-card h1 {
+        .status-title {
           font-size: 2rem;
           margin-bottom: 12px;
           color: #1a202c;
@@ -560,20 +576,11 @@ export default function DonationSuccess() {
           line-height: 1.3;
         }
         
-        .success-message,
-        .error-message,
-        .pending-message {
+        .status-message {
           color: #4a5568;
           line-height: 1.7;
           margin-bottom: 28px;
           font-size: 1rem;
-        }
-        
-        .status-message {
-          color: #2d3748;
-          font-size: 1.1rem;
-          margin: 12px 0;
-          font-weight: 500;
         }
         
         .status-hint {
@@ -614,9 +621,9 @@ export default function DonationSuccess() {
         }
         
         /* ============================================
-           DONATION DETAILS
+           STATUS DETAILS
            ============================================ */
-        .donation-details {
+        .status-details {
           background: #f7fafc;
           padding: 20px 24px;
           border-radius: 14px;
@@ -625,25 +632,25 @@ export default function DonationSuccess() {
           border: 1px solid #e2e8f0;
         }
         
-        .detail-item {
+        .detail-row {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          padding: 8px 0;
+          padding: 10px 0;
           border-bottom: 1px solid #e2e8f0;
         }
         
-        .detail-item:last-child {
+        .detail-row:last-child {
           border-bottom: none;
         }
         
-        .detail-item .label {
+        .detail-label {
           color: #718096;
           font-size: 0.9rem;
           font-weight: 500;
         }
         
-        .detail-item .value {
+        .detail-value {
           color: #2d3748;
           font-weight: 500;
           font-size: 0.95rem;
@@ -652,28 +659,56 @@ export default function DonationSuccess() {
           max-width: 60%;
         }
         
-        .detail-item .highlight {
+        .detail-value.highlight {
           color: #2563eb;
           font-weight: 700;
           font-size: 1.05rem;
         }
         
-        .detail-item .success {
-          color: #4caf50;
+        .detail-value .status-badge {
+          display: inline-block;
+          padding: 4px 14px;
+          border-radius: 20px;
+          font-size: 0.85rem;
+          font-weight: 600;
         }
         
-        .detail-item .failed {
-          color: #f44336;
+        .status-badge.success {
+          background: #e8f5e9;
+          color: #2e7d32;
         }
         
-        .detail-item .pending {
-          color: #ff9800;
+        .status-badge.failed {
+          background: #ffebee;
+          color: #c62828;
+        }
+        
+        .status-badge.pending {
+          background: #fff3e0;
+          color: #e65100;
+        }
+        
+        .status-badge.warning {
+          background: #fff8e1;
+          color: #f57f17;
+        }
+        
+        .detail-row.success-log {
+          border-top: 2px solid #4caf50;
+          margin-top: 8px;
+          padding-top: 12px;
+        }
+        
+        .detail-row.error-log {
+          border-top: 2px solid #f44336;
+          margin-top: 8px;
+          padding-top: 12px;
         }
         
         /* ============================================
-           BUTTONS
+           STATUS ACTIONS (BUTTONS)
            ============================================ */
-        .success-actions {
+        .status-actions {
           display: flex;
           gap: 14px;
           justify-content: center;
@@ -681,7 +716,7 @@ export default function DonationSuccess() {
           margin-bottom: 30px;
         }
         
-        .btn-gold {
+        .btn-primary {
           display: inline-flex;
           align-items: center;
           gap: 10px;
@@ -697,14 +732,14 @@ export default function DonationSuccess() {
           box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
         }
         
-        .btn-gold:hover {
+        .btn-primary:hover {
           background: transparent;
           color: #2563eb !important;
           transform: translateY(-3px);
           box-shadow: 0 8px 25px rgba(37, 99, 235, 0.35);
         }
         
-        .btn-outline {
+        .btn-secondary {
           display: inline-flex;
           align-items: center;
           gap: 10px;
@@ -719,7 +754,7 @@ export default function DonationSuccess() {
           border: 2px solid #e2e8f0;
         }
         
-        .btn-outline:hover {
+        .btn-secondary:hover {
           border-color: #2563eb;
           color: #2563eb;
           transform: translateY(-3px);
@@ -727,35 +762,45 @@ export default function DonationSuccess() {
         }
         
         /* ============================================
-           IMPACT MESSAGE
+           IMPACT SECTION
            ============================================ */
-        .impact-message {
+        .impact-section {
           padding-top: 24px;
           border-top: 2px solid #e2e8f0;
           text-align: left;
         }
         
-        .impact-message h3 {
+        .impact-section h3 {
           color: #1a202c;
           margin-bottom: 12px;
           font-size: 1.2rem;
           font-weight: 600;
+          text-align: center;
         }
         
-        .impact-message ul {
+        .impact-section > p {
+          text-align: center;
+          color: #4a5568;
+          margin-bottom: 12px;
+        }
+        
+        .impact-section ul {
           list-style: none;
           padding: 0;
           margin: 12px 0 16px;
         }
         
-        .impact-message li {
-          padding: 8px 0;
+        .impact-section ul li {
+          padding: 10px 0;
           color: #4a5568;
           font-size: 0.95rem;
           border-bottom: 1px solid #f0f4f8;
+          display: flex;
+          align-items: center;
+          gap: 8px;
         }
         
-        .impact-message li:last-child {
+        .impact-section ul li:last-child {
           border-bottom: none;
         }
         
@@ -774,42 +819,6 @@ export default function DonationSuccess() {
         }
         
         /* ============================================
-           LOADING SPINNER
-           ============================================ */
-        .loading-spinner {
-          text-align: center;
-          padding: 30px 0 20px;
-        }
-        
-        .loading-spinner i {
-          font-size: 3.5rem;
-          color: #2563eb;
-          margin-bottom: 20px;
-          display: block;
-          animation: spin 1s linear infinite;
-        }
-        
-        @keyframes spin {
-          to { transform: rotate(360deg); }
-        }
-        
-        .loading-spinner p {
-          color: #4a5568;
-          font-size: 1.05rem;
-        }
-        
-        /* ============================================
-           ERROR / PENDING CARD VARIANTS
-           ============================================ */
-        .error-card {
-          border-top: 4px solid #f44336;
-        }
-        
-        .pending-card {
-          border-top: 4px solid #ff9800;
-        }
-        
-        /* ============================================
            RESPONSIVE DESIGN
            ============================================ */
         @media (max-width: 1024px) {
@@ -822,53 +831,52 @@ export default function DonationSuccess() {
           .donation-success-page {
             padding: 100px 16px 40px;
             align-items: flex-start;
-            min-height: 100vh;
           }
           
-          .success-card {
+          .status-card {
             padding: 32px 24px;
             border-radius: 20px;
           }
           
-          .success-card h1 {
+          .status-title {
             font-size: 1.6rem;
           }
           
-          .success-icon,
-          .error-icon,
-          .pending-icon {
+          .status-icon {
             font-size: 3.5rem;
           }
           
-          .donation-details {
+          .status-details {
             padding: 16px;
           }
           
-          .detail-item {
+          .detail-row {
             flex-direction: column;
             align-items: flex-start;
             gap: 4px;
+            padding: 8px 0;
           }
           
-          .detail-item .value {
+          .detail-value {
             max-width: 100%;
             text-align: left;
           }
           
-          .success-actions {
+          .status-actions {
             flex-direction: column;
             gap: 12px;
           }
           
-          .btn-gold,
-          .btn-outline {
+          .btn-primary,
+          .btn-secondary {
             width: 100%;
             justify-content: center;
             padding: 12px 24px;
           }
           
-          .impact-message ul li {
+          .impact-section ul li {
             font-size: 0.9rem;
+            padding: 8px 0;
           }
         }
         
@@ -877,49 +885,47 @@ export default function DonationSuccess() {
             padding: 90px 12px 30px;
           }
           
-          .success-card {
+          .status-card {
             padding: 24px 16px;
           }
           
-          .success-card h1 {
+          .status-title {
             font-size: 1.3rem;
           }
           
-          .success-message,
-          .error-message,
-          .pending-message {
+          .status-message {
             font-size: 0.9rem;
           }
           
-          .status-message {
-            font-size: 0.95rem;
+          .status-icon {
+            font-size: 3rem;
           }
           
           .progress-container {
             margin: 16px 0;
           }
           
-          .donation-details {
+          .status-details {
             padding: 12px 14px;
           }
           
-          .detail-item .label {
+          .detail-label {
             font-size: 0.8rem;
           }
           
-          .detail-item .value {
+          .detail-value {
             font-size: 0.85rem;
           }
           
-          .detail-item .highlight {
+          .detail-value.highlight {
             font-size: 0.95rem;
           }
           
-          .impact-message h3 {
+          .impact-section h3 {
             font-size: 1rem;
           }
           
-          .impact-message li {
+          .impact-section ul li {
             font-size: 0.85rem;
             padding: 6px 0;
           }
@@ -931,4 +937,4 @@ export default function DonationSuccess() {
       `}</style>
     </>
   );
-}
+}``
