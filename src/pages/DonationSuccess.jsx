@@ -460,41 +460,88 @@ export default function DonationSuccess() {
       </div>
 
       <style>{`
+        /* ============================================
+           PAGE CONTAINER - FIXED NAVBAR OVERLAP
+           ============================================ */
         .donation-success-page {
-          padding: 120px 0 80px;
-          min-height: 80vh;
+          min-height: 100vh;
           display: flex;
           align-items: center;
-          background: var(--bg-deep);
+          justify-content: center;
+          background: linear-gradient(135deg, #f0f4f8 0%, #e2e8f0 100%);
+          padding: 120px 20px 60px;
+          margin-top: 0;
         }
         
-        .success-card {
-          max-width: 600px;
+        /* ============================================
+           CONTAINER
+           ============================================ */
+        .donation-success-page .container {
+          width: 100%;
+          max-width: 1200px;
           margin: 0 auto;
-          background: var(--card-bg);
-          padding: 50px;
-          border-radius: 24px;
-          border: 1px solid var(--border-color);
-          text-align: center;
+          padding: 0 20px;
         }
         
+        /* ============================================
+           SUCCESS CARD
+           ============================================ */
+        .success-card {
+          max-width: 620px;
+          margin: 0 auto;
+          background: #ffffff;
+          padding: 50px 45px;
+          border-radius: 24px;
+          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.10);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          backdrop-filter: blur(10px);
+          transition: all 0.3s ease;
+        }
+        
+        .success-card:hover {
+          box-shadow: 0 25px 70px rgba(0, 0, 0, 0.12);
+          transform: translateY(-2px);
+        }
+        
+        /* ============================================
+           ICONS
+           ============================================ */
         .success-icon {
-          font-size: 4rem;
+          font-size: 4.5rem;
           color: #4caf50;
-          margin-bottom: 20px;
+          margin-bottom: 16px;
+          display: block;
+          animation: successPop 0.6s ease;
         }
         
         .error-icon {
-          font-size: 4rem;
+          font-size: 4.5rem;
           color: #f44336;
-          margin-bottom: 20px;
+          margin-bottom: 16px;
+          display: block;
+          animation: shake 0.5s ease;
         }
         
         .pending-icon {
-          font-size: 4rem;
+          font-size: 4.5rem;
           color: #ff9800;
-          margin-bottom: 20px;
+          margin-bottom: 16px;
+          display: block;
           animation: pulse 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes successPop {
+          0% { transform: scale(0); opacity: 0; }
+          50% { transform: scale(1.2); }
+          100% { transform: scale(1); opacity: 1; }
+        }
+        
+        @keyframes shake {
+          0%, 100% { transform: translateX(0); }
+          20% { transform: translateX(-15px); }
+          40% { transform: translateX(15px); }
+          60% { transform: translateX(-10px); }
+          80% { transform: translateX(10px); }
         }
         
         @keyframes pulse {
@@ -502,35 +549,45 @@ export default function DonationSuccess() {
           50% { transform: scale(1.1); opacity: 0.7; }
         }
         
+        /* ============================================
+           HEADINGS & TEXT
+           ============================================ */
         .success-card h1 {
           font-size: 2rem;
-          margin-bottom: 16px;
-          color: var(--text-color);
+          margin-bottom: 12px;
+          color: #1a202c;
+          font-weight: 700;
+          line-height: 1.3;
         }
         
         .success-message,
         .error-message,
         .pending-message {
-          color: var(--text-muted);
-          line-height: 1.6;
-          margin-bottom: 30px;
+          color: #4a5568;
+          line-height: 1.7;
+          margin-bottom: 28px;
+          font-size: 1rem;
         }
         
         .status-message {
-          color: var(--text-color);
+          color: #2d3748;
           font-size: 1.1rem;
-          margin: 10px 0;
+          margin: 12px 0;
+          font-weight: 500;
         }
         
         .status-hint {
-          color: var(--text-muted);
+          color: #718096;
           font-size: 0.9rem;
-          margin-top: 8px;
+          margin-top: 10px;
           font-style: italic;
         }
         
+        /* ============================================
+           PROGRESS BAR
+           ============================================ */
         .progress-container {
-          margin: 20px 0;
+          margin: 24px 0 16px;
           width: 100%;
         }
         
@@ -551,24 +608,29 @@ export default function DonationSuccess() {
         }
         
         .poll-count {
-          color: var(--text-muted);
+          color: #718096;
           font-size: 0.85rem;
-          margin: 5px 0;
+          margin: 8px 0 0;
         }
         
+        /* ============================================
+           DONATION DETAILS
+           ============================================ */
         .donation-details {
-          background: rgba(59, 130, 246, 0.05);
-          padding: 20px;
-          border-radius: 12px;
-          margin-bottom: 30px;
+          background: #f7fafc;
+          padding: 20px 24px;
+          border-radius: 14px;
+          margin-bottom: 28px;
           text-align: left;
+          border: 1px solid #e2e8f0;
         }
         
         .detail-item {
           display: flex;
           justify-content: space-between;
+          align-items: center;
           padding: 8px 0;
-          border-bottom: 1px solid var(--border-color);
+          border-bottom: 1px solid #e2e8f0;
         }
         
         .detail-item:last-child {
@@ -576,17 +638,24 @@ export default function DonationSuccess() {
         }
         
         .detail-item .label {
-          color: var(--text-muted);
-        }
-        
-        .detail-item .value {
-          color: var(--text-color);
+          color: #718096;
+          font-size: 0.9rem;
           font-weight: 500;
         }
         
+        .detail-item .value {
+          color: #2d3748;
+          font-weight: 500;
+          font-size: 0.95rem;
+          text-align: right;
+          word-break: break-word;
+          max-width: 60%;
+        }
+        
         .detail-item .highlight {
-          color: var(--primary-color);
+          color: #2563eb;
           font-weight: 700;
+          font-size: 1.05rem;
         }
         
         .detail-item .success {
@@ -601,9 +670,12 @@ export default function DonationSuccess() {
           color: #ff9800;
         }
         
+        /* ============================================
+           BUTTONS
+           ============================================ */
         .success-actions {
           display: flex;
-          gap: 16px;
+          gap: 14px;
           justify-content: center;
           flex-wrap: wrap;
           margin-bottom: 30px;
@@ -612,85 +684,108 @@ export default function DonationSuccess() {
         .btn-gold {
           display: inline-flex;
           align-items: center;
-          gap: 8px;
-          background: var(--primary-color);
-          color: #fff;
-          padding: 12px 28px;
-          border-radius: 30px;
+          gap: 10px;
+          background: linear-gradient(135deg, #2563eb, #1d4ed8);
+          color: #ffffff !important;
+          padding: 14px 32px;
+          border-radius: 50px;
           text-decoration: none;
           font-weight: 600;
+          font-size: 0.95rem;
           transition: all 0.3s ease;
-          border: 2px solid var(--primary-color);
+          border: 2px solid #2563eb;
+          box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
         }
         
         .btn-gold:hover {
           background: transparent;
-          color: var(--primary-color);
+          color: #2563eb !important;
+          transform: translateY(-3px);
+          box-shadow: 0 8px 25px rgba(37, 99, 235, 0.35);
         }
         
         .btn-outline {
           display: inline-flex;
           align-items: center;
-          gap: 8px;
+          gap: 10px;
           background: transparent;
-          color: var(--text-color);
-          padding: 12px 28px;
-          border-radius: 30px;
+          color: #4a5568;
+          padding: 14px 32px;
+          border-radius: 50px;
           text-decoration: none;
           font-weight: 600;
+          font-size: 0.95rem;
           transition: all 0.3s ease;
-          border: 2px solid var(--border-color);
+          border: 2px solid #e2e8f0;
         }
         
         .btn-outline:hover {
-          border-color: var(--primary-color);
-          color: var(--primary-color);
+          border-color: #2563eb;
+          color: #2563eb;
+          transform: translateY(-3px);
+          box-shadow: 0 8px 25px rgba(37, 99, 235, 0.1);
         }
         
+        /* ============================================
+           IMPACT MESSAGE
+           ============================================ */
         .impact-message {
-          padding-top: 20px;
-          border-top: 1px solid var(--border-color);
+          padding-top: 24px;
+          border-top: 2px solid #e2e8f0;
           text-align: left;
         }
         
         .impact-message h3 {
-          color: var(--text-color);
+          color: #1a202c;
           margin-bottom: 12px;
+          font-size: 1.2rem;
+          font-weight: 600;
         }
         
         .impact-message ul {
           list-style: none;
           padding: 0;
-          margin: 12px 0;
+          margin: 12px 0 16px;
         }
         
         .impact-message li {
-          padding: 6px 0;
-          color: var(--text-muted);
+          padding: 8px 0;
+          color: #4a5568;
+          font-size: 0.95rem;
+          border-bottom: 1px solid #f0f4f8;
+        }
+        
+        .impact-message li:last-child {
+          border-bottom: none;
         }
         
         .blessing {
           margin-top: 16px;
           padding-top: 16px;
-          border-top: 1px solid var(--border-color);
+          border-top: 1px solid #e2e8f0;
           font-style: italic;
-          color: var(--text-color);
+          color: #2d3748;
           text-align: center;
+          font-size: 1rem;
         }
         
         .blessing strong {
-          color: var(--primary-color);
+          color: #2563eb;
         }
         
+        /* ============================================
+           LOADING SPINNER
+           ============================================ */
         .loading-spinner {
           text-align: center;
-          padding: 40px 0;
+          padding: 30px 0 20px;
         }
         
         .loading-spinner i {
-          font-size: 3rem;
-          color: var(--primary-color);
+          font-size: 3.5rem;
+          color: #2563eb;
           margin-bottom: 20px;
+          display: block;
           animation: spin 1s linear infinite;
         }
         
@@ -699,17 +794,138 @@ export default function DonationSuccess() {
         }
         
         .loading-spinner p {
-          color: var(--text-muted);
-          font-size: 1.1rem;
+          color: #4a5568;
+          font-size: 1.05rem;
+        }
+        
+        /* ============================================
+           ERROR / PENDING CARD VARIANTS
+           ============================================ */
+        .error-card {
+          border-top: 4px solid #f44336;
+        }
+        
+        .pending-card {
+          border-top: 4px solid #ff9800;
+        }
+        
+        /* ============================================
+           RESPONSIVE DESIGN
+           ============================================ */
+        @media (max-width: 1024px) {
+          .donation-success-page {
+            padding: 110px 20px 50px;
+          }
         }
         
         @media (max-width: 768px) {
+          .donation-success-page {
+            padding: 100px 16px 40px;
+            align-items: flex-start;
+            min-height: 100vh;
+          }
+          
           .success-card {
-            padding: 30px 20px;
+            padding: 32px 24px;
+            border-radius: 20px;
           }
           
           .success-card h1 {
-            font-size: 1.5rem;
+            font-size: 1.6rem;
+          }
+          
+          .success-icon,
+          .error-icon,
+          .pending-icon {
+            font-size: 3.5rem;
+          }
+          
+          .donation-details {
+            padding: 16px;
+          }
+          
+          .detail-item {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 4px;
+          }
+          
+          .detail-item .value {
+            max-width: 100%;
+            text-align: left;
+          }
+          
+          .success-actions {
+            flex-direction: column;
+            gap: 12px;
+          }
+          
+          .btn-gold,
+          .btn-outline {
+            width: 100%;
+            justify-content: center;
+            padding: 12px 24px;
+          }
+          
+          .impact-message ul li {
+            font-size: 0.9rem;
+          }
+        }
+        
+        @media (max-width: 480px) {
+          .donation-success-page {
+            padding: 90px 12px 30px;
+          }
+          
+          .success-card {
+            padding: 24px 16px;
+          }
+          
+          .success-card h1 {
+            font-size: 1.3rem;
+          }
+          
+          .success-message,
+          .error-message,
+          .pending-message {
+            font-size: 0.9rem;
+          }
+          
+          .status-message {
+            font-size: 0.95rem;
+          }
+          
+          .progress-container {
+            margin: 16px 0;
+          }
+          
+          .donation-details {
+            padding: 12px 14px;
+          }
+          
+          .detail-item .label {
+            font-size: 0.8rem;
+          }
+          
+          .detail-item .value {
+            font-size: 0.85rem;
+          }
+          
+          .detail-item .highlight {
+            font-size: 0.95rem;
+          }
+          
+          .impact-message h3 {
+            font-size: 1rem;
+          }
+          
+          .impact-message li {
+            font-size: 0.85rem;
+            padding: 6px 0;
+          }
+          
+          .blessing {
+            font-size: 0.9rem;
           }
         }
       `}</style>
