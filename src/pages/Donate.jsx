@@ -1,7 +1,8 @@
+// src/pages/Donate.jsx
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
-import { logDonation } from '../services/googleSheetsService';
+// ✅ REMOVED: import { logDonation } from '../services/googleSheetsService';
 
 export default function Donate() {
   const [activeTab, setActiveTab] = useState('mpesa');
@@ -41,6 +42,7 @@ export default function Donate() {
     return 0;
   };
 
+  // Handle Pesapal API 3.0 Payment
   const handlePesapalPayment = async (e, paymentMethod) => {
     e.preventDefault();
     const amount = getTotalAmount();
@@ -50,8 +52,22 @@ export default function Donate() {
       return;
     }
 
+    // ✅ Store donation data in localStorage for the success page
+    // This data will be used by DonationSuccess.jsx to log to sheets
+    // ONLY when payment is confirmed
+    const donationData = {
+      fullName: formData.fullName || 'Anonymous',
+      email: formData.email || '',
+      phone: paymentMethod === 'mpesa' ? mpesaData.phoneNumber : formData.phone || '',
+      paymentMethod: paymentMethod === 'mpesa' ? 'M-PESA' : 'Card',
+      donationType: donationType,
+      amount: amount.toString(),
+      timestamp: new Date().toISOString()
+    };
+    localStorage.setItem('donationData', JSON.stringify(donationData));
     localStorage.setItem('donationAmount', amount.toString());
 
+    // For M-PESA, validate phone number
     if (paymentMethod === 'mpesa') {
       if (!mpesaData.phoneNumber || mpesaData.phoneNumber.length < 9) {
         alert('Please enter a valid M-PESA phone number (e.g., 712345678)');
@@ -80,26 +96,20 @@ export default function Donate() {
       const data = await response.json();
 
       if (data.success) {
-        // Log donation to Google Sheets
-        await logDonation({
-          fullName: formData.fullName || 'Anonymous',
-          email: formData.email || '',
-          phone: paymentMethod === 'mpesa' ? mpesaData.phoneNumber : formData.phone || '',
-          amount: amount.toString(),
-          paymentMethod: paymentMethod === 'mpesa' ? 'M-PESA' : 'Card',
-          reference: data.merchantReference || data.orderTrackingId || '',
-          status: 'Pending',
-          donationType: donationType
-        });
-
+        // ✅ IMPORTANT: Don't log to sheets or send email here
+        // The DonationSuccess page will handle logging when payment is confirmed
+        console.log('✅ Payment initiated, waiting for confirmation...');
+        console.log('📝 Donor data stored in localStorage, will be logged on confirmation');
         window.location.href = data.paymentUrl;
       } else {
         alert(`❌ Payment failed: ${data.error || 'Please try again'}`);
+        localStorage.removeItem('donationData');
         localStorage.removeItem('donationAmount');
       }
     } catch (error) {
       console.error('Pesapal Error:', error);
       alert('❌ There was an error processing your payment. Please try again.');
+      localStorage.removeItem('donationData');
       localStorage.removeItem('donationAmount');
     } finally {
       setIsProcessing(false);
@@ -109,7 +119,7 @@ export default function Donate() {
   return (
     <>
     <SEO 
-      title="Donate"
+      title="Donate - Kajiado Bright Horizons"
       description="Support vulnerable children in Kajiado through M-PESA, Airtel Money, or card payments. Every contribution makes a difference in a child's life."
       path="/donate"
       keywords={['donate to charity', 'child sponsorship', 'M-PESA donation', 'support orphans Kenya', 'Kajiado Bright Horizons donation']}
@@ -447,17 +457,11 @@ export default function Donate() {
       </div>
 
       <style>{`
-        /* ========================================
-           DONATE PAGE - BALANCED STYLES
-           ======================================== */
-        
-        /* Page Background */
         .donate-page {
           background: #f0f4f8;
           min-height: 100vh;
         }
 
-        /* Hero Section */
         .about-hero {
           background: linear-gradient(135deg, #1a365d 0%, #2b6cb0 50%, #2563eb 100%) !important;
           padding: 100px 0 70px !important;
@@ -482,7 +486,6 @@ export default function Donate() {
           font-size: 1.2rem;
         }
 
-        /* Section Headers */
         .donation-type-section {
           padding: 30px 0 20px;
         }
@@ -519,7 +522,6 @@ export default function Donate() {
           color: #ffffff;
         }
 
-        /* Main Form Container */
         .donation-content {
           padding: 10px 0 60px;
         }
@@ -530,7 +532,6 @@ export default function Donate() {
           gap: 40px;
         }
 
-        /* Donation Form */
         .donation-form {
           background: #ffffff;
           padding: 40px;
@@ -549,7 +550,6 @@ export default function Donate() {
           color: #2563eb;
         }
 
-        /* Amount Selection */
         .amount-section {
           margin-bottom: 30px;
         }
@@ -618,7 +618,6 @@ export default function Donate() {
           color: #2563eb;
         }
 
-        /* Payment Tabs */
         .payment-tabs {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
@@ -653,7 +652,6 @@ export default function Donate() {
           border-color: #2563eb;
         }
 
-        /* Payment Method Detail */
         .payment-method-detail {
           padding: 24px;
           background: #f7fafc;
@@ -688,7 +686,6 @@ export default function Donate() {
           color: #2563eb;
         }
 
-        /* Form Elements */
         .form-group {
           margin-bottom: 18px;
         }
@@ -725,7 +722,6 @@ export default function Donate() {
           color: #a0aec0;
         }
 
-        /* Phone Input */
         .phone-input-wrapper {
           display: flex;
           align-items: center;
@@ -766,7 +762,6 @@ export default function Donate() {
           margin-top: 4px;
         }
 
-        /* Buttons */
         .btn-gold {
           background: linear-gradient(105deg, #2563eb, #1d4ed8);
           border: none;
@@ -816,7 +811,6 @@ export default function Donate() {
           transform: translateY(-2px);
         }
 
-        /* Steps */
         .mpesa-steps {
           margin-top: 16px;
           padding: 16px;
@@ -837,7 +831,6 @@ export default function Donate() {
           font-size: 0.9rem;
         }
 
-        /* Card Info */
         .card-info {
           text-align: center;
           padding: 16px;
@@ -866,7 +859,6 @@ export default function Donate() {
           color: #1a202c;
         }
 
-        /* Personal Info */
         .personal-info {
           margin-top: 24px;
           padding-top: 24px;
@@ -879,7 +871,6 @@ export default function Donate() {
           color: #1a202c;
         }
 
-        /* Security Note */
         .donation-security {
           display: flex;
           align-items: center;
@@ -894,7 +885,6 @@ export default function Donate() {
           color: #48bb78;
         }
 
-        /* Sidebar */
         .donation-sidebar {
           display: flex;
           flex-direction: column;
@@ -977,7 +967,6 @@ export default function Donate() {
           margin-bottom: 16px;
         }
 
-        /* CTA Section */
         .cta-section {
           padding: 60px 0;
           background: linear-gradient(135deg, #1a365d, #2563eb) !important;
@@ -991,7 +980,6 @@ export default function Donate() {
           color: #e2e8f0 !important;
         }
 
-        /* Responsive */
         @media (max-width: 1024px) {
           .donation-form-section {
             grid-template-columns: 1fr;

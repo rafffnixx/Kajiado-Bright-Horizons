@@ -33,26 +33,57 @@ function loadEnv() {
 const env = loadEnv();
 
 module.exports = {
-  // Pesapal Configuration
+  // ============================================
+  // PESAPAL CONFIGURATION
+  // ============================================
   PESAPAL_CONSUMER_KEY: env.PESAPAL_CONSUMER_KEY || process.env.PESAPAL_CONSUMER_KEY,
   PESAPAL_CONSUMER_SECRET: env.PESAPAL_CONSUMER_SECRET || process.env.PESAPAL_CONSUMER_SECRET,
   PESAPAL_ENVIRONMENT: env.PESAPAL_ENVIRONMENT || process.env.PESAPAL_ENVIRONMENT || 'sandbox',
   PESAPAL_IPN_ID: env.PESAPAL_IPN_ID || process.env.PESAPAL_IPN_ID || 'db365927-0455-4748-ab58-da39eb449b18',
   
-  // Application URLs
+  // ============================================
+  // APPLICATION URLS
+  // ============================================
   REACT_APP_BASE_URL: env.REACT_APP_BASE_URL || process.env.REACT_APP_BASE_URL || 'https://kajiado-bright-horizons.vercel.app',
   
-  // Google Sheets Integration
+  // ============================================
+  // GOOGLE SHEETS INTEGRATION
+  // ============================================
   GOOGLE_SHEETS_URL: env.REACT_APP_GOOGLE_SHEETS_URL || process.env.REACT_APP_GOOGLE_SHEETS_URL || '',
   
-  // Contact Information
+  // ============================================
+  // CONTACT INFORMATION
+  // ============================================
   CONTACT_EMAIL: env.REACT_APP_CONTACT_EMAIL || process.env.REACT_APP_CONTACT_EMAIL || 'info@kajiadochildrenhome.org',
   CONTACT_PHONE: env.REACT_APP_CONTACT_PHONE || process.env.REACT_APP_CONTACT_PHONE || '+254700123456',
   ORG_EMAIL: env.REACT_APP_ORG_EMAIL || process.env.REACT_APP_ORG_EMAIL || 'info@kajiadochildrenhome.org',
   
-  // Site Information
+  // ============================================
+  // SITE INFORMATION
+  // ============================================
   SITE_NAME: env.REACT_APP_SITE_NAME || process.env.REACT_APP_SITE_NAME || 'Kajiado Bright Horizons',
   SITE_DESCRIPTION: env.REACT_APP_SITE_DESCRIPTION || process.env.REACT_APP_SITE_DESCRIPTION || 'Providing hope, care, and education to vulnerable children in Kajiado, Kenya',
+  SITE_TAGLINE: env.REACT_APP_SITE_TAGLINE || 'Making a Difference One Child at a Time',
+  
+  // ============================================
+  // SOCIAL MEDIA
+  // ============================================
+  SOCIAL: {
+    FACEBOOK: env.REACT_APP_FACEBOOK_URL || 'https://facebook.com/kajiadochildrenshome',
+    TWITTER: env.REACT_APP_TWITTER_URL || 'https://twitter.com/kajiadochildren',
+    INSTAGRAM: env.REACT_APP_INSTAGRAM_URL || 'https://instagram.com/kajiadochildrenshome',
+    WHATSAPP: env.REACT_APP_WHATSAPP_URL || 'https://wa.me/254700123456'
+  },
+  
+  // ============================================
+  // DONATION SETTINGS
+  // ============================================
+  DONATION: {
+    PRESET_AMOUNTS: [500, 1000, 2500, 5000, 10000],
+    MIN_AMOUNT: 10,
+    MAX_AMOUNT: 1000000,
+    CURRENCY: 'KES'
+  }
 };
 
 console.log('🔑 Loaded credentials:');
@@ -63,3 +94,5 @@ console.log('   IPN ID:', module.exports.PESAPAL_IPN_ID);
 console.log('   Base URL:', module.exports.REACT_APP_BASE_URL);
 console.log('   Google Sheets:', module.exports.GOOGLE_SHEETS_URL ? '✅ Configured' : '❌ Not configured');
 console.log('   Site Name:', module.exports.SITE_NAME);
+console.log('   Contact Email:', module.exports.CONTACT_EMAIL);
+console.log('   Donation Presets:', module.exports.DONATION.PRESET_AMOUNTS.join(', '));
