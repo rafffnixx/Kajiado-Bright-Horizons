@@ -17,6 +17,9 @@ import Donate from './pages/Donate';
 import Children from './pages/Children';
 import NotFound from './pages/NotFound';
 import DonationSuccess from './pages/DonationSuccess';
+import Terms from './pages/Terms';
+import Privacy from './pages/Privacy';
+
 
 
 // Import components
@@ -44,6 +47,8 @@ function App() {
               <Route path="/children" element={<Children />} />
               <Route path="*" element={<NotFound />} />
               <Route path="/donation-success" element={<DonationSuccess />} />
+              <Route path="/terms" element={<Terms />} />
+              <Route path="/privacy" element={<Privacy />} />
 
             </Routes>
             <Footer />

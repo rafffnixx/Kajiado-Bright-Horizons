@@ -1,3 +1,4 @@
+// src/pages/Events.jsx
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
@@ -6,18 +7,18 @@ export default function Events() {
   const [registeredEvent, setRegisteredEvent] = useState(null);
   const [showForm, setShowForm] = useState(null);
   const [formData, setFormData] = useState({ name: '', email: '', phone: '' });
-  const [activeTab, setActiveTab] = useState('events'); // 'events' or 'stories'
+  const [activeTab, setActiveTab] = useState('events');
 
-  const upcomingEvent = {
-    id: 1,
-    title: "Annual Fundraising Gala 2025",
-    date: "December 15, 2025",
-    time: "6:00 PM - 10:00 PM",
-    location: "Kajiado Sports Club",
-    description: "Join us for an evening of dinner, music, and auctions to support our children's education fund.",
-    spots: 150,
-    image: "/images/events/gala.jpg"
-  };
+const upcomingEvent = {
+  id: 1,
+  title: "Bright Horizons Workshop 2026",
+  date: "Aug 15, 2026 to Aug 22, 2026",
+  time: "6:00 PM - 10:00 PM",
+  location: "Kajiado Bright Horizons",
+  description: "An interactive workshop designed to engage and mentor high school and campus students, guiding them into meaningful career paths. The program includes general mentorship support, career guidance sessions, and an exciting trip to different parts of Kenya, allowing students to explore, learn, and gain real-world exposure. This is a unique opportunity for young people to connect with professionals, discover their potential, and prepare for a successful future.",
+  spots: 150,
+  image: "/images/events/bright-horizon-workshop.jpg"
+};
 
   const pastEvents = [
     {
@@ -30,7 +31,7 @@ export default function Events() {
       attendees: 120,
       raised: null
     },
-      {
+    {
       id: 3,
       title: "Launching Kajiado Valley School of Excellence",
       date: "February 10, 2024",
@@ -40,39 +41,35 @@ export default function Events() {
       attendees: 300,
     },
     {
-    id: 4,
-    title: "Bright Horizon Workshop 2024 Trip",
-    date: "August 25, 2024",
-    location: "Kajiado Bright Horizon",
-    description: "An empowering workshop designed to equip post-secondary students with essential life skills, career guidance, and mentorship for their journey to self-sufficiency. The Bright Horizon Workshop brought together KCH alumni, industry professionals, and aspiring young adults for a day of learning, networking, and inspiration. Topics covered included CV writing, interview skills, entrepreneurship, financial literacy, and personal development. Participants left with renewed confidence, practical skills, and a clear roadmap for their future careers.",
-    image: "/images/events/bright-horizon-workshop.jpg",
-    attendees: 200,
-    raised: null
-  },
-    {
-      "id": 5,
-      "title": "20th Anniversary 2022",
-      "date": "August 15, 2022",
-      "location": "Kajiado Bright Horizons",
-      "description": "A joyful celebration marking 20 years of Kajiado Bright Horizons, bringing together alumni, partners, and community members. The day was filled with music, dance, and heartfelt stories of transformation. With over 350 attendees, the event highlighted the impact of two decades of care and support.     ",
-      "image": "/images/events/family-day.jpg",
-      "attendees": 350,
-      
+      id: 4,
+      title: "Bright Horizon Workshop 2024 Trip",
+      date: "August 25, 2024",
+      location: "Kajiado Bright Horizon",
+      description: "An empowering workshop designed to equip post-secondary students with essential life skills, career guidance, and mentorship for their journey to self-sufficiency. The Bright Horizon Workshop brought together KCH alumni, industry professionals, and aspiring young adults for a day of learning, networking, and inspiration. Topics covered included CV writing, interview skills, entrepreneurship, financial literacy, and personal development. Participants left with renewed confidence, practical skills, and a clear roadmap for their future careers.",
+      image: "/images/events/bright-horizon-workshop.jpg",
+      attendees: 200,
+      raised: null
     },
-
     {
-      "id": 6,
-      "title": "Birthday Party 2024",
-      "date": "December 20, 2024",
-      "location": "Kajiado Bright Horizons",
-      "description": "A festive end‑of‑year celebration honoring all children born in December, as part of our tradition of monthly birthday parties. The event brought together 250 children, staff, and supporters for cake, music, and games, creating joyful memories and a sense of family.",
-      "image": "/images/events/christmas.jpg",
-      "attendees": 250,
+      id: 5,
+      title: "20th Anniversary 2022",
+      date: "August 15, 2022",
+      location: "Kajiado Bright Horizons",
+      description: "A joyful celebration marking 20 years of Kajiado Bright Horizons, bringing together alumni, partners, and community members. The day was filled with music, dance, and heartfelt stories of transformation. With over 350 attendees, the event highlighted the impact of two decades of care and support.",
+      image: "/images/events/family-day.jpg",
+      attendees: 350,
+    },
+    {
+      id: 6,
+      title: "Birthday Party 2024",
+      date: "December 20, 2024",
+      location: "Kajiado Bright Horizons",
+      description: "A festive end‑of‑year celebration honoring all children born in December, as part of our tradition of monthly birthday parties. The event brought together 250 children, staff, and supporters for cake, music, and games, creating joyful memories and a sense of family.",
+      image: "/images/events/christmas.jpg",
+      attendees: 250,
     }
-
   ];
 
-  // Alumni Stories Data
   const alumniStories = [
     {
       id: 1,
@@ -95,88 +92,83 @@ export default function Events() {
       yearJoined: 2010,
       gradeJoined: "Grade 3",
       yearGraduated: 2026,
-      achievement: "Diploma in Journalisma and Mass-Communication ",
-      currentRole: "to be pprovided",
+      achievement: "Diploma in Journalism and Mass Communication",
+      currentRole: "To be provided",
       story: "Mary joined KBH at age 7 after losing both parents. She grew up at the home, excelling in her studies. With sponsorship support, she completed her education degree and is now a dedicated primary school teacher. She returns to KBH every holiday to mentor younger children and help with homework.",
       image: "/images/alumni/mary.jpg",
       icon: "👩‍🏫",
       tags: ["Teacher", "Mentor", "Role Model"]
     },
     {
-      "id": 3,
-      "name": "Raphael Mwongela",
-      "yearBorn": 2001,
-      "yearJoined": 2010,
-      "gradeJoined": "Grade 2",
-      "yearGraduated": 2026,
-      "achievement": "Degree in Information Technology",
-      "currentRole": "KBH Developer & Founder of RaffCodes IT Solutions",
-      "story": "Raphael joined KBH in 2010 at age 9 after losing his parents, entering in Grade 2. Despite the challenges of growing up as a total orphan, he excelled academically and spiritually, supported by the care and sponsorship provided at the home. His determination led him through primary and secondary school, and eventually to university where he pursued a degree in Information Technology. Graduating in 2026, Raphael founded RaffCodes IT Solutions, an innovative IT company. Today, he gives back to KBH by developing and maintaining its website, ensuring the home’s mission reaches more people. His journey from vulnerability to leadership demonstrates the transformative power of education, faith, and community support.",
-      "image": "/images/alumni/raphael.jpg",
-      "icon": "💻",
-      "tags": ["IT Expert", "Entrepreneur", "Web Developer", "Mentor"]
+      id: 3,
+      name: "Raphael Mwongela",
+      yearBorn: 2001,
+      yearJoined: 2010,
+      gradeJoined: "Grade 2",
+      yearGraduated: 2026,
+      achievement: "Degree in Information Technology",
+      currentRole: "KBH Developer & Founder of RaffCodes IT Solutions",
+      story: "Raphael joined KBH in 2010 at age 9 after losing his parents, entering in Grade 2. Despite the challenges of growing up as a total orphan, he excelled academically and spiritually, supported by the care and sponsorship provided at the home. His determination led him through primary and secondary school, and eventually to university where he pursued a degree in Information Technology. Graduating in 2026, Raphael founded RaffCodes IT Solutions, an innovative IT company. Today, he gives back to KBH by developing and maintaining its website, ensuring the home’s mission reaches more people. His journey from vulnerability to leadership demonstrates the transformative power of education, faith, and community support.",
+      image: "/images/alumni/raphael.jpg",
+      icon: "💻",
+      tags: ["IT Expert", "Entrepreneur", "Web Developer", "Mentor"]
     },
-
     {
-    "id": 4,
-    "name": "Emmanuel Kaako",
-    "yearBorn": 1980,
-    "yearJoined": 2001,
-    "gradeJoined": "Grade 4",
-    "yearGraduated": 2010,
-    "achievement": "Public Officer, Kajiado County",
-    "currentRole": "Public Officer",
-    "story": "Emmanuel joined Kajiado Children’s Home in 2001 at Grade 4. Coming from a challenging background, he found stability, education, and mentorship at the home. With the support of staff and sponsors, Emmanuel completed his schooling and graduated in 2010. His determination and commitment to service led him to become a Public Officer in Kajiado County, where he now works to improve community welfare and governance. Emmanuel’s journey reflects resilience, discipline, and a passion for giving back to society. He continues to mentor younger generations, showing them that with perseverance and support, they too can achieve their dreams.",
-    "image": "/images/alumni/emmanuel-kaako.jpg",
-    "icon": "🧑‍💼",
-    "tags": ["Officer", "Mentor", "Community Leader"]
+      id: 4,
+      name: "Emmanuel Kaako",
+      yearBorn: 1980,
+      yearJoined: 2001,
+      gradeJoined: "Grade 4",
+      yearGraduated: 2010,
+      achievement: "Public Officer, Kajiado County",
+      currentRole: "Public Officer",
+      story: "Emmanuel joined Kajiado Children’s Home in 2001 at Grade 4. Coming from a challenging background, he found stability, education, and mentorship at the home. With the support of staff and sponsors, Emmanuel completed his schooling and graduated in 2010. His determination and commitment to service led him to become a Public Officer in Kajiado County, where he now works to improve community welfare and governance. Emmanuel’s journey reflects resilience, discipline, and a passion for giving back to society. He continues to mentor younger generations, showing them that with perseverance and support, they too can achieve their dreams.",
+      image: "/images/alumni/emmanuel-kaako.jpg",
+      icon: "🧑‍💼",
+      tags: ["Officer", "Mentor", "Community Leader"]
     },
-
     {
-      "id": 5,
-      "name": "Abraham Salaash",
-      "yearBorn": 2001,
-      "yearJoined": 2007,
-      "gradeJoined": "Grade 2",
-      "yearGraduated": 2025,
-      "achievement": "Bachelor's Degree in Languages",
-      "currentRole": "Community Volunteer",
-      "story": "Abraham joined KBH in 2007 at Grade 2. Growing up in the home, he developed a strong passion for education and service. With the support of sponsors and mentors, he excelled academically and pursued a Bachelor's Degree in Languages, graduating in 2025. Inspired by the care he received, Abraham chose to serve in healthcare, working as a nurse and volunteering in community health initiatives. His dedication to helping others has made him a healthcare hero, offering both professional care and mentorship to vulnerable families. Abraham’s journey reflects compassion, resilience, and a commitment to giving back to society.",
-      "image": "/images/alumni/abraham-salaash.jpg",
-      "icon": "🏥",
-      "tags": ["Nurse", "Volunteer", "Healthcare Hero"]
+      id: 5,
+      name: "Abraham Salaash",
+      yearBorn: 2001,
+      yearJoined: 2007,
+      gradeJoined: "Grade 2",
+      yearGraduated: 2025,
+      achievement: "Bachelor's Degree in Languages",
+      currentRole: "Community Volunteer",
+      story: "Abraham joined KBH in 2007 at Grade 2. Growing up in the home, he developed a strong passion for education and service. With the support of sponsors and mentors, he excelled academically and pursued a Bachelor's Degree in Languages, graduating in 2025. Inspired by the care he received, Abraham chose to serve in healthcare, working as a nurse and volunteering in community health initiatives. His dedication to helping others has made him a healthcare hero, offering both professional care and mentorship to vulnerable families. Abraham’s journey reflects compassion, resilience, and a commitment to giving back to society.",
+      image: "/images/alumni/abraham-salaash.jpg",
+      icon: "🏥",
+      tags: ["Nurse", "Volunteer", "Healthcare Hero"]
     },
-
     {
       id: 6,
-      name: "Naomi ",
+      name: "Naomi",
       yearBorn: 2000,
       yearJoined: 2009,
       gradeJoined: "Grade 3",
       yearGraduated: 2022,
-      achievement: "taillory",
+      achievement: "Tailoring",
       currentRole: "KVSE Designer",
-      story: " organizational skills were noticed early at KBH. After completing her business diploma, she joined the KBH administrative team, helping manage records, sponsorships, and daily operations. 'This home raised me, now I help raise it,' she says proudly.",
+      story: "Organizational skills were noticed early at KBH. After completing her business diploma, she joined the KBH administrative team, helping manage records, sponsorships, and daily operations. 'This home raised me, now I help raise it,' she says proudly.",
       image: "/images/alumni/esther.jpg",
       icon: "📊",
       tags: ["Administrator", "Organizer", "Team Player"]
     },
-
-        {
-      "id": 6,
-      "name": "Ziporah Sawaina",
-      "yearBorn": 1980,
-      "yearJoined": 2000,
-      "gradeJoined": "Grade 3",
-      "yearGraduated": 2007,
-      "achievement": "Bachelor's Degree in Journalism",
-      "currentRole": "Presenter at Bus Radio",
-      "story": "Ziporah joined Kajiado Children’s Home in 2000 at Grade 3. Growing up in the home, she discovered her passion for storytelling and communication. With the support of staff and sponsors, she excelled in her studies and pursued Journalism, graduating in 2007. Today, Ziporah works as a presenter at Bus Radio, where she uses her voice to inform, inspire, and connect with the community. She also advocates for social issues, drawing from her own experiences at KCH to highlight the importance of education and support for vulnerable children. Her journey reflects resilience, creativity, and a commitment to amplifying voices that need to be heard.",
-      "image": "/images/alumni/ziporah-sawaina.jpg",
-      "icon": "🎙️",
-      "tags": ["Journalist", "Presenter", "Advocate"]
+    {
+      id: 7,
+      name: "Ziporah Sawaina",
+      yearBorn: 1980,
+      yearJoined: 2000,
+      gradeJoined: "Grade 3",
+      yearGraduated: 2007,
+      achievement: "Bachelor's Degree in Journalism",
+      currentRole: "Presenter at Bus Radio",
+      story: "Ziporah joined Kajiado Children’s Home in 2000 at Grade 3. Growing up in the home, she discovered her passion for storytelling and communication. With the support of staff and sponsors, she excelled in her studies and pursued Journalism, graduating in 2007. Today, Ziporah works as a presenter at Bus Radio, where she uses her voice to inform, inspire, and connect with the community. She also advocates for social issues, drawing from her own experiences at KCH to highlight the importance of education and support for vulnerable children. Her journey reflects resilience, creativity, and a commitment to amplifying voices that need to be heard.",
+      image: "/images/alumni/ziporah-sawaina.jpg",
+      icon: "🎙️",
+      tags: ["Journalist", "Presenter", "Advocate"]
     }
-
   ];
 
   const handleRegister = () => setShowForm(true);
@@ -190,14 +182,14 @@ export default function Events() {
   };
 
   const stats = [
-    { number: "6+", label: "Events Completed", icon: "fas fa-calendar-check" },
+    { number: "30+", label: "Events Completed", icon: "fas fa-calendar-check" },
     { number: "1,500+", label: "Total Attendees", icon: "fas fa-users" },
     { number: "KES 425K+", label: "Funds Raised", icon: "fas fa-hand-holding-heart" }
   ];
 
   const alumniStats = [
-    { number: "50+", label: "Alumni Members", icon: "fas fa-users" },
-    { number: "15+", label: "University Graduates", icon: "fas fa-graduation-cap" },
+    { number: "70+", label: "Alumni Members", icon: "fas fa-users" },
+    { number: "10+", label: "University Graduates", icon: "fas fa-graduation-cap" },
     { number: "10+", label: "Working at KBH", icon: "fas fa-heart" },
     { number: "100%", label: "Giving Back", icon: "fas fa-hands-helping" }
   ];
@@ -273,7 +265,7 @@ export default function Events() {
                     </div>
                     <p className="event-description">{upcomingEvent.description}</p>
                     <button onClick={handleRegister} className="btn-gold">
-                      <i className="fas fa-calendar-check"></i> Register Now
+                      <i className="fas fa-calendar-check"></i> Support Now
                     </button>
                   </div>
                 </div>
@@ -295,7 +287,7 @@ export default function Events() {
                         <div className="event-date">{event.date}</div>
                         <h3>{event.title}</h3>
                         <p className="event-location"><i className="fas fa-map-marker-alt"></i> {event.location}</p>
-                        <p className="event-description-short">{event.description}</p>
+                        <p className="event-description-short">{event.description.substring(0, 120)}...</p>
                         <div className="event-footer">
                           <span className="event-attendees"><i className="fas fa-users"></i> {event.attendees}+ attendees</span>
                           {event.raised && (
@@ -336,11 +328,11 @@ export default function Events() {
                 </div>
               </section>
 
-              {/* Alumni Stats */}
+              {/* Alumni Stats - FIXED: Smaller, fitting in one row */}
               <section className="alumni-stats">
-                <div className="stats-grid">
+                <div className="alumni-stats-grid">
                   {alumniStats.map((stat, index) => (
-                    <div key={index} className="stat-card">
+                    <div key={index} className="alumni-stat-card">
                       <i className={stat.icon}></i>
                       <h3>{stat.number}</h3>
                       <p>{stat.label}</p>
@@ -374,10 +366,10 @@ export default function Events() {
                     </div>
                     <p className="story-description">
                       Richard lost his mother in 1996 at age 7, leaving five siblings orphaned. 
-                      In 1997, Edward Marona brought him to Kajiado Children’s Home, where his life changed. 
-                      Though adjusting was difficult, he grew spiritually under Pastor John Matinda’s mentorship 
+                      In 1997, Edward Marona brought him to Kajiado Children's Home, where his life changed. 
+                      Though adjusting was difficult, he grew spiritually under Pastor John Matinda's mentorship 
                       and was supported by sponsors Linda and Warren Bannister through high school and Moffat Bible College. 
-                      Richard graduated in 2014 and later earned a Masters in Divinity. Inspired by God’s faithfulness, 
+                      Richard graduated in 2014 and later earned a Masters in Divinity. Inspired by God's faithfulness, 
                       he founded Namanga Hope Center, serving orphans, vulnerable children, and the elderly. 
                       His journey reflects resilience, faith, and a commitment to give back by mentoring children at KCH 
                       and planting churches in remote areas.
@@ -402,7 +394,6 @@ export default function Events() {
                 </div>
               </section>
 
-
               {/* All Alumni Stories Grid */}
               <section className="all-stories">
                 <div className="section-header">
@@ -410,7 +401,7 @@ export default function Events() {
                   <p className="section-subtitle">Meet other amazing alumni who are making a difference</p>
                 </div>
                 <div className="stories-grid">
-                  {alumniStories.slice(1).map((story) => (
+                  {alumniStories.map((story) => (
                     <div key={story.id} className="story-card">
                       <div className="story-card-image">
                         <img src={story.image} alt={story.name} loading="lazy" />
@@ -554,19 +545,61 @@ export default function Events() {
       )}
 
       <style>{`
-        /* Tab Navigation Styles */
+        /* ============================================
+           EVENTS PAGE STYLES
+           ============================================ */
+        .events-page {
+          background: var(--bg-deep);
+          min-height: 100vh;
+        }
+
+        /* ============================================
+           HERO SECTION
+           ============================================ */
+        .about-hero {
+          background: linear-gradient(135deg, #1a365d 0%, #2b6cb0 50%, #2563eb 100%) !important;
+          padding: 120px 0 80px !important;
+          min-height: 400px;
+          display: flex;
+          align-items: center;
+        }
+
+        .hero-content-about {
+          text-align: center;
+        }
+
+        .hero-content-about h1 {
+          color: #ffffff !important;
+          font-size: 3.2rem;
+          font-weight: 700;
+          text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+          margin-bottom: 16px;
+        }
+
+        .hero-content-about h1 span {
+          color: #f6e05e !important;
+        }
+
+        .hero-content-about p {
+          color: #e2e8f0 !important;
+          font-size: 1.3rem;
+        }
+
+        /* ============================================
+           TAB NAVIGATION
+           ============================================ */
         .tab-navigation {
           padding: 40px 0 20px;
           background: var(--bg-deep);
         }
-        
+
         .tab-buttons {
           display: flex;
           gap: 20px;
           justify-content: center;
           flex-wrap: wrap;
         }
-        
+
         .tab-btn {
           padding: 14px 32px;
           background: var(--card-bg);
@@ -581,42 +614,357 @@ export default function Events() {
           align-items: center;
           gap: 10px;
         }
-        
+
         .tab-btn i {
           color: var(--primary-color);
         }
-        
+
         .tab-btn:hover {
           border-color: var(--primary-color);
           transform: translateY(-2px);
         }
-        
+
         .tab-btn.active {
           background: var(--primary-color);
           border-color: var(--primary-color);
           color: #fff;
         }
-        
+
         .tab-btn.active i {
           color: #fff;
         }
-        
-        /* Alumni Hero */
+
+        /* ============================================
+           SECTION HEADERS
+           ============================================ */
+        .section-header {
+          text-align: center;
+          margin-bottom: 48px;
+        }
+
+        .section-title {
+          font-size: 2.4rem;
+          color: var(--text-color);
+          font-weight: 700;
+        }
+
+        .section-title span {
+          color: var(--primary-color);
+        }
+
+        .section-subtitle {
+          color: var(--text-muted);
+          font-size: 1.1rem;
+          margin-top: 8px;
+        }
+
+        /* ============================================
+           UPCOMING EVENT
+           ============================================ */
+        .upcoming-event {
+          padding: 40px 0;
+        }
+
+        .upcoming-card {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 40px;
+          background: var(--card-bg);
+          border-radius: 24px;
+          overflow: hidden;
+          border: 1px solid var(--border-color);
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+          transition: all 0.3s ease;
+        }
+
+        .upcoming-card:hover {
+          border-color: var(--primary-color);
+          box-shadow: 0 10px 30px rgba(59, 130, 246, 0.15);
+        }
+
+        .upcoming-image {
+          height: 100%;
+          min-height: 300px;
+          overflow: hidden;
+        }
+
+        .upcoming-image img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          transition: transform 0.3s ease;
+        }
+
+        .upcoming-card:hover .upcoming-image img {
+          transform: scale(1.03);
+        }
+
+        .upcoming-content {
+          padding: 40px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+        }
+
+        .event-badge {
+          display: inline-block;
+          background: linear-gradient(135deg, #4caf50, #43a047);
+          color: white;
+          padding: 6px 16px;
+          border-radius: 20px;
+          font-size: 0.8rem;
+          font-weight: 600;
+          margin-bottom: 16px;
+          align-self: flex-start;
+        }
+
+        .upcoming-content h3 {
+          font-size: 1.8rem;
+          margin-bottom: 16px;
+          color: var(--text-color);
+        }
+
+        .event-details {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 8px 20px;
+          margin-bottom: 16px;
+        }
+
+        .event-details p {
+          color: var(--text-muted);
+          font-size: 0.9rem;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
+
+        .event-details i {
+          color: var(--primary-color);
+          width: 18px;
+        }
+
+        .event-description {
+          color: var(--text-muted);
+          line-height: 1.7;
+          margin-bottom: 20px;
+        }
+
+        .btn-gold {
+          background: linear-gradient(105deg, #2563eb, #1d4ed8);
+          border: none;
+          padding: 14px 36px;
+          font-weight: 700;
+          border-radius: 50px;
+          color: #ffffff !important;
+          font-family: 'Poppins', sans-serif;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          font-size: 1rem;
+          box-shadow: 0 4px 15px rgba(37, 99, 235, 0.35);
+          display: inline-flex;
+          align-items: center;
+          gap: 10px;
+          text-decoration: none;
+        }
+
+        .btn-gold:hover {
+          transform: translateY(-3px);
+          box-shadow: 0 8px 25px rgba(37, 99, 235, 0.45);
+        }
+
+        .btn-outline {
+          background: transparent;
+          border: 2px solid var(--primary-color);
+          padding: 12px 32px;
+          border-radius: 50px;
+          color: var(--primary-color);
+          font-weight: 600;
+          transition: all 0.3s ease;
+          text-decoration: none;
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+        }
+
+        .btn-outline:hover {
+          background: var(--primary-color);
+          color: #ffffff !important;
+          transform: translateY(-2px);
+        }
+
+        /* ============================================
+           PAST EVENTS
+           ============================================ */
+        .past-events {
+          padding: 60px 0;
+        }
+
+        .events-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+          gap: 32px;
+        }
+
+        .event-card {
+          background: var(--card-bg);
+          border-radius: 20px;
+          overflow: hidden;
+          border: 1px solid var(--border-color);
+          transition: all 0.3s ease;
+        }
+
+        .event-card:hover {
+          transform: translateY(-5px);
+          border-color: var(--primary-color);
+          box-shadow: 0 10px 30px rgba(59, 130, 246, 0.15);
+        }
+
+        .event-image {
+          height: 200px;
+          overflow: hidden;
+        }
+
+        .event-image img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          transition: transform 0.3s ease;
+        }
+
+        .event-card:hover .event-image img {
+          transform: scale(1.05);
+        }
+
+        .event-content {
+          padding: 24px;
+        }
+
+        .event-date {
+          display: inline-block;
+          background: rgba(59, 130, 246, 0.1);
+          color: var(--primary-color);
+          padding: 4px 14px;
+          border-radius: 16px;
+          font-size: 0.8rem;
+          font-weight: 500;
+          margin-bottom: 12px;
+        }
+
+        .event-content h3 {
+          font-size: 1.2rem;
+          margin-bottom: 8px;
+          color: var(--text-color);
+        }
+
+        .event-location {
+          color: var(--text-muted);
+          font-size: 0.9rem;
+          margin-bottom: 12px;
+        }
+
+        .event-location i {
+          color: var(--primary-color);
+          margin-right: 6px;
+        }
+
+        .event-description-short {
+          color: var(--text-muted);
+          font-size: 0.9rem;
+          line-height: 1.6;
+          margin-bottom: 16px;
+        }
+
+        .event-footer {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding-top: 16px;
+          border-top: 1px solid var(--border-color);
+        }
+
+        .event-attendees {
+          color: var(--text-muted);
+          font-size: 0.85rem;
+        }
+
+        .event-attendees i {
+          color: var(--primary-color);
+          margin-right: 4px;
+        }
+
+        .event-raised {
+          background: rgba(59, 130, 246, 0.1);
+          color: var(--primary-color);
+          padding: 4px 12px;
+          border-radius: 16px;
+          font-size: 0.8rem;
+          font-weight: 500;
+        }
+
+        /* ============================================
+           STATS
+           ============================================ */
+        .stats-summary {
+          padding: 60px 0 80px;
+        }
+
+        .stats-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 24px;
+        }
+
+        .stat-card {
+          background: var(--card-bg);
+          text-align: center;
+          padding: 30px;
+          border-radius: 16px;
+          border: 1px solid var(--border-color);
+          transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+          transform: translateY(-5px);
+          border-color: var(--primary-color);
+          box-shadow: 0 10px 30px rgba(59, 130, 246, 0.1);
+        }
+
+        .stat-card i {
+          font-size: 2.5rem;
+          color: var(--primary-color);
+          margin-bottom: 12px;
+        }
+
+        .stat-card h3 {
+          font-size: 2.2rem;
+          color: var(--text-color);
+          font-weight: 700;
+        }
+
+        .stat-card p {
+          color: var(--text-muted);
+          font-size: 0.95rem;
+        }
+
+        /* ============================================
+           ALUMNI SECTIONS - FIXED STATS
+           ============================================ */
         .alumni-hero {
           padding: 60px 0 40px;
           text-align: center;
         }
-        
+
         .alumni-hero-content h2 {
           font-size: 2.5rem;
           margin-bottom: 20px;
           color: var(--text-color);
         }
-        
+
         .alumni-hero-content h2 span {
           color: var(--primary-color);
         }
-        
+
         .alumni-hero-content p {
           color: var(--text-muted);
           max-width: 700px;
@@ -624,21 +972,62 @@ export default function Events() {
           font-size: 1.1rem;
           line-height: 1.8;
         }
-        
-        /* Alumni Stats */
+
+        /* Alumni Stats - FIXED: Smaller cards in one row */
         .alumni-stats {
-          padding: 40px 0;
+          padding: 20px 0 40px;
         }
-        
-        /* Featured Story */
+
+        .alumni-stats-grid {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 16px;
+        }
+
+        .alumni-stat-card {
+          background: var(--card-bg);
+          text-align: center;
+          padding: 16px 12px;
+          border-radius: 12px;
+          border: 1px solid var(--border-color);
+          transition: all 0.3s ease;
+        }
+
+        .alumni-stat-card:hover {
+          transform: translateY(-3px);
+          border-color: var(--primary-color);
+          box-shadow: 0 5px 20px rgba(59, 130, 246, 0.08);
+        }
+
+        .alumni-stat-card i {
+          font-size: 1.5rem;
+          color: var(--primary-color);
+          margin-bottom: 6px;
+        }
+
+        .alumni-stat-card h3 {
+          font-size: 1.3rem;
+          color: var(--text-color);
+          font-weight: 700;
+        }
+
+        .alumni-stat-card p {
+          color: var(--text-muted);
+          font-size: 0.75rem;
+          margin: 0;
+        }
+
+        /* ============================================
+           FEATURED STORY
+           ============================================ */
         .featured-story {
           padding: 40px 0;
           position: relative;
         }
-        
+
         .featured-badge {
           display: inline-block;
-          background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+          background: linear-gradient(135deg, var(--primary-color), #1d4ed8);
           color: white;
           padding: 8px 20px;
           border-radius: 30px;
@@ -646,7 +1035,7 @@ export default function Events() {
           font-weight: 600;
           margin-bottom: 20px;
         }
-        
+
         .featured-story-card {
           display: grid;
           grid-template-columns: 1fr 1fr;
@@ -655,42 +1044,38 @@ export default function Events() {
           border-radius: 24px;
           overflow: hidden;
           border: 1px solid var(--border-color);
-          transition: transform 0.3s ease;
+          transition: all 0.3s ease;
         }
-        
+
         .featured-story-card:hover {
           transform: translateY(-5px);
           border-color: var(--primary-color);
+          box-shadow: 0 10px 30px rgba(59, 130, 246, 0.15);
         }
-        
+
         .featured-story-content {
           padding: 40px;
         }
-        
-        .story-icon-large {
-          font-size: 3rem;
-          margin-bottom: 16px;
-        }
-        
+
         .featured-story-content h3 {
           font-size: 1.8rem;
           margin-bottom: 8px;
           color: var(--text-color);
         }
-        
+
         .story-tagline {
           color: var(--primary-color);
           font-weight: 600;
           margin-bottom: 20px;
         }
-        
+
         .story-details {
           margin-bottom: 20px;
           padding: 16px;
           background: rgba(59, 130, 246, 0.05);
           border-radius: 12px;
         }
-        
+
         .detail-item {
           display: flex;
           align-items: center;
@@ -699,44 +1084,46 @@ export default function Events() {
           color: var(--text-muted);
           font-size: 0.9rem;
         }
-        
+
         .detail-item i {
           color: var(--primary-color);
           width: 20px;
         }
-        
+
         .story-description {
           color: var(--text-muted);
           line-height: 1.8;
           margin-bottom: 20px;
         }
-        
+
         .featured-story-image {
-          background: linear-gradient(135deg, var(--primary-dark), var(--primary-color));
+          background: linear-gradient(135deg, #1a365d, #2563eb);
           display: flex;
           align-items: center;
           justify-content: center;
-          min-height: 400px;
+          min-height: 350px;
         }
-        
+
         .featured-story-image img {
           width: 100%;
           height: 100%;
           object-fit: cover;
         }
-        
-        /* Stories Grid */
+
+        /* ============================================
+           ALL STORIES
+           ============================================ */
         .all-stories {
           padding: 60px 0;
         }
-        
+
         .stories-grid {
           display: grid;
           grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
           gap: 32px;
           margin-top: 40px;
         }
-        
+
         .story-card {
           background: var(--card-bg);
           border-radius: 20px;
@@ -744,30 +1131,30 @@ export default function Events() {
           border: 1px solid var(--border-color);
           transition: all 0.3s ease;
         }
-        
+
         .story-card:hover {
           transform: translateY(-5px);
           border-color: var(--primary-color);
           box-shadow: 0 10px 30px rgba(59, 130, 246, 0.15);
         }
-        
+
         .story-card-image {
           position: relative;
           height: 220px;
           overflow: hidden;
         }
-        
+
         .story-card-image img {
           width: 100%;
           height: 100%;
           object-fit: cover;
           transition: transform 0.3s ease;
         }
-        
+
         .story-card:hover .story-card-image img {
           transform: scale(1.05);
         }
-        
+
         .story-icon {
           position: absolute;
           bottom: 10px;
@@ -782,17 +1169,17 @@ export default function Events() {
           font-size: 1.5rem;
           box-shadow: 0 2px 10px rgba(0,0,0,0.2);
         }
-        
+
         .story-card-content {
           padding: 20px;
         }
-        
+
         .story-card-content h3 {
           font-size: 1.2rem;
           margin-bottom: 8px;
           color: var(--text-color);
         }
-        
+
         .story-meta {
           display: flex;
           gap: 16px;
@@ -800,38 +1187,38 @@ export default function Events() {
           font-size: 0.8rem;
           color: var(--text-muted);
         }
-        
+
         .story-meta i {
           color: var(--primary-color);
           margin-right: 4px;
         }
-        
+
         .story-achievement {
           font-size: 0.85rem;
           margin-bottom: 8px;
           color: var(--text-muted);
         }
-        
+
         .story-role {
           font-size: 0.85rem;
           margin-bottom: 12px;
           color: var(--primary-color);
         }
-        
+
         .story-excerpt {
           color: var(--text-muted);
           font-size: 0.85rem;
           line-height: 1.6;
           margin-bottom: 12px;
         }
-        
+
         .story-tags {
           display: flex;
           flex-wrap: wrap;
           gap: 8px;
           margin-bottom: 16px;
         }
-        
+
         .story-tag {
           background: rgba(59, 130, 246, 0.1);
           color: var(--primary-color);
@@ -840,7 +1227,7 @@ export default function Events() {
           font-size: 0.7rem;
           font-weight: 500;
         }
-        
+
         .story-tag-small {
           background: rgba(59, 130, 246, 0.1);
           color: var(--primary-color);
@@ -848,7 +1235,7 @@ export default function Events() {
           border-radius: 16px;
           font-size: 0.7rem;
         }
-        
+
         .read-more-btn {
           background: transparent;
           border: none;
@@ -861,37 +1248,52 @@ export default function Events() {
           align-items: center;
           gap: 8px;
         }
-        
+
         .read-more-btn:hover {
           gap: 12px;
         }
-        
-        /* Alumni CTA */
+
+        /* ============================================
+           ALUMNI CTA
+           ============================================ */
         .alumni-cta {
           padding: 60px 0;
           text-align: center;
         }
-        
+
         .alumni-cta-content {
-          background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+          background: linear-gradient(135deg, var(--primary-color), #1d4ed8);
           padding: 60px;
           border-radius: 24px;
           color: white;
         }
-        
+
         .alumni-cta-content h3 {
           font-size: 2rem;
           margin-bottom: 16px;
           color: white;
         }
-        
+
         .alumni-cta-content p {
           margin-bottom: 24px;
           font-size: 1.1rem;
           opacity: 0.95;
         }
-        
-        /* Story Modal */
+
+        .alumni-cta-content .btn-gold {
+          background: white;
+          color: var(--primary-color) !important;
+          box-shadow: none;
+        }
+
+        .alumni-cta-content .btn-gold:hover {
+          background: rgba(255,255,255,0.9);
+          transform: translateY(-3px);
+        }
+
+        /* ============================================
+           STORY MODAL
+           ============================================ */
         .story-modal-overlay {
           position: fixed;
           top: 0;
@@ -906,7 +1308,7 @@ export default function Events() {
           z-index: 2000;
           padding: 20px;
         }
-        
+
         .story-modal {
           background: var(--card-bg);
           max-width: 600px;
@@ -917,7 +1319,21 @@ export default function Events() {
           position: relative;
           border: 1px solid var(--border-color);
         }
-        
+
+        .story-modal::-webkit-scrollbar {
+          width: 6px;
+        }
+
+        .story-modal::-webkit-scrollbar-track {
+          background: var(--bg-deep);
+          border-radius: 3px;
+        }
+
+        .story-modal::-webkit-scrollbar-thumb {
+          background: var(--primary-color);
+          border-radius: 3px;
+        }
+
         .story-modal-close {
           position: sticky;
           top: 10px;
@@ -933,62 +1349,404 @@ export default function Events() {
           cursor: pointer;
           margin: 10px;
           z-index: 1;
+          transition: background 0.3s ease;
         }
-        
+
+        .story-modal-close:hover {
+          background: rgba(0,0,0,0.8);
+        }
+
         .story-modal-header {
           padding: 30px;
           text-align: center;
-          background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+          background: linear-gradient(135deg, var(--primary-color), #1d4ed8);
           color: white;
         }
-        
+
         .story-modal-icon {
           font-size: 3rem;
           margin-bottom: 16px;
         }
-        
+
         .story-modal-header h2 {
           color: white;
           margin-bottom: 8px;
         }
-        
+
         .story-modal-body {
           padding: 30px;
         }
-        
+
         .story-modal-body p {
           color: var(--text-muted);
           line-height: 1.8;
           margin-bottom: 16px;
         }
-        
+
         .story-modal-tags {
           display: flex;
           flex-wrap: wrap;
           gap: 8px;
           margin-top: 20px;
         }
-        
+
+        /* ============================================
+           CTA SECTION
+           ============================================ */
+        .cta-section {
+          padding: 80px 0;
+          background: linear-gradient(135deg, #1a365d, #2563eb) !important;
+        }
+
+        .cta-content {
+          text-align: center;
+          max-width: 700px;
+          margin: 0 auto;
+        }
+
+        .cta-content h2 {
+          color: #ffffff !important;
+          font-size: 2.4rem;
+          font-weight: 700;
+          margin-bottom: 16px;
+        }
+
+        .cta-content p {
+          color: #e2e8f0 !important;
+          font-size: 1.2rem;
+          margin-bottom: 32px;
+        }
+
+        .cta-buttons {
+          display: flex;
+          gap: 16px;
+          justify-content: center;
+          flex-wrap: wrap;
+        }
+
+        .cta-buttons .btn-outline {
+          border-color: #ffffff;
+          color: #ffffff;
+        }
+
+        .cta-buttons .btn-outline:hover {
+          background: #ffffff;
+          color: var(--primary-color) !important;
+        }
+
+        /* ============================================
+           MODAL
+           ============================================ */
+        .modal-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(0,0,0,0.8);
+          backdrop-filter: blur(8px);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 1000;
+          padding: 20px;
+        }
+
+        .modal-content {
+          background: var(--card-bg);
+          padding: 40px;
+          border-radius: 24px;
+          max-width: 450px;
+          width: 100%;
+          position: relative;
+          border: 1px solid var(--border-color);
+        }
+
+        .modal-close {
+          position: absolute;
+          top: 15px;
+          right: 20px;
+          background: none;
+          border: none;
+          font-size: 2rem;
+          color: var(--text-muted);
+          cursor: pointer;
+          transition: color 0.3s ease;
+        }
+
+        .modal-close:hover {
+          color: var(--text-color);
+        }
+
+        .modal-content h3 {
+          font-size: 1.5rem;
+          margin-bottom: 20px;
+          color: var(--text-color);
+          text-align: center;
+        }
+
+        .form-group {
+          margin-bottom: 16px;
+        }
+
+        .form-group input {
+          width: 100%;
+          padding: 12px 16px;
+          background: var(--bg-deep);
+          border: 2px solid var(--border-color);
+          border-radius: 12px;
+          color: var(--text-color);
+          font-size: 1rem;
+          transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus {
+          outline: none;
+          border-color: var(--primary-color);
+        }
+
+        .modal-buttons {
+          display: flex;
+          gap: 12px;
+          margin-top: 20px;
+        }
+
+        .modal-buttons .btn-gold {
+          flex: 1;
+          justify-content: center;
+        }
+
+        .modal-buttons .btn-outline {
+          flex: 1;
+          justify-content: center;
+        }
+
+        /* ============================================
+           NOTIFICATION
+           ============================================ */
+        .notification-success {
+          position: fixed;
+          top: 100px;
+          right: 20px;
+          background: #4caf50;
+          color: white;
+          padding: 16px 24px;
+          border-radius: 12px;
+          box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+          z-index: 1500;
+          animation: slideInRight 0.5s ease;
+          display: flex;
+          align-items: center;
+          gap: 12px;
+        }
+
+        .notification-success i {
+          font-size: 1.5rem;
+        }
+
+        @keyframes slideInRight {
+          from {
+            transform: translateX(100%);
+            opacity: 0;
+          }
+          to {
+            transform: translateX(0);
+            opacity: 1;
+          }
+        }
+
+        /* ============================================
+           RESPONSIVE DESIGN
+           ============================================ */
+        @media (max-width: 1024px) {
+          .upcoming-card {
+            grid-template-columns: 1fr;
+          }
+
+          .upcoming-image {
+            min-height: 250px;
+          }
+
+          .alumni-stats-grid {
+            grid-template-columns: repeat(2, 1fr);
+          }
+        }
+
         @media (max-width: 968px) {
           .featured-story-card {
             grid-template-columns: 1fr;
           }
-          
+
           .featured-story-image {
             order: -1;
             min-height: 250px;
           }
-          
+
           .stories-grid {
             grid-template-columns: 1fr;
           }
-          
+
+          .stats-grid {
+            grid-template-columns: 1fr 1fr;
+          }
+
           .alumni-cta-content {
             padding: 40px 20px;
           }
-          
+
           .alumni-cta-content h3 {
             font-size: 1.5rem;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .about-hero {
+            padding: 100px 0 60px !important;
+          }
+
+          .hero-content-about h1 {
+            font-size: 2.2rem;
+          }
+
+          .hero-content-about p {
+            font-size: 1.1rem;
+          }
+
+          .section-title {
+            font-size: 1.8rem;
+          }
+
+          .upcoming-content {
+            padding: 24px;
+          }
+
+          .upcoming-content h3 {
+            font-size: 1.4rem;
+          }
+
+          .event-details {
+            grid-template-columns: 1fr;
+          }
+
+          .events-grid {
+            grid-template-columns: 1fr;
+          }
+
+          .stats-grid {
+            grid-template-columns: 1fr 1fr;
+          }
+
+          .alumni-stats-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+          }
+
+          .alumni-stat-card {
+            padding: 12px 8px;
+          }
+
+          .alumni-stat-card i {
+            font-size: 1.2rem;
+          }
+
+          .alumni-stat-card h3 {
+            font-size: 1.1rem;
+          }
+
+          .alumni-stat-card p {
+            font-size: 0.7rem;
+          }
+
+          .stories-grid {
+            grid-template-columns: 1fr;
+          }
+
+          .tab-buttons {
+            flex-direction: column;
+            align-items: center;
+          }
+
+          .tab-btn {
+            width: 100%;
+            justify-content: center;
+          }
+
+          .modal-content {
+            padding: 24px;
+          }
+
+          .modal-buttons {
+            flex-direction: column;
+          }
+
+          .cta-content h2 {
+            font-size: 1.8rem;
+          }
+
+          .cta-buttons {
+            flex-direction: column;
+            align-items: center;
+          }
+
+          .btn-gold,
+          .btn-outline {
+            width: 100%;
+            justify-content: center;
+          }
+
+          .featured-story-content {
+            padding: 24px;
+          }
+
+          .story-card {
+            max-width: 100%;
+          }
+
+          .stat-card h3 {
+            font-size: 1.8rem;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .stats-grid {
+            grid-template-columns: 1fr;
+          }
+
+          .alumni-stats-grid {
+            grid-template-columns: repeat(2, 1fr);
+          }
+
+          .upcoming-content {
+            padding: 16px;
+          }
+
+          .featured-story-content {
+            padding: 16px;
+          }
+
+          .alumni-hero-content h2 {
+            font-size: 1.8rem;
+          }
+
+          .story-modal {
+            max-width: 100%;
+            max-height: 90vh;
+          }
+
+          .story-modal-header {
+            padding: 20px;
+          }
+
+          .story-modal-body {
+            padding: 20px;
+          }
+
+          .notification-success {
+            top: 80px;
+            right: 10px;
+            left: 10px;
+            padding: 12px 16px;
+            font-size: 0.9rem;
           }
         }
       `}</style>

@@ -1,3 +1,4 @@
+// src/pages/Privacy.jsx
 import React from 'react';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
@@ -94,16 +95,34 @@ export default function Privacy() {
   return (
     <>
       <SEO 
-        title="Privacy Policy - kajiado Bright Horizons"
-        description="Read kajiado Bright Horizons privacy policy to understand how we collect, use, and protect your personal information when you donate, sponsor a child, or interact with our website."
+        title="Privacy Policy - Kajiado Bright Horizons"
+        description="Read Kajiado Bright Horizons privacy policy to understand how we collect, use, and protect your personal information when you donate, sponsor a child, or interact with our website."
         path="/privacy"
       />
       
-      <div className="legal-page">
-        <section className="page-header">
+      <div className="privacy-page">
+        {/* Hero Section */}
+        <section className="about-hero">
+          <div className="hero-bg-container">
+            <div 
+              className="hero-bg-image-about"
+              style={{ backgroundImage: 'url("/images/hero/hero-bg.jpg")' }}
+            ></div>
+            <div className="hero-overlay-dark"></div>
+          </div>
           <div className="container">
-            <h1>Privacy <span>Policy</span></h1>
-            <p>How we collect, use, and protect your information</p>
+            <div className="hero-content-about">
+              <h1>Privacy <span>Policy</span></h1>
+              <p>How we collect, use, and protect your information</p>
+              <div className="hero-buttons" style={{ justifyContent: 'center', marginTop: '32px' }}>
+                <Link to="/" className="btn-gold">
+                  <i className="fas fa-home"></i> Back to Home
+                </Link>
+                <Link to="/terms" className="btn-outline">
+                  <i className="fas fa-file-contract"></i> Terms & Conditions
+                </Link>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -115,7 +134,7 @@ export default function Privacy() {
             </div>
 
             <div className="legal-intro">
-              <p>At kajiado Bright Horizons ("we," "us," or "our"), your privacy is important to us. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website or interact with us. Please read this Privacy Policy carefully. By using our website, you consent to the practices described in this policy.</p>
+              <p>At Kajiado Bright Horizons ("we," "us," or "our"), your privacy is important to us. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website or interact with us. Please read this Privacy Policy carefully. By using our website, you consent to the practices described in this policy.</p>
             </div>
 
             {sections.map((section, index) => (
@@ -147,36 +166,164 @@ export default function Privacy() {
               <div className="legal-contact-details">
                 <p><i className="fas fa-envelope"></i> <strong>Email:</strong> <a href="mailto:privacy@kajiadochildrenhome.org">privacy@kajiadochildrenhome.org</a></p>
                 <p><i className="fas fa-phone"></i> <strong>Phone:</strong> <a href="tel:+254700123456">+254 700 123 456</a></p>
-                <p><i className="fas fa-map-marker-alt"></i> <strong>Address:</strong> kajiado Bright Horizons, Kajiado Town, Kajiado County, Kenya</p>
+                <p><i className="fas fa-map-marker-alt"></i> <strong>Address:</strong> Kajiado Bright Horizons, Kajiado Town, Kajiado County, Kenya</p>
               </div>
             </div>
 
             <div className="legal-footer">
               <p>By continuing to use our website, you acknowledge that you have read and understood this Privacy Policy.</p>
               <div className="legal-buttons">
-                <Link to="/" className="btn-outline">
+                <Link to="/" className="btn-gold">
                   <i className="fas fa-home"></i> Back to Home
                 </Link>
                 <Link to="/terms" className="btn-outline">
-                  <i className="fas fa-file-contract"></i> Read Terms & Conditions
+                  <i className="fas fa-file-contract"></i> Terms & Conditions
                 </Link>
               </div>
             </div>
           </div>
         </div>
+
+        {/* CTA Section */}
+        <section className="cta-section">
+          <div className="container">
+            <div className="cta-content">
+              <h2>Have Questions About Our Privacy Policy?</h2>
+              <p>We're here to help and answer any questions you may have</p>
+              <div className="cta-buttons">
+                <Link to="/contact" className="btn-gold">
+                  <i className="fas fa-envelope"></i> Contact Us
+                </Link>
+                <Link to="/" className="btn-outline-light">
+                  <i className="fas fa-arrow-left"></i> Back to Home
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
       </div>
 
       <style>{`
-        .legal-page {
+        /* ============================================
+           PRIVACY PAGE STYLES
+           ============================================ */
+        .privacy-page {
+          background: var(--bg-deep);
           min-height: 100vh;
         }
-        
+
+        /* ============================================
+           HERO SECTION
+           ============================================ */
+        .about-hero {
+          background: linear-gradient(135deg, #1a365d 0%, #2b6cb0 50%, #2563eb 100%) !important;
+          padding: 120px 0 80px !important;
+          min-height: 400px;
+          display: flex;
+          align-items: center;
+        }
+
+        .hero-content-about {
+          text-align: center;
+        }
+
+        .hero-content-about h1 {
+          color: #ffffff !important;
+          font-size: 3.2rem;
+          font-weight: 700;
+          text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+          margin-bottom: 16px;
+        }
+
+        .hero-content-about h1 span {
+          color: #f6e05e !important;
+        }
+
+        .hero-content-about p {
+          color: #e2e8f0 !important;
+          font-size: 1.3rem;
+        }
+
+        .hero-buttons {
+          display: flex;
+          gap: 16px;
+          justify-content: center;
+          flex-wrap: wrap;
+          margin-top: 32px;
+        }
+
+        .btn-gold {
+          background: linear-gradient(105deg, #2563eb, #1d4ed8);
+          border: none;
+          padding: 14px 36px;
+          font-weight: 700;
+          border-radius: 50px;
+          color: #ffffff !important;
+          font-family: 'Poppins', sans-serif;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          font-size: 1rem;
+          box-shadow: 0 4px 15px rgba(37, 99, 235, 0.35);
+          display: inline-flex;
+          align-items: center;
+          gap: 10px;
+          text-decoration: none;
+        }
+
+        .btn-gold:hover {
+          transform: translateY(-3px);
+          box-shadow: 0 8px 25px rgba(37, 99, 235, 0.45);
+        }
+
+        .btn-outline {
+          background: transparent;
+          border: 2px solid #ffffff;
+          padding: 12px 32px;
+          border-radius: 50px;
+          color: #ffffff;
+          font-weight: 600;
+          transition: all 0.3s ease;
+          text-decoration: none;
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+        }
+
+        .btn-outline:hover {
+          background: #ffffff;
+          color: #2563eb !important;
+          transform: translateY(-2px);
+        }
+
+        .btn-outline-light {
+          background: transparent;
+          border: 2px solid #ffffff;
+          padding: 12px 32px;
+          border-radius: 50px;
+          color: #ffffff;
+          font-weight: 600;
+          transition: all 0.3s ease;
+          text-decoration: none;
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+        }
+
+        .btn-outline-light:hover {
+          background: #ffffff;
+          color: #2563eb !important;
+          transform: translateY(-2px);
+        }
+
+        /* ============================================
+           LEGAL CONTENT
+           ============================================ */
         .legal-content {
           max-width: 900px;
           margin: 0 auto;
           padding: 60px 0;
         }
-        
+
         .legal-updated {
           display: inline-flex;
           align-items: center;
@@ -188,7 +335,7 @@ export default function Privacy() {
           color: var(--primary-color);
           font-size: 0.85rem;
         }
-        
+
         .legal-intro {
           background: var(--card-bg);
           padding: 24px;
@@ -196,40 +343,40 @@ export default function Privacy() {
           border-left: 4px solid var(--primary-color);
           margin-bottom: 40px;
         }
-        
+
         .legal-intro p {
           color: var(--text-muted);
           line-height: 1.6;
           margin: 0;
         }
-        
+
         .legal-section {
           margin-bottom: 32px;
           padding-bottom: 24px;
           border-bottom: 1px solid var(--border-color);
         }
-        
+
         .legal-section:last-child {
           border-bottom: none;
         }
-        
+
         .legal-section h2 {
           font-size: 1.3rem;
           color: var(--primary-color);
           margin-bottom: 12px;
         }
-        
+
         .legal-section p {
           color: var(--text-muted);
           line-height: 1.7;
           margin-bottom: 12px;
         }
-        
+
         .legal-list {
           list-style: none;
           margin-top: 12px;
         }
-        
+
         .legal-list li {
           display: flex;
           align-items: flex-start;
@@ -238,13 +385,13 @@ export default function Privacy() {
           color: var(--text-muted);
           line-height: 1.6;
         }
-        
+
         .legal-list li i {
           color: var(--primary-color);
           font-size: 0.9rem;
           margin-top: 3px;
         }
-        
+
         .legal-note {
           display: flex;
           align-items: flex-start;
@@ -254,18 +401,21 @@ export default function Privacy() {
           border-radius: 12px;
           margin-top: 12px;
         }
-        
+
         .legal-note i {
           color: var(--primary-color);
           font-size: 1.1rem;
           margin-top: 2px;
         }
-        
+
         .legal-note p {
           margin: 0;
           font-size: 0.9rem;
         }
-        
+
+        /* ============================================
+           CONTACT SECTION
+           ============================================ */
         .legal-contact-section {
           margin: 40px 0;
           padding: 30px;
@@ -273,18 +423,18 @@ export default function Privacy() {
           border-radius: 20px;
           border: 1px solid var(--border-color);
         }
-        
+
         .legal-contact-section h2 {
           font-size: 1.3rem;
           color: var(--primary-color);
           margin-bottom: 16px;
         }
-        
+
         .legal-contact-section > p {
           color: var(--text-muted);
           margin-bottom: 20px;
         }
-        
+
         .legal-contact-details p {
           display: flex;
           align-items: center;
@@ -292,70 +442,184 @@ export default function Privacy() {
           margin-bottom: 12px;
           color: var(--text-muted);
         }
-        
+
         .legal-contact-details i {
           width: 24px;
           color: var(--primary-color);
         }
-        
+
         .legal-contact-details a {
           color: var(--primary-color);
           text-decoration: none;
         }
-        
+
         .legal-contact-details a:hover {
           text-decoration: underline;
         }
-        
+
+        /* ============================================
+           FOOTER
+           ============================================ */
         .legal-footer {
           margin-top: 40px;
           padding-top: 30px;
           border-top: 2px solid var(--border-color);
           text-align: center;
         }
-        
+
         .legal-footer p {
           color: var(--text-muted);
           margin-bottom: 24px;
         }
-        
+
         .legal-buttons {
           display: flex;
           gap: 16px;
           justify-content: center;
           flex-wrap: wrap;
         }
-        
+
+        .legal-buttons .btn-gold {
+          padding: 12px 28px;
+          font-size: 0.95rem;
+        }
+
+        .legal-buttons .btn-outline {
+          border-color: var(--primary-color);
+          color: var(--primary-color);
+          padding: 12px 28px;
+          font-size: 0.95rem;
+        }
+
+        .legal-buttons .btn-outline:hover {
+          background: var(--primary-color);
+          color: #ffffff !important;
+        }
+
+        /* ============================================
+           CTA SECTION
+           ============================================ */
+        .cta-section {
+          padding: 80px 0;
+          background: linear-gradient(135deg, #1a365d, #2563eb) !important;
+        }
+
+        .cta-content {
+          text-align: center;
+          max-width: 700px;
+          margin: 0 auto;
+        }
+
+        .cta-content h2 {
+          color: #ffffff !important;
+          font-size: 2.4rem;
+          font-weight: 700;
+          margin-bottom: 16px;
+        }
+
+        .cta-content p {
+          color: #e2e8f0 !important;
+          font-size: 1.2rem;
+          margin-bottom: 32px;
+        }
+
+        .cta-buttons {
+          display: flex;
+          gap: 16px;
+          justify-content: center;
+          flex-wrap: wrap;
+        }
+
+        /* ============================================
+           RESPONSIVE DESIGN
+           ============================================ */
         @media (max-width: 768px) {
+          .about-hero {
+            padding: 100px 0 60px !important;
+          }
+
+          .hero-content-about h1 {
+            font-size: 2.2rem;
+          }
+
+          .hero-content-about p {
+            font-size: 1.1rem;
+          }
+
           .legal-content {
             padding: 40px 20px;
           }
-          
+
           .legal-section h2 {
             font-size: 1.1rem;
           }
-          
+
           .legal-list li {
             font-size: 0.9rem;
           }
-          
+
           .legal-contact-section {
             padding: 20px;
           }
-          
+
           .legal-contact-details p {
             font-size: 0.85rem;
           }
-          
+
           .legal-buttons {
             flex-direction: column;
             align-items: center;
           }
-          
+
+          .legal-buttons .btn-gold,
           .legal-buttons .btn-outline {
             width: 100%;
-            max-width: 250px;
+            max-width: 300px;
             justify-content: center;
+          }
+
+          .cta-content h2 {
+            font-size: 1.8rem;
+          }
+
+          .cta-buttons {
+            flex-direction: column;
+            align-items: center;
+          }
+
+          .hero-buttons {
+            flex-direction: column;
+            align-items: center;
+          }
+
+          .btn-gold,
+          .btn-outline,
+          .btn-outline-light {
+            width: 100%;
+            justify-content: center;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .hero-content-about h1 {
+            font-size: 1.8rem;
+          }
+
+          .legal-content {
+            padding: 24px 16px;
+          }
+
+          .legal-section {
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+          }
+
+          .legal-section h2 {
+            font-size: 1rem;
+          }
+
+          .legal-contact-section {
+            padding: 16px;
           }
         }
       `}</style>

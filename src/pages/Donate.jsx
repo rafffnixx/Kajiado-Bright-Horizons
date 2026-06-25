@@ -130,7 +130,7 @@ export default function Donate() {
           <div className="hero-bg-container">
             <div 
               className="hero-bg-image-about"
-              style={{ backgroundImage: 'url("/images/hero/donate-hero.jpg")' }}
+              style={{ backgroundImage: 'url("/images/hero/get-involved-hero.jpg")' }}
             ></div>
             <div className="hero-overlay-dark"></div>
           </div>
