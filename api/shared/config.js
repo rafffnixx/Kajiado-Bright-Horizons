@@ -33,11 +33,26 @@ function loadEnv() {
 const env = loadEnv();
 
 module.exports = {
+  // Pesapal Configuration
   PESAPAL_CONSUMER_KEY: env.PESAPAL_CONSUMER_KEY || process.env.PESAPAL_CONSUMER_KEY,
   PESAPAL_CONSUMER_SECRET: env.PESAPAL_CONSUMER_SECRET || process.env.PESAPAL_CONSUMER_SECRET,
   PESAPAL_ENVIRONMENT: env.PESAPAL_ENVIRONMENT || process.env.PESAPAL_ENVIRONMENT || 'sandbox',
-  PESAPAL_IPN_ID: env.PESAPAL_IPN_ID || process.env.PESAPAL_IPN_ID || '3d55d047-c5ed-4643-80b5-da3a2bcc1058',
+  PESAPAL_IPN_ID: env.PESAPAL_IPN_ID || process.env.PESAPAL_IPN_ID || 'db365927-0455-4748-ab58-da39eb449b18',
+  
+  // Application URLs
   REACT_APP_BASE_URL: env.REACT_APP_BASE_URL || process.env.REACT_APP_BASE_URL || 'https://kajiado-bright-horizons.vercel.app',
+  
+  // Google Sheets Integration
+  GOOGLE_SHEETS_URL: env.REACT_APP_GOOGLE_SHEETS_URL || process.env.REACT_APP_GOOGLE_SHEETS_URL || '',
+  
+  // Contact Information
+  CONTACT_EMAIL: env.REACT_APP_CONTACT_EMAIL || process.env.REACT_APP_CONTACT_EMAIL || 'info@kajiadochildrenhome.org',
+  CONTACT_PHONE: env.REACT_APP_CONTACT_PHONE || process.env.REACT_APP_CONTACT_PHONE || '+254700123456',
+  ORG_EMAIL: env.REACT_APP_ORG_EMAIL || process.env.REACT_APP_ORG_EMAIL || 'info@kajiadochildrenhome.org',
+  
+  // Site Information
+  SITE_NAME: env.REACT_APP_SITE_NAME || process.env.REACT_APP_SITE_NAME || 'Kajiado Bright Horizons',
+  SITE_DESCRIPTION: env.REACT_APP_SITE_DESCRIPTION || process.env.REACT_APP_SITE_DESCRIPTION || 'Providing hope, care, and education to vulnerable children in Kajiado, Kenya',
 };
 
 console.log('🔑 Loaded credentials:');
@@ -46,3 +61,5 @@ console.log('   Consumer Secret:', module.exports.PESAPAL_CONSUMER_SECRET ? '✅
 console.log('   Environment:', module.exports.PESAPAL_ENVIRONMENT);
 console.log('   IPN ID:', module.exports.PESAPAL_IPN_ID);
 console.log('   Base URL:', module.exports.REACT_APP_BASE_URL);
+console.log('   Google Sheets:', module.exports.GOOGLE_SHEETS_URL ? '✅ Configured' : '❌ Not configured');
+console.log('   Site Name:', module.exports.SITE_NAME);

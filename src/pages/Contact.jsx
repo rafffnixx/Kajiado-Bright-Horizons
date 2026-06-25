@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
 import CONFIG from '../config';
-import { submitContact } from '../services/googleSheetsService';
+import { logContact, logVisit } from '../services/googleSheetsService';
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -13,17 +13,18 @@ export default function Contact() {
     message: ''
   });
   
-  // Visitor Data Capture Form state
+  // Visitor Data Capture Form state - WITH EMAIL
   const [visitorFormData, setVisitorFormData] = useState({
     organizationName: '',
-    isRegistered: '',
+    isRegistered: '', // ✅ REQUIRED - must be 'yes' or 'no'
     registeredName: '',
     department: '',
     regNumber: '',
     teamLeaderName: '',
     teamLeaderId: '',
     teamLeaderContact: '',
-    teamMembers: [{ name: '', id: '', position: '', contact: '' }],
+    teamLeaderEmail: '',
+    teamMembers: [{ name: '', id: '', position: '', contact: '', email: '' }],
     proposedDate: '',
     expectedPeople: '',
     arrivalTime: '',
@@ -32,7 +33,7 @@ export default function Contact() {
   
   const [feedback, setFeedback] = useState({ message: '', type: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [activeForm, setActiveForm] = useState('contact'); // 'contact' or 'visitor'
+  const [activeForm, setActiveForm] = useState('contact');
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
@@ -52,7 +53,7 @@ export default function Contact() {
   const addTeamMember = () => {
     setVisitorFormData({
       ...visitorFormData,
-      teamMembers: [...visitorFormData.teamMembers, { name: '', id: '', position: '', contact: '' }]
+      teamMembers: [...visitorFormData.teamMembers, { name: '', id: '', position: '', contact: '', email: '' }]
     });
   };
 
@@ -66,52 +67,91 @@ export default function Contact() {
     setIsSubmitting(true);
     setFeedback({ message: '', type: '' });
 
-    const { organizationName, teamLeaderName, teamLeaderContact, proposedDate } = visitorFormData;
+    const { 
+      organizationName, 
+      isRegistered,
+      teamLeaderName, 
+      teamLeaderContact, 
+      teamLeaderEmail, 
+      proposedDate 
+    } = visitorFormData;
     
-    if (!organizationName || !teamLeaderName || !teamLeaderContact || !proposedDate) {
+    // ✅ Check if isRegistered is selected
+    if (!isRegistered) {
       setFeedback({ 
-        message: '❌ Please fill in all required fields: Organization Name, Team Leader Name, Contact, and Proposed Date.', 
+        message: '❌ Please specify if the group is registered or not.', 
         type: 'error' 
       });
       setIsSubmitting(false);
       return;
     }
     
-    // Prepare data for submission
-    const visitorData = {
-      ...visitorFormData,
-      submittedAt: new Date().toISOString(),
-      teamMembers: JSON.stringify(visitorFormData.teamMembers)
-    };
+    if (!organizationName || !teamLeaderName || !teamLeaderContact || !teamLeaderEmail || !proposedDate) {
+      setFeedback({ 
+        message: '❌ Please fill in all required fields: Organization Name, Registration Status, Team Leader Name, Contact, Email, and Proposed Date.', 
+        type: 'error' 
+      });
+      setIsSubmitting(false);
+      return;
+    }
     
-    // Here you would submit to Google Sheets or email
-    console.log('Visitor Form Data:', visitorData);
+    if (!teamLeaderEmail.includes('@') || !teamLeaderEmail.includes('.')) {
+      setFeedback({ 
+        message: '❌ Please enter a valid email address for the team leader.', 
+        type: 'error' 
+      });
+      setIsSubmitting(false);
+      return;
+    }
     
-    // For now, show success message
-    setFeedback({ 
-      message: `✅ Thank you! Your visit request has been received. We'll contact you within 2-3 business days to confirm your visit.`, 
-      type: 'success' 
-    });
-    
-    // Reset form
-    setVisitorFormData({
-      organizationName: '',
-      isRegistered: '',
-      registeredName: '',
-      department: '',
-      regNumber: '',
-      teamLeaderName: '',
-      teamLeaderId: '',
-      teamLeaderContact: '',
-      teamMembers: [{ name: '', id: '', position: '', contact: '' }],
-      proposedDate: '',
-      expectedPeople: '',
-      arrivalTime: '',
-      activities: ''
-    });
-    
-    setIsSubmitting(false);
-    setTimeout(() => setFeedback({ message: '', type: '' }), 6000);
+    try {
+      await logVisit({
+        organization: visitorFormData.organizationName,
+        registered: visitorFormData.isRegistered,
+        registeredName: visitorFormData.registeredName,
+        department: visitorFormData.department,
+        regNumber: visitorFormData.regNumber,
+        teamLeader: visitorFormData.teamLeaderName,
+        teamLeaderId: visitorFormData.teamLeaderId,
+        phone: visitorFormData.teamLeaderContact,
+        email: visitorFormData.teamLeaderEmail,
+        visitDate: visitorFormData.proposedDate,
+        people: visitorFormData.expectedPeople,
+        activities: visitorFormData.activities,
+        teamMembers: JSON.stringify(visitorFormData.teamMembers)
+      });
+      
+      setFeedback({ 
+        message: `✅ Thank you! Your visit request has been received. We'll contact you via email within 2-3 business days to confirm your visit.`, 
+        type: 'success' 
+      });
+      
+      setVisitorFormData({
+        organizationName: '',
+        isRegistered: '',
+        registeredName: '',
+        department: '',
+        regNumber: '',
+        teamLeaderName: '',
+        teamLeaderId: '',
+        teamLeaderContact: '',
+        teamLeaderEmail: '',
+        teamMembers: [{ name: '', id: '', position: '', contact: '', email: '' }],
+        proposedDate: '',
+        expectedPeople: '',
+        arrivalTime: '',
+        activities: ''
+      });
+    } catch (error) {
+      console.error('Error submitting visit request:', error);
+      setFeedback({ 
+        message: '❌ There was an error submitting your request. Please try again or call us directly.', 
+        type: 'error' 
+      });
+    } finally {
+      setIsSubmitting(false);
+      setTimeout(() => setFeedback({ message: '', type: '' }), 6000);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -139,31 +179,44 @@ export default function Contact() {
       return;
     }
     
-    const result = await submitContact(formData);
-    
-    if (result.success) {
-      setFeedback({ 
-        message: `✅ Thank you ${fullname}! Your message has been sent successfully. We'll reply within 2-3 business days.`, 
-        type: 'success' 
+    try {
+      const result = await logContact({
+        fullName: formData.fullname,
+        email: formData.email,
+        phone: formData.phone,
+        subject: formData.subject,
+        message: formData.message
       });
       
-      setFormData({
-        fullname: '',
-        email: '',
-        phone: '',
-        subject: '',
-        message: ''
-      });
-      
-    } else {
+      if (result.success) {
+        setFeedback({ 
+          message: `✅ Thank you ${fullname}! Your message has been sent successfully. We'll reply within 2-3 business days.`, 
+          type: 'success' 
+        });
+        
+        setFormData({
+          fullname: '',
+          email: '',
+          phone: '',
+          subject: '',
+          message: ''
+        });
+      } else {
+        setFeedback({ 
+          message: `❌ There was an error sending your message. Please call us directly or email ${CONFIG.ORG_EMAIL}`, 
+          type: 'error' 
+        });
+      }
+    } catch (error) {
+      console.error('Error submitting contact form:', error);
       setFeedback({ 
-        message: `❌ There was an error sending your message. Please call us directly or email kajiadochildrenshom@gmail.com`, 
+        message: '❌ There was an error sending your message. Please try again or call us directly.', 
         type: 'error' 
       });
+    } finally {
+      setIsSubmitting(false);
+      setTimeout(() => setFeedback({ message: '', type: '' }), 6000);
     }
-    
-    setIsSubmitting(false);
-    setTimeout(() => setFeedback({ message: '', type: '' }), 6000);
   };
 
   return (
@@ -176,7 +229,6 @@ export default function Contact() {
       />
       
       <div className="contact-page">
-        {/* Hero Section with Background Image */}
         <section className="about-hero">
           <div className="hero-bg-container">
             <div 
@@ -193,7 +245,6 @@ export default function Contact() {
           </div>
         </section>
 
-        {/* Form Toggle Buttons */}
         <section className="form-toggle-section">
           <div className="container">
             <div className="form-toggle-buttons">
@@ -216,7 +267,6 @@ export default function Contact() {
         <section className="contact-main">
           <div className="container">
             <div className="contact-grid">
-              {/* Contact Form Column */}
               {activeForm === 'contact' && (
                 <div className="contact-form">
                   <h3><i className="fas fa-paper-plane"></i> Send Us a Message</h3>
@@ -312,7 +362,6 @@ export default function Contact() {
                 </div>
               )}
 
-              {/* Visitor Data Capture Form */}
               {activeForm === 'visitor' && (
                 <div className="visitor-form">
                   <div className="visitor-header">
@@ -327,7 +376,6 @@ export default function Contact() {
                   )}
                   
                   <form onSubmit={handleVisitorSubmit}>
-                    {/* Section A: Organization Name */}
                     <div className="form-section">
                       <label className="section-label">A. Name of the Individual / Group / Organization / Institution *</label>
                       <input 
@@ -342,9 +390,8 @@ export default function Contact() {
                       />
                     </div>
 
-                    {/* Section B: Registration Status */}
                     <div className="form-section">
-                      <label className="section-label">B. Is the group in (A) above registered?</label>
+                      <label className="section-label">B. Is the group in (A) above registered? *</label>
                       <div className="radio-group">
                         <label className="radio-label">
                           <input 
@@ -412,7 +459,6 @@ export default function Contact() {
                       )}
                     </div>
 
-                    {/* Section C: Team Leader */}
                     <div className="form-section">
                       <label className="section-label">C. Who is the team Leader? *</label>
                       <div className="form-row">
@@ -446,6 +492,18 @@ export default function Contact() {
                             name="teamLeaderContact"
                             placeholder="Phone number"
                             value={visitorFormData.teamLeaderContact}
+                            onChange={handleVisitorChange}
+                            required
+                            disabled={isSubmitting}
+                          />
+                        </div>
+                        <div className="form-group">
+                          <label>Email *</label>
+                          <input 
+                            type="email" 
+                            name="teamLeaderEmail"
+                            placeholder="Email address"
+                            value={visitorFormData.teamLeaderEmail}
                             onChange={handleVisitorChange}
                             required
                             disabled={isSubmitting}
@@ -498,6 +556,16 @@ export default function Contact() {
                                 disabled={isSubmitting}
                               />
                             </div>
+                            <div className="form-group">
+                              <label>Email</label>
+                              <input 
+                                type="email" 
+                                placeholder="Email address"
+                                value={member.email}
+                                onChange={(e) => handleTeamMemberChange(index, 'email', e.target.value)}
+                                disabled={isSubmitting}
+                              />
+                            </div>
                             {index > 0 && (
                               <button 
                                 type="button" 
@@ -521,7 +589,6 @@ export default function Contact() {
                       </div>
                     </div>
 
-                    {/* Section D: Proposed Date */}
                     <div className="form-section">
                       <label className="section-label">D. Proposed date of visit *</label>
                       <input 
@@ -536,7 +603,6 @@ export default function Contact() {
                       <p className="form-hint mt-1">📌 Preferable day of visit is on Saturdays as children are out of school.</p>
                     </div>
 
-                    {/* Section E: Number of People */}
                     <div className="form-section">
                       <label className="section-label">E. Number of people expected</label>
                       <input 
@@ -550,7 +616,6 @@ export default function Contact() {
                       />
                     </div>
 
-                    {/* Section F: Arrival Time */}
                     <div className="form-section">
                       <label className="section-label">F. Arrival Time</label>
                       <input 
@@ -563,7 +628,6 @@ export default function Contact() {
                       />
                     </div>
 
-                    {/* Section G: Activities */}
                     <div className="form-section">
                       <label className="section-label">G. Activities the team wishes to engage in</label>
                       <textarea 
@@ -577,7 +641,6 @@ export default function Contact() {
                       ></textarea>
                     </div>
 
-                    {/* Important Notes */}
                     <div className="important-notes">
                       <h4><i className="fas fa-info-circle"></i> Please NOTE the following:</h4>
                       <ol>
@@ -610,7 +673,6 @@ export default function Contact() {
                 </div>
               )}
 
-              {/* Contact Information Column */}
               <div className="contact-info">
                 <h3><i className="fas fa-phone-alt"></i> Get in Touch</h3>
                 
@@ -656,20 +718,19 @@ export default function Contact() {
                   <p>Visits by appointment only. Please complete the <strong>Schedule a Visit</strong> form to book your visit, preferably on a Saturday.</p>
                 </div>
 
-                {/* Social Media Links */}
                 <div className="social-contact">
                   <h4>Follow Us</h4>
                   <div className="social-links">
-                    <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                    <a href={CONFIG.SOCIAL.FACEBOOK} target="_blank" rel="noopener noreferrer" aria-label="Facebook">
                       <i className="fab fa-facebook-f"></i>
                     </a>
-                    <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
+                    <a href={CONFIG.SOCIAL.TWITTER} target="_blank" rel="noopener noreferrer" aria-label="Twitter">
                       <i className="fab fa-twitter"></i>
                     </a>
-                    <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                    <a href={CONFIG.SOCIAL.INSTAGRAM} target="_blank" rel="noopener noreferrer" aria-label="Instagram">
                       <i className="fab fa-instagram"></i>
                     </a>
-                    <a href="https://wa.me/254720789839" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+                    <a href={CONFIG.SOCIAL.WHATSAPP} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
                       <i className="fab fa-whatsapp"></i>
                     </a>
                   </div>
@@ -679,8 +740,6 @@ export default function Contact() {
           </div>
         </section>
 
-        {/* Map Section */}
-        {/* Map Section */}
         <section className="map-section">
           <div className="container">
             <div className="map-container">
@@ -710,7 +769,6 @@ export default function Contact() {
           </div>
         </section>
 
-        {/* FAQ Section */}
         <section className="contact-faq">
           <div className="container">
             <div className="section-header">
@@ -745,7 +803,6 @@ export default function Contact() {
           </div>
         </section>
 
-        {/* CTA Section */}
         <section className="cta-section">
           <div className="container">
             <div className="cta-content">
@@ -811,7 +868,6 @@ export default function Contact() {
           color: #fff;
         }
         
-        /* Visitor Form Styles */
         .visitor-form {
           background: var(--card-bg);
           padding: 40px;
@@ -940,7 +996,7 @@ export default function Contact() {
         
         .team-member-row {
           display: grid;
-          grid-template-columns: 1fr 1fr 1fr 1fr auto;
+          grid-template-columns: 1fr 1fr 1fr 1fr 1fr auto;
           gap: 12px;
           margin-bottom: 12px;
           align-items: center;

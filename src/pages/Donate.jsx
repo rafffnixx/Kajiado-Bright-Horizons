@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
+import { logDonation } from '../services/googleSheetsService';
 
 export default function Donate() {
   const [activeTab, setActiveTab] = useState('mpesa');
@@ -79,6 +80,18 @@ export default function Donate() {
       const data = await response.json();
 
       if (data.success) {
+        // Log donation to Google Sheets
+        await logDonation({
+          fullName: formData.fullName || 'Anonymous',
+          email: formData.email || '',
+          phone: paymentMethod === 'mpesa' ? mpesaData.phoneNumber : formData.phone || '',
+          amount: amount.toString(),
+          paymentMethod: paymentMethod === 'mpesa' ? 'M-PESA' : 'Card',
+          reference: data.merchantReference || data.orderTrackingId || '',
+          status: 'Pending',
+          donationType: donationType
+        });
+
         window.location.href = data.paymentUrl;
       } else {
         alert(`❌ Payment failed: ${data.error || 'Please try again'}`);
