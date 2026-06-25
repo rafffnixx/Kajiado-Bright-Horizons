@@ -204,8 +204,8 @@ export default function Navbar() {
         </ul>
         
         <div className="mobile-menu-footer">
-          <Link to="/donate" className="btn-gold-mobile" onClick={() => handleNavClick('/donate')}>
-            <i className="fas fa-hand-holding-heart"></i> Donate Now
+          <Link to="/get-involved" className="btn-gold-mobile" onClick={() => handleNavClick('/get-involved')}>
+            <i className="fas fa-hand-holding-heart"></i> Get Involved
           </Link>
           <div className="mobile-contact-info">
             <a href="tel:+254700123456">
