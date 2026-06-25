@@ -430,511 +430,488 @@ export default function DonationSuccess() {
           </div>
         </div>
       </div>
-
-      <style>{`
-        /* ============================================
-           PAGE CONTAINER
-           ============================================ */
-        .donation-success-page {
-          min-height: 100vh;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          background: linear-gradient(135deg, #f0f4f8 0%, #e2e8f0 100%);
-          padding: 120px 20px 60px;
-        }
-        
-        .donation-success-page .container {
-          width: 100%;
-          max-width: 1200px;
-          margin: 0 auto;
-          padding: 0 20px;
-        }
-        
-        /* ============================================
-           STATUS CARD - BASE
-           ============================================ */
-        .status-card {
-          max-width: 600px;
-          margin: 0 auto;
-          background: #ffffff;
-          padding: 50px 45px;
-          border-radius: 24px;
-          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.10);
-          text-align: center;
-          transition: all 0.3s ease;
-          position: relative;
-          overflow: hidden;
-        }
-        
-        .status-card::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          height: 6px;
-        }
-        
-        .status-card:hover {
-          box-shadow: 0 25px 70px rgba(0, 0, 0, 0.12);
-          transform: translateY(-2px);
-        }
-        
-        /* ============================================
-           STATUS CARD - VARIANTS
-           ============================================ */
-        /* Success */
-        .status-success::before {
-          background: linear-gradient(90deg, #4caf50, #66bb6a);
-        }
-        
-        .status-success .status-icon {
-          color: #4caf50;
-        }
-        
-        /* Error / Failed */
-        .status-error::before,
-        .status-failed::before {
-          background: linear-gradient(90deg, #f44336, #ef5350);
-        }
-        
-        .status-error .status-icon,
-        .status-failed .status-icon {
-          color: #f44336;
-        }
-        
-        /* Pending / Loading */
-        .status-pending::before,
-        .status-loading::before {
-          background: linear-gradient(90deg, #ff9800, #ffa726);
-        }
-        
-        .status-pending .status-icon,
-        .status-loading .status-icon {
-          color: #ff9800;
-        }
-        
-        /* ============================================
-           STATUS ICONS
-           ============================================ */
-        .status-icon {
-          font-size: 4.5rem;
-          margin-bottom: 16px;
-          display: block;
-        }
-        
-        .success-icon {
-          animation: successPop 0.6s ease;
-        }
-        
-        .failed-icon,
-        .error-icon {
-          animation: shake 0.5s ease;
-        }
-        
-        .pending-icon {
-          animation: pulse 1.5s ease-in-out infinite;
-        }
-        
-        .loading-icon i {
-          animation: spin 1s linear infinite;
-          display: inline-block;
-        }
-        
-        @keyframes successPop {
-          0% { transform: scale(0) rotate(-20deg); opacity: 0; }
-          50% { transform: scale(1.2) rotate(5deg); }
-          100% { transform: scale(1) rotate(0deg); opacity: 1; }
-        }
-        
-        @keyframes shake {
-          0%, 100% { transform: translateX(0); }
-          20% { transform: translateX(-15px); }
-          40% { transform: translateX(15px); }
-          60% { transform: translateX(-10px); }
-          80% { transform: translateX(10px); }
-        }
-        
-        @keyframes pulse {
-          0%, 100% { transform: scale(1); opacity: 1; }
-          50% { transform: scale(1.1); opacity: 0.7; }
-        }
-        
-        @keyframes spin {
-          to { transform: rotate(360deg); }
-        }
-        
-        /* ============================================
-           STATUS TITLE & MESSAGE
-           ============================================ */
-        .status-title {
-          font-size: 2rem;
-          margin-bottom: 12px;
-          color: #1a202c;
-          font-weight: 700;
-          line-height: 1.3;
-        }
-        
-        .status-message {
-          color: #4a5568;
-          line-height: 1.7;
-          margin-bottom: 28px;
-          font-size: 1rem;
-        }
-        
-        .status-hint {
-          color: #718096;
-          font-size: 0.9rem;
-          margin-top: 10px;
-          font-style: italic;
-        }
-        
-        /* ============================================
-           PROGRESS BAR
-           ============================================ */
-        .progress-container {
-          margin: 24px 0 16px;
-          width: 100%;
-        }
-        
-        .progress-bar {
-          width: 100%;
-          height: 8px;
-          background: #e2e8f0;
-          border-radius: 4px;
-          overflow: hidden;
-          margin: 10px 0;
-        }
-        
-        .progress-fill {
-          height: 100%;
-          background: linear-gradient(90deg, #2563eb, #4caf50);
-          border-radius: 4px;
-          transition: width 0.5s ease;
-        }
-        
-        .poll-count {
-          color: #718096;
-          font-size: 0.85rem;
-          margin: 8px 0 0;
-        }
-        
-        /* ============================================
-           STATUS DETAILS
-           ============================================ */
-        .status-details {
-          background: #f7fafc;
-          padding: 20px 24px;
-          border-radius: 14px;
-          margin-bottom: 28px;
-          text-align: left;
-          border: 1px solid #e2e8f0;
-        }
-        
-        .detail-row {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          padding: 10px 0;
-          border-bottom: 1px solid #e2e8f0;
-        }
-        
-        .detail-row:last-child {
-          border-bottom: none;
-        }
-        
-        .detail-label {
-          color: #718096;
-          font-size: 0.9rem;
-          font-weight: 500;
-        }
-        
-        .detail-value {
-          color: #2d3748;
-          font-weight: 500;
-          font-size: 0.95rem;
-          text-align: right;
-          word-break: break-word;
-          max-width: 60%;
-        }
-        
-        .detail-value.highlight {
-          color: #2563eb;
-          font-weight: 700;
-          font-size: 1.05rem;
-        }
-        
-        .detail-value .status-badge {
-          display: inline-block;
-          padding: 4px 14px;
-          border-radius: 20px;
-          font-size: 0.85rem;
-          font-weight: 600;
-        }
-        
-        .status-badge.success {
-          background: #e8f5e9;
-          color: #2e7d32;
-        }
-        
-        .status-badge.failed {
-          background: #ffebee;
-          color: #c62828;
-        }
-        
-        .status-badge.pending {
-          background: #fff3e0;
-          color: #e65100;
-        }
-        
-        .status-badge.warning {
-          background: #fff8e1;
-          color: #f57f17;
-        }
-        
-        .detail-row.success-log {
-          border-top: 2px solid #4caf50;
-          margin-top: 8px;
-          padding-top: 12px;
-        }
-        
-        .detail-row.error-log {
-          border-top: 2px solid #f44336;
-          margin-top: 8px;
-          padding-top: 12px;
-        }
-        
-        /* ============================================
-           STATUS ACTIONS (BUTTONS)
-           ============================================ */
-        .status-actions {
-          display: flex;
-          gap: 14px;
-          justify-content: center;
-          flex-wrap: wrap;
-          margin-bottom: 30px;
-        }
-        
-        .btn-primary {
-          display: inline-flex;
-          align-items: center;
-          gap: 10px;
-          background: linear-gradient(135deg, #2563eb, #1d4ed8);
-          color: #ffffff !important;
-          padding: 14px 32px;
-          border-radius: 50px;
-          text-decoration: none;
-          font-weight: 600;
-          font-size: 0.95rem;
-          transition: all 0.3s ease;
-          border: 2px solid #2563eb;
-          box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
-        }
-        
-        .btn-primary:hover {
-          background: transparent;
-          color: #2563eb !important;
-          transform: translateY(-3px);
-          box-shadow: 0 8px 25px rgba(37, 99, 235, 0.35);
-        }
-        
-        .btn-secondary {
-          display: inline-flex;
-          align-items: center;
-          gap: 10px;
-          background: transparent;
-          color: #4a5568;
-          padding: 14px 32px;
-          border-radius: 50px;
-          text-decoration: none;
-          font-weight: 600;
-          font-size: 0.95rem;
-          transition: all 0.3s ease;
-          border: 2px solid #e2e8f0;
-        }
-        
-        .btn-secondary:hover {
-          border-color: #2563eb;
-          color: #2563eb;
-          transform: translateY(-3px);
-          box-shadow: 0 8px 25px rgba(37, 99, 235, 0.1);
-        }
-        
-        /* ============================================
-           IMPACT SECTION
-           ============================================ */
-        .impact-section {
-          padding-top: 24px;
-          border-top: 2px solid #e2e8f0;
-          text-align: left;
-        }
-        
-        .impact-section h3 {
-          color: #1a202c;
-          margin-bottom: 12px;
-          font-size: 1.2rem;
-          font-weight: 600;
-          text-align: center;
-        }
-        
-        .impact-section > p {
-          text-align: center;
-          color: #4a5568;
-          margin-bottom: 12px;
-        }
-        
-        .impact-section ul {
-          list-style: none;
-          padding: 0;
-          margin: 12px 0 16px;
-        }
-        
-        .impact-section ul li {
-          padding: 10px 0;
-          color: #4a5568;
-          font-size: 0.95rem;
-          border-bottom: 1px solid #f0f4f8;
-          display: flex;
-          align-items: center;
-          gap: 8px;
-        }
-        
-        .impact-section ul li:last-child {
-          border-bottom: none;
-        }
-        
-        .blessing {
-          margin-top: 16px;
-          padding-top: 16px;
-          border-top: 1px solid #e2e8f0;
-          font-style: italic;
-          color: #2d3748;
-          text-align: center;
-          font-size: 1rem;
-        }
-        
-        .blessing strong {
-          color: #2563eb;
-        }
-        
-        /* ============================================
-           RESPONSIVE DESIGN
-           ============================================ */
-        @media (max-width: 1024px) {
-          .donation-success-page {
-            padding: 110px 20px 50px;
-          }
-        }
-        
-        @media (max-width: 768px) {
-          .donation-success-page {
-            padding: 100px 16px 40px;
-            align-items: flex-start;
-          }
-          
-          .status-card {
-            padding: 32px 24px;
-            border-radius: 20px;
-          }
-          
-          .status-title {
-            font-size: 1.6rem;
-          }
-          
-          .status-icon {
-            font-size: 3.5rem;
-          }
-          
-          .status-details {
-            padding: 16px;
-          }
-          
-          .detail-row {
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 4px;
-            padding: 8px 0;
-          }
-          
-          .detail-value {
-            max-width: 100%;
-            text-align: left;
-          }
-          
-          .status-actions {
-            flex-direction: column;
-            gap: 12px;
-          }
-          
-          .btn-primary,
-          .btn-secondary {
-            width: 100%;
-            justify-content: center;
-            padding: 12px 24px;
-          }
-          
-          .impact-section ul li {
-            font-size: 0.9rem;
-            padding: 8px 0;
-          }
-        }
-        
-        @media (max-width: 480px) {
-          .donation-success-page {
-            padding: 90px 12px 30px;
-          }
-          
-          .status-card {
-            padding: 24px 16px;
-          }
-          
-          .status-title {
-            font-size: 1.3rem;
-          }
-          
-          .status-message {
-            font-size: 0.9rem;
-          }
-          
-          .status-icon {
-            font-size: 3rem;
-          }
-          
-          .progress-container {
-            margin: 16px 0;
-          }
-          
-          .status-details {
-            padding: 12px 14px;
-          }
-          
-          .detail-label {
-            font-size: 0.8rem;
-          }
-          
-          .detail-value {
-            font-size: 0.85rem;
-          }
-          
-          .detail-value.highlight {
-            font-size: 0.95rem;
-          }
-          
-          .impact-section h3 {
-            font-size: 1rem;
-          }
-          
-          .impact-section ul li {
-            font-size: 0.85rem;
-            padding: 6px 0;
-          }
-          
-          .blessing {
-            font-size: 0.9rem;
-          }
-        }
-      `}</style>
     </>
   );
-}``
+}
+
+// ============================================
+// CSS STYLES - Moved outside the component
+// ============================================
+const styles = `
+  .donation-success-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #f0f4f8 0%, #e2e8f0 100%);
+    padding: 120px 20px 60px;
+  }
+  
+  .donation-success-page .container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  
+  .status-card {
+    max-width: 600px;
+    margin: 0 auto;
+    background: #ffffff;
+    padding: 50px 45px;
+    border-radius: 24px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.10);
+    text-align: center;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .status-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+  }
+  
+  .status-card:hover {
+    box-shadow: 0 25px 70px rgba(0, 0, 0, 0.12);
+    transform: translateY(-2px);
+  }
+  
+  .status-success::before {
+    background: linear-gradient(90deg, #4caf50, #66bb6a);
+  }
+  
+  .status-success .status-icon {
+    color: #4caf50;
+  }
+  
+  .status-error::before,
+  .status-failed::before {
+    background: linear-gradient(90deg, #f44336, #ef5350);
+  }
+  
+  .status-error .status-icon,
+  .status-failed .status-icon {
+    color: #f44336;
+  }
+  
+  .status-pending::before,
+  .status-loading::before {
+    background: linear-gradient(90deg, #ff9800, #ffa726);
+  }
+  
+  .status-pending .status-icon,
+  .status-loading .status-icon {
+    color: #ff9800;
+  }
+  
+  .status-icon {
+    font-size: 4.5rem;
+    margin-bottom: 16px;
+    display: block;
+  }
+  
+  .success-icon {
+    animation: successPop 0.6s ease;
+  }
+  
+  .failed-icon,
+  .error-icon {
+    animation: shake 0.5s ease;
+  }
+  
+  .pending-icon {
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+  
+  .loading-icon i {
+    animation: spin 1s linear infinite;
+    display: inline-block;
+  }
+  
+  @keyframes successPop {
+    0% { transform: scale(0) rotate(-20deg); opacity: 0; }
+    50% { transform: scale(1.2) rotate(5deg); }
+    100% { transform: scale(1) rotate(0deg); opacity: 1; }
+  }
+  
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20% { transform: translateX(-15px); }
+    40% { transform: translateX(15px); }
+    60% { transform: translateX(-10px); }
+    80% { transform: translateX(10px); }
+  }
+  
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.1); opacity: 0.7; }
+  }
+  
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+  
+  .status-title {
+    font-size: 2rem;
+    margin-bottom: 12px;
+    color: #1a202c;
+    font-weight: 700;
+    line-height: 1.3;
+  }
+  
+  .status-message {
+    color: #4a5568;
+    line-height: 1.7;
+    margin-bottom: 28px;
+    font-size: 1rem;
+  }
+  
+  .status-hint {
+    color: #718096;
+    font-size: 0.9rem;
+    margin-top: 10px;
+    font-style: italic;
+  }
+  
+  .progress-container {
+    margin: 24px 0 16px;
+    width: 100%;
+  }
+  
+  .progress-bar {
+    width: 100%;
+    height: 8px;
+    background: #e2e8f0;
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 10px 0;
+  }
+  
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #2563eb, #4caf50);
+    border-radius: 4px;
+    transition: width 0.5s ease;
+  }
+  
+  .poll-count {
+    color: #718096;
+    font-size: 0.85rem;
+    margin: 8px 0 0;
+  }
+  
+  .status-details {
+    background: #f7fafc;
+    padding: 20px 24px;
+    border-radius: 14px;
+    margin-bottom: 28px;
+    text-align: left;
+    border: 1px solid #e2e8f0;
+  }
+  
+  .detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #e2e8f0;
+  }
+  
+  .detail-row:last-child {
+    border-bottom: none;
+  }
+  
+  .detail-label {
+    color: #718096;
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+  
+  .detail-value {
+    color: #2d3748;
+    font-weight: 500;
+    font-size: 0.95rem;
+    text-align: right;
+    word-break: break-word;
+    max-width: 60%;
+  }
+  
+  .detail-value.highlight {
+    color: #2563eb;
+    font-weight: 700;
+    font-size: 1.05rem;
+  }
+  
+  .detail-value .status-badge {
+    display: inline-block;
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+  
+  .status-badge.success {
+    background: #e8f5e9;
+    color: #2e7d32;
+  }
+  
+  .status-badge.failed {
+    background: #ffebee;
+    color: #c62828;
+  }
+  
+  .status-badge.pending {
+    background: #fff3e0;
+    color: #e65100;
+  }
+  
+  .status-badge.warning {
+    background: #fff8e1;
+    color: #f57f17;
+  }
+  
+  .detail-row.success-log {
+    border-top: 2px solid #4caf50;
+    margin-top: 8px;
+    padding-top: 12px;
+  }
+  
+  .detail-row.error-log {
+    border-top: 2px solid #f44336;
+    margin-top: 8px;
+    padding-top: 12px;
+  }
+  
+  .status-actions {
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+  }
+  
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    color: #ffffff !important;
+    padding: 14px 32px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    border: 2px solid #2563eb;
+    box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+  }
+  
+  .btn-primary:hover {
+    background: transparent;
+    color: #2563eb !important;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(37, 99, 235, 0.35);
+  }
+  
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: transparent;
+    color: #4a5568;
+    padding: 14px 32px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    border: 2px solid #e2e8f0;
+  }
+  
+  .btn-secondary:hover {
+    border-color: #2563eb;
+    color: #2563eb;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(37, 99, 235, 0.1);
+  }
+  
+  .impact-section {
+    padding-top: 24px;
+    border-top: 2px solid #e2e8f0;
+    text-align: left;
+  }
+  
+  .impact-section h3 {
+    color: #1a202c;
+    margin-bottom: 12px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    text-align: center;
+  }
+  
+  .impact-section > p {
+    text-align: center;
+    color: #4a5568;
+    margin-bottom: 12px;
+  }
+  
+  .impact-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 12px 0 16px;
+  }
+  
+  .impact-section ul li {
+    padding: 10px 0;
+    color: #4a5568;
+    font-size: 0.95rem;
+    border-bottom: 1px solid #f0f4f8;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .impact-section ul li:last-child {
+    border-bottom: none;
+  }
+  
+  .blessing {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid #e2e8f0;
+    font-style: italic;
+    color: #2d3748;
+    text-align: center;
+    font-size: 1rem;
+  }
+  
+  .blessing strong {
+    color: #2563eb;
+  }
+  
+  @media (max-width: 1024px) {
+    .donation-success-page {
+      padding: 110px 20px 50px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .donation-success-page {
+      padding: 100px 16px 40px;
+      align-items: flex-start;
+    }
+    
+    .status-card {
+      padding: 32px 24px;
+      border-radius: 20px;
+    }
+    
+    .status-title {
+      font-size: 1.6rem;
+    }
+    
+    .status-icon {
+      font-size: 3.5rem;
+    }
+    
+    .status-details {
+      padding: 16px;
+    }
+    
+    .detail-row {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 4px;
+      padding: 8px 0;
+    }
+    
+    .detail-value {
+      max-width: 100%;
+      text-align: left;
+    }
+    
+    .status-actions {
+      flex-direction: column;
+      gap: 12px;
+    }
+    
+    .btn-primary,
+    .btn-secondary {
+      width: 100%;
+      justify-content: center;
+      padding: 12px 24px;
+    }
+    
+    .impact-section ul li {
+      font-size: 0.9rem;
+      padding: 8px 0;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .donation-success-page {
+      padding: 90px 12px 30px;
+    }
+    
+    .status-card {
+      padding: 24px 16px;
+    }
+    
+    .status-title {
+      font-size: 1.3rem;
+    }
+    
+    .status-message {
+      font-size: 0.9rem;
+    }
+    
+    .status-icon {
+      font-size: 3rem;
+    }
+    
+    .progress-container {
+      margin: 16px 0;
+    }
+    
+    .status-details {
+      padding: 12px 14px;
+    }
+    
+    .detail-label {
+      font-size: 0.8rem;
+    }
+    
+    .detail-value {
+      font-size: 0.85rem;
+    }
+    
+    .detail-value.highlight {
+      font-size: 0.95rem;
+    }
+    
+    .impact-section h3 {
+      font-size: 1rem;
+    }
+    
+    .impact-section ul li {
+      font-size: 0.85rem;
+      padding: 6px 0;
+    }
+    
+    .blessing {
+      font-size: 0.9rem;
+    }
+  }
+`;
+
+// Apply styles
+if (typeof document !== 'undefined') {
+  const styleSheet = document.createElement('style');
+  styleSheet.textContent = styles;
+  document.head.appendChild(styleSheet);
+}
