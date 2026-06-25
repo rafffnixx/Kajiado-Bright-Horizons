@@ -1,5 +1,5 @@
 // src/pages/DonationSuccess.jsx
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import SEO from '../components/SEO';
 import { logDonation } from '../services/googleSheetsService';
@@ -16,6 +16,18 @@ export default function DonationSuccess() {
   const [pollCount, setPollCount] = useState(0);
   const [isLogged, setIsLogged] = useState(false);
   const [logError, setLogError] = useState(null);
+  const [showPendingState, setShowPendingState] = useState(false);
+  const [isBackgroundPolling, setIsBackgroundPolling] = useState(false);
+  
+  // Use refs to prevent duplicate logging and track polling state
+  const hasLoggedRef = useRef(false);
+  const pollingActiveRef = useRef(true);
+  const pollTimeoutRef = useRef(null);
+
+  // Constants for polling
+  const MAX_POLL_ATTEMPTS = 300; // 300 * 3 seconds = 900 seconds = 15 minutes
+  const POLL_INTERVAL = 3000; // 3 seconds
+  const LOADING_DISPLAY_ATTEMPTS = 10; // Show loading for first 10 attempts (30 seconds)
 
   useEffect(() => {
     const checkPaymentStatus = async () => {
@@ -29,6 +41,12 @@ export default function DonationSuccess() {
         const trackingId = orderTrackingId || reference;
         
         const pollStatus = async (attempt = 0) => {
+          // Stop polling if component unmounts
+          if (!pollingActiveRef.current) {
+            return;
+          }
+
+          // Update status messages based on attempt
           if (attempt === 0) {
             setStatusMessage('🔍 Checking payment status...');
           } else if (attempt === 1) {
@@ -41,120 +59,186 @@ export default function DonationSuccess() {
             setStatusMessage('⏳ Payment confirmation in progress...');
           } else if (attempt >= 7 && attempt <= 9) {
             setStatusMessage('⏳ Almost there! Finalizing payment...');
-          } else if (attempt >= 10) {
-            setStatusMessage('⏳ Taking longer than expected. Please wait...');
+          } else if (attempt === 10) {
+            setStatusMessage('⏳ Still waiting for confirmation...');
           }
 
-          if (attempt > 15) {
+          // ============================================
+          // AFTER 30 SECONDS (10 attempts) - Switch to pending state
+          // ============================================
+          if (attempt >= LOADING_DISPLAY_ATTEMPTS && !showPendingState && !donationData) {
+            setShowPendingState(true);
             setLoading(false);
-            setPaymentStatus('TIMEOUT');
+            setIsBackgroundPolling(true);
+            setStatusMessage('⏳ Your payment is still being processed. We\'ll notify you when it\'s complete.');
+            
+            // Show the pending state but continue polling in background
             setDonationData({
               reference: reference || 'N/A',
               amount: searchParams.get('amount') || localStorage.getItem('donationAmount') || '0',
-              status: 'TIMEOUT',
-              message: 'Payment is taking longer than expected. Please check your M-PESA and refresh the page.'
+              status: 'PENDING',
+              message: 'Your payment is being processed. Please check your M-PESA for confirmation.'
             });
-            return;
           }
 
-          try {
-            const response = await fetch(`/api/pesapal/check-status?orderTrackingId=${trackingId}`);
-            const data = await response.json();
-
-            console.log(`📊 Poll attempt ${attempt + 1}:`, data);
-
-            if (data.success && data.status === 'COMPLETED') {
-              setPaymentStatus('COMPLETED');
-              setStatusMessage('✅ Payment confirmed successfully!');
-              
-              const amount = searchParams.get('amount') || localStorage.getItem('donationAmount') || '0';
-              const donorData = JSON.parse(localStorage.getItem('donationData') || '{}');
-              
-              try {
-                setStatusMessage('📊 Saving your donation record...');
-                const logResult = await logDonation({
-                  fullName: donorData.fullName || 'Anonymous',
-                  email: donorData.email || '',
-                  phone: donorData.phone || '',
-                  amount: parseFloat(amount),
-                  paymentMethod: donorData.paymentMethod || 'PesaPal',
-                  reference: reference || data.merchantReference || 'N/A',
-                  status: 'Completed',
-                  donationType: donorData.donationType || 'one-time',
-                  transactionDate: data.payment_date || new Date().toISOString()
-                });
-                
-                if (logResult.success) {
-                  setIsLogged(true);
-                  setStatusMessage('✅ Donation record saved successfully!');
-                  console.log('✅ Donation logged to Google Sheets successfully');
-                } else {
-                  console.warn('⚠️ Donation logging returned:', logResult);
-                  setLogError('Could not save donation record, but your payment is confirmed.');
-                  setStatusMessage('✅ Payment confirmed! (Record saving pending)');
-                }
-              } catch (logError) {
-                console.error('❌ Failed to log donation to Google Sheets:', logError);
-                setLogError('Could not save donation record, but your payment is confirmed.');
-                setStatusMessage('✅ Payment confirmed! (Record saving pending)');
-              }
-              
-              localStorage.removeItem('donationData');
-              localStorage.removeItem('donationAmount');
-              
-              setDonationData({
-                reference: reference || data.merchantReference || 'N/A',
-                amount: amount,
-                status: 'COMPLETED',
-                paymentMethod: data.payment_method || 'N/A',
-                paymentDate: data.payment_date || new Date().toISOString(),
-                confirmationCode: data.confirmation_code || 'N/A'
-              });
-              setLoading(false);
-              return;
-            } else if (data.status === 'FAILED' || data.status === 'CANCELLED') {
-              setPaymentStatus('FAILED');
-              setStatusMessage('❌ Payment was not completed');
-              
-              try {
-                const donorData = JSON.parse(localStorage.getItem('donationData') || '{}');
-                await logDonation({
-                  fullName: donorData.fullName || 'Anonymous',
-                  email: donorData.email || '',
-                  phone: donorData.phone || '',
-                  amount: parseFloat(searchParams.get('amount') || localStorage.getItem('donationAmount') || '0'),
-                  paymentMethod: donorData.paymentMethod || 'PesaPal',
-                  reference: reference || 'N/A',
-                  status: data.status,
-                  donationType: donorData.donationType || 'one-time'
-                });
-              } catch (logError) {
-                console.error('Failed to log failed donation:', logError);
-              }
-              
-              localStorage.removeItem('donationData');
-              localStorage.removeItem('donationAmount');
-              
+          // Check if we should continue background polling
+          if (isBackgroundPolling || attempt < LOADING_DISPLAY_ATTEMPTS) {
+            // Max attempts (15 minutes)
+            if (attempt > MAX_POLL_ATTEMPTS) {
+              setPaymentStatus('TIMEOUT');
+              setStatusMessage('⏰ Payment confirmation timed out. Please check your M-PESA app.');
               setDonationData({
                 reference: reference || 'N/A',
                 amount: searchParams.get('amount') || localStorage.getItem('donationAmount') || '0',
-                status: data.status,
-                message: data.payment_status_description || 'Payment was not completed.'
+                status: 'TIMEOUT',
+                message: 'Payment confirmation timed out. Please check your M-PESA app or contact us for assistance.'
               });
-              setLoading(false);
+              pollingActiveRef.current = false;
+              setIsBackgroundPolling(false);
               return;
-            } else {
-              setPollCount(attempt + 1);
-              setPaymentStatus('PENDING');
-              if (attempt >= 5) {
-                setStatusMessage(`⏳ Payment still processing (${attempt + 1}/15)... Please wait`);
-              }
-              setTimeout(() => pollStatus(attempt + 1), 3000);
             }
-          } catch (err) {
-            console.error('Polling error:', err);
-            setStatusMessage(`⚠️ Network issue, retrying... (${attempt + 1}/15)`);
-            setTimeout(() => pollStatus(attempt + 1), 3000);
+
+            try {
+              const response = await fetch(`/api/pesapal/check-status?orderTrackingId=${trackingId}`);
+              const data = await response.json();
+
+              console.log(`📊 Poll attempt ${attempt + 1}/${MAX_POLL_ATTEMPTS}:`, data);
+
+              // ============================================
+              // ✅ PAYMENT COMPLETED - LOG TO SHEETS HERE
+              // ============================================
+              if (data.success && data.status === 'COMPLETED') {
+                setPaymentStatus('COMPLETED');
+                setStatusMessage('✅ Payment confirmed successfully!');
+                setIsBackgroundPolling(false);
+                
+                const amount = searchParams.get('amount') || localStorage.getItem('donationAmount') || '0';
+                const donorData = JSON.parse(localStorage.getItem('donationData') || '{}');
+                
+                // ✅ LOG TO GOOGLE SHEETS ONLY ONCE
+                if (!hasLoggedRef.current) {
+                  try {
+                    setStatusMessage('📊 Saving your donation record...');
+                    
+                    const logResult = await logDonation({
+                      fullName: donorData.fullName || 'Anonymous',
+                      email: donorData.email || '',
+                      phone: donorData.phone || '',
+                      amount: parseFloat(amount),
+                      paymentMethod: donorData.paymentMethod || 'PesaPal',
+                      reference: reference || data.merchantReference || 'N/A',
+                      status: 'Completed',
+                      donationType: donorData.donationType || 'one-time',
+                      transactionDate: data.payment_date || new Date().toISOString()
+                    });
+                    
+                    if (logResult.success) {
+                      setIsLogged(true);
+                      hasLoggedRef.current = true;
+                      setStatusMessage('✅ Donation record saved successfully!');
+                      console.log('✅ Donation logged to Google Sheets successfully');
+                    } else {
+                      console.warn('⚠️ Donation logging returned:', logResult);
+                      setLogError('Could not save donation record, but your payment is confirmed.');
+                      setStatusMessage('✅ Payment confirmed! (Record saving pending)');
+                    }
+                  } catch (logError) {
+                    console.error('❌ Failed to log donation to Google Sheets:', logError);
+                    setLogError('Could not save donation record, but your payment is confirmed.');
+                    setStatusMessage('✅ Payment confirmed! (Record saving pending)');
+                  }
+                }
+                
+                // Clean up localStorage
+                localStorage.removeItem('donationData');
+                localStorage.removeItem('donationAmount');
+                
+                setDonationData({
+                  reference: reference || data.merchantReference || 'N/A',
+                  amount: amount,
+                  status: 'COMPLETED',
+                  paymentMethod: data.payment_method || 'N/A',
+                  paymentDate: data.payment_date || new Date().toISOString(),
+                  confirmationCode: data.confirmation_code || 'N/A'
+                });
+                setLoading(false);
+                pollingActiveRef.current = false;
+                return;
+              } 
+              // ============================================
+              // ❌ PAYMENT FAILED
+              // ============================================
+              else if (data.status === 'FAILED' || data.status === 'CANCELLED') {
+                setPaymentStatus('FAILED');
+                setStatusMessage('❌ Payment was not completed');
+                setIsBackgroundPolling(false);
+                
+                // Log failed payment - only once
+                if (!hasLoggedRef.current) {
+                  try {
+                    const donorData = JSON.parse(localStorage.getItem('donationData') || '{}');
+                    await logDonation({
+                      fullName: donorData.fullName || 'Anonymous',
+                      email: donorData.email || '',
+                      phone: donorData.phone || '',
+                      amount: parseFloat(searchParams.get('amount') || localStorage.getItem('donationAmount') || '0'),
+                      paymentMethod: donorData.paymentMethod || 'PesaPal',
+                      reference: reference || 'N/A',
+                      status: data.status,
+                      donationType: donorData.donationType || 'one-time'
+                    });
+                    hasLoggedRef.current = true;
+                  } catch (logError) {
+                    console.error('Failed to log failed donation:', logError);
+                  }
+                }
+                
+                localStorage.removeItem('donationData');
+                localStorage.removeItem('donationAmount');
+                
+                setDonationData({
+                  reference: reference || 'N/A',
+                  amount: searchParams.get('amount') || localStorage.getItem('donationAmount') || '0',
+                  status: data.status,
+                  message: data.payment_status_description || 'Payment was not completed.'
+                });
+                setLoading(false);
+                pollingActiveRef.current = false;
+                return;
+              } 
+              // ============================================
+              // ⏳ STILL PENDING - Continue polling in background
+              // ============================================
+              else {
+                // Only update poll count if still pending
+                setPollCount(attempt + 1);
+                setPaymentStatus('PENDING');
+                
+                // If we're in background polling mode, update the status message periodically
+                if (isBackgroundPolling) {
+                  if (attempt % 10 === 0) {
+                    const minutes = Math.floor((attempt - LOADING_DISPLAY_ATTEMPTS) * 3 / 60);
+                    const seconds = ((attempt - LOADING_DISPLAY_ATTEMPTS) * 3) % 60;
+                    if (minutes > 0) {
+                      setStatusMessage(`⏳ Still waiting for confirmation (${minutes}m ${seconds}s)... We'll update you when we hear from M-PESA.`);
+                    } else {
+                      setStatusMessage(`⏳ Still waiting for confirmation (${seconds}s)... We'll update you when we hear from M-PESA.`);
+                    }
+                  }
+                }
+                
+                // Continue polling
+                pollTimeoutRef.current = setTimeout(() => {
+                  pollStatus(attempt + 1);
+                }, POLL_INTERVAL);
+              }
+            } catch (err) {
+              console.error('Polling error:', err);
+              // Continue polling on error
+              pollTimeoutRef.current = setTimeout(() => {
+                pollStatus(attempt + 1);
+              }, POLL_INTERVAL);
+            }
           }
         };
 
@@ -164,16 +248,26 @@ export default function DonationSuccess() {
         console.error('Error checking payment status:', err);
         setError('Could not verify payment status. Please check your M-PESA.');
         setLoading(false);
+        pollingActiveRef.current = false;
+        setIsBackgroundPolling(false);
       }
     };
 
     checkPaymentStatus();
+
+    // Cleanup function
+    return () => {
+      pollingActiveRef.current = false;
+      if (pollTimeoutRef.current) {
+        clearTimeout(pollTimeoutRef.current);
+      }
+    };
   }, [reference, orderTrackingId, searchParams]);
 
   // ============================================
-  // LOADING STATE
+  // LOADING STATE (First 30 seconds)
   // ============================================
-  if (loading) {
+  if (loading && !showPendingState) {
     return (
       <>
         <SEO 
@@ -192,16 +286,16 @@ export default function DonationSuccess() {
               {pollCount > 0 && (
                 <div className="progress-container">
                   <div className="progress-bar">
-                    <div className="progress-fill" style={{ width: `${(pollCount / 15) * 100}%` }}></div>
+                    <div className="progress-fill" style={{ width: `${(pollCount / LOADING_DISPLAY_ATTEMPTS) * 100}%` }}></div>
                   </div>
-                  <p className="poll-count">Checking payment... ({pollCount}/15)</p>
+                  <p className="poll-count">Checking payment... ({pollCount}/{LOADING_DISPLAY_ATTEMPTS})</p>
                 </div>
               )}
               {pollCount > 3 && (
                 <p className="status-hint">Please don't refresh the page. We're confirming your payment.</p>
               )}
-              {pollCount > 8 && (
-                <p className="status-hint">Payments can take up to 60 seconds to process. Thank you for your patience.</p>
+              {pollCount > 6 && (
+                <p className="status-hint">Payments can take up to 30 seconds to process. Thank you for your patience.</p>
               )}
             </div>
           </div>
@@ -245,9 +339,9 @@ export default function DonationSuccess() {
   }
 
   // ============================================
-  // PENDING / TIMEOUT STATE
+  // PENDING STATE (After 30 seconds, background polling active)
   // ============================================
-  if (donationData?.status === 'PENDING' || donationData?.status === 'TIMEOUT') {
+  if (donationData?.status === 'PENDING' && isBackgroundPolling) {
     return (
       <>
         <SEO 
@@ -262,7 +356,13 @@ export default function DonationSuccess() {
                 <i className="fas fa-clock"></i>
               </div>
               <h2 className="status-title">Payment Processing</h2>
-              <p className="status-message">{donationData.message || 'Your payment is being processed. Please wait for confirmation.'}</p>
+              <p className="status-message">{statusMessage || donationData.message || 'Your payment is being processed. Please wait for confirmation.'}</p>
+              
+              <div className="background-polling-indicator">
+                <div className="pulse-dot"></div>
+                <span className="polling-text">Checking for updates...</span>
+              </div>
+              
               <div className="status-details">
                 <div className="detail-row">
                   <span className="detail-label">Transaction Reference</span>
@@ -275,6 +375,65 @@ export default function DonationSuccess() {
                 <div className="detail-row">
                   <span className="detail-label">Status</span>
                   <span className="detail-value status-badge pending">⏳ PENDING</span>
+                </div>
+                {pollCount > LOADING_DISPLAY_ATTEMPTS && (
+                  <div className="detail-row">
+                    <span className="detail-label">Waiting Time</span>
+                    <span className="detail-value">{Math.floor((pollCount - LOADING_DISPLAY_ATTEMPTS) * 3 / 60)}m {((pollCount - LOADING_DISPLAY_ATTEMPTS) * 3) % 60}s</span>
+                  </div>
+                )}
+              </div>
+              
+              <div className="status-actions">
+                <Link to="/" className="btn-primary">
+                  <i className="fas fa-home"></i> Return Home
+                </Link>
+                <Link to="/contact" className="btn-secondary">
+                  <i className="fas fa-envelope"></i> Contact Us
+                </Link>
+              </div>
+              
+              <div className="pending-note">
+                <p><i className="fas fa-info-circle"></i> We're still checking for your payment confirmation. You can close this page and we'll update you via email when confirmed.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </>
+    );
+  }
+
+  // ============================================
+  // TIMEOUT STATE
+  // ============================================
+  if (donationData?.status === 'TIMEOUT') {
+    return (
+      <>
+        <SEO 
+          title="Payment Timeout - Kajiado Children's Home"
+          description="Your payment confirmation has timed out. Please check your M-PESA."
+          path="/donation-success"
+        />
+        <div className="donation-success-page">
+          <div className="container">
+            <div className="status-card status-timeout">
+              <div className="status-icon timeout-icon">
+                <i className="fas fa-hourglass-end"></i>
+              </div>
+              <h2 className="status-title">Payment Timeout</h2>
+              <p className="status-message">{donationData.message || 'Payment confirmation timed out. Please check your M-PESA app.'}</p>
+              <div className="status-details">
+                <div className="detail-row">
+                  <span className="detail-label">Transaction Reference</span>
+                  <span className="detail-value">{donationData.reference}</span>
+                </div>
+                <div className="detail-row">
+                  <span className="detail-label">Amount</span>
+                  <span className="detail-value highlight">KES {donationData.amount}</span>
+                </div>
+                <div className="detail-row">
+                  <span className="detail-label">Status</span>
+                  <span className="detail-value status-badge timeout">⏰ TIMEOUT</span>
                 </div>
               </div>
               <div className="status-actions">
@@ -324,6 +483,12 @@ export default function DonationSuccess() {
                   <span className="detail-label">Status</span>
                   <span className="detail-value status-badge failed">❌ {donationData.status}</span>
                 </div>
+                {isLogged && (
+                  <div className="detail-row error-log">
+                    <span className="detail-label">📊 Data Status</span>
+                    <span className="detail-value status-badge warning">Logged (Failed)</span>
+                  </div>
+                )}
               </div>
               <div className="status-actions">
                 <Link to="/donate" className="btn-primary">
@@ -343,100 +508,115 @@ export default function DonationSuccess() {
   // ============================================
   // SUCCESS STATE
   // ============================================
-  return (
-    <>
-      <SEO 
-        title="Donation Successful - Kajiado Children's Home"
-        description="Thank you for your generous donation to Kajiado Children's Home. Your support transforms lives."
-        path="/donation-success"
-      />
-      
-      <div className="donation-success-page">
-        <div className="container">
-          <div className="status-card status-success">
-            <div className="status-icon success-icon">
-              <i className="fas fa-check-circle"></i>
-            </div>
-            <h2 className="status-title">🎉 Thank You for Your Donation!</h2>
-            <p className="status-message">
-              Your generous contribution will help us provide love, care, education, and hope to vulnerable children at Kajiado Children's Home.
-            </p>
-            
-            {donationData && (
-              <div className="status-details">
-                <div className="detail-row">
-                  <span className="detail-label">Transaction Reference</span>
-                  <span className="detail-value">{donationData.reference}</span>
-                </div>
-                <div className="detail-row">
-                  <span className="detail-label">Amount</span>
-                  <span className="detail-value highlight">KES {donationData.amount}</span>
-                </div>
-                <div className="detail-row">
-                  <span className="detail-label">Status</span>
-                  <span className="detail-value status-badge success">✅ COMPLETED</span>
-                </div>
-                {donationData.paymentMethod && donationData.paymentMethod !== 'N/A' && (
-                  <div className="detail-row">
-                    <span className="detail-label">Payment Method</span>
-                    <span className="detail-value">{donationData.paymentMethod}</span>
-                  </div>
-                )}
-                {donationData.confirmationCode && donationData.confirmationCode !== 'N/A' && (
-                  <div className="detail-row">
-                    <span className="detail-label">Confirmation Code</span>
-                    <span className="detail-value">{donationData.confirmationCode}</span>
-                  </div>
-                )}
-                {isLogged && (
-                  <div className="detail-row success-log">
-                    <span className="detail-label">📊 Data Status</span>
-                    <span className="detail-value status-badge success">✅ Logged to Google Sheets</span>
-                  </div>
-                )}
-                {logError && (
-                  <div className="detail-row error-log">
-                    <span className="detail-label">⚠️ Data Status</span>
-                    <span className="detail-value status-badge warning">{logError}</span>
-                  </div>
-                )}
+  if (donationData?.status === 'COMPLETED') {
+    return (
+      <>
+        <SEO 
+          title="Donation Successful - Kajiado Children's Home"
+          description="Thank you for your generous donation to Kajiado Children's Home. Your support transforms lives."
+          path="/donation-success"
+        />
+        
+        <div className="donation-success-page">
+          <div className="container">
+            <div className="status-card status-success">
+              <div className="status-icon success-icon">
+                <i className="fas fa-check-circle"></i>
               </div>
-            )}
-
-            <div className="status-actions">
-              <Link to="/" className="btn-primary">
-                <i className="fas fa-home"></i> Return Home
-              </Link>
-              <Link to="/contact" className="btn-secondary">
-                <i className="fas fa-envelope"></i> Contact Us
-              </Link>
-            </div>
-
-            <div className="impact-section">
-              <h3>Your Impact</h3>
-              <p>Your donation will help provide:</p>
-              <ul>
-                <li>🍲 Nutritious meals for children</li>
-                <li>📚 Quality education and school supplies</li>
-                <li>🏥 Medical care and healthcare support</li>
-                <li>🏠 Safe shelter and loving care</li>
-                <li>💖 Hope and a brighter future</li>
-              </ul>
-              <p className="blessing">
-                "The generous will themselves be blessed, for they share their food with the poor."<br />
-                <strong>Proverbs 22:9</strong>
+              <h2 className="status-title">🎉 Thank You for Your Donation!</h2>
+              <p className="status-message">
+                Your generous contribution will help us provide love, care, education, and hope to vulnerable children at Kajiado Children's Home.
               </p>
+              
+              {donationData && (
+                <div className="status-details">
+                  <div className="detail-row">
+                    <span className="detail-label">Transaction Reference</span>
+                    <span className="detail-value">{donationData.reference}</span>
+                  </div>
+                  <div className="detail-row">
+                    <span className="detail-label">Amount</span>
+                    <span className="detail-value highlight">KES {donationData.amount}</span>
+                  </div>
+                  <div className="detail-row">
+                    <span className="detail-label">Status</span>
+                    <span className="detail-value status-badge success">✅ COMPLETED</span>
+                  </div>
+                  {donationData.paymentMethod && donationData.paymentMethod !== 'N/A' && (
+                    <div className="detail-row">
+                      <span className="detail-label">Payment Method</span>
+                      <span className="detail-value">{donationData.paymentMethod}</span>
+                    </div>
+                  )}
+                  {donationData.confirmationCode && donationData.confirmationCode !== 'N/A' && (
+                    <div className="detail-row">
+                      <span className="detail-label">Confirmation Code</span>
+                      <span className="detail-value">{donationData.confirmationCode}</span>
+                    </div>
+                  )}
+                  {isLogged && (
+                    <div className="detail-row success-log">
+                      <span className="detail-label">📊 Data Status</span>
+                      <span className="detail-value status-badge success">✅ Logged to Google Sheets</span>
+                    </div>
+                  )}
+                  {logError && (
+                    <div className="detail-row error-log">
+                      <span className="detail-label">⚠️ Data Status</span>
+                      <span className="detail-value status-badge warning">{logError}</span>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              <div className="status-actions">
+                <Link to="/" className="btn-primary">
+                  <i className="fas fa-home"></i> Return Home
+                </Link>
+                <Link to="/contact" className="btn-secondary">
+                  <i className="fas fa-envelope"></i> Contact Us
+                </Link>
+              </div>
+
+              <div className="impact-section">
+                <h3>Your Impact</h3>
+                <p>Your donation will help provide:</p>
+                <ul>
+                  <li>🍲 Nutritious meals for children</li>
+                  <li>📚 Quality education and school supplies</li>
+                  <li>🏥 Medical care and healthcare support</li>
+                  <li>🏠 Safe shelter and loving care</li>
+                  <li>💖 Hope and a brighter future</li>
+                </ul>
+                <p className="blessing">
+                  "The generous will themselves be blessed, for they share their food with the poor."<br />
+                  <strong>Proverbs 22:9</strong>
+                </p>
+              </div>
             </div>
           </div>
         </div>
+      </>
+    );
+  }
+
+  // Fallback loading state
+  return (
+    <div className="donation-success-page">
+      <div className="container">
+        <div className="status-card status-loading">
+          <div className="status-icon loading-icon">
+            <i className="fas fa-spinner fa-spin"></i>
+          </div>
+          <h2 className="status-title">Loading...</h2>
+          <p className="status-message">Please wait...</p>
+        </div>
       </div>
-    </>
+    </div>
   );
 }
 
-// ============================================
-// CSS STYLES - Moved outside the component
-// ============================================
+// CSS Styles (same as before)
 const styles = `
   .donation-success-page {
     min-height: 100vh;
@@ -509,6 +689,14 @@ const styles = `
     color: #ff9800;
   }
   
+  .status-timeout::before {
+    background: linear-gradient(90deg, #9e9e9e, #bdbdbd);
+  }
+  
+  .status-timeout .status-icon {
+    color: #757575;
+  }
+  
   .status-icon {
     font-size: 4.5rem;
     margin-bottom: 16px;
@@ -533,6 +721,10 @@ const styles = `
     display: inline-block;
   }
   
+  .timeout-icon {
+    animation: fadeIn 0.5s ease;
+  }
+  
   @keyframes successPop {
     0% { transform: scale(0) rotate(-20deg); opacity: 0; }
     50% { transform: scale(1.2) rotate(5deg); }
@@ -554,6 +746,11 @@ const styles = `
   
   @keyframes spin {
     to { transform: rotate(360deg); }
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
   }
   
   .status-title {
@@ -603,6 +800,57 @@ const styles = `
     color: #718096;
     font-size: 0.85rem;
     margin: 8px 0 0;
+  }
+  
+  .background-polling-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin: 16px 0 24px;
+    padding: 10px;
+    background: #f0f4f8;
+    border-radius: 12px;
+  }
+  
+  .pulse-dot {
+    width: 12px;
+    height: 12px;
+    background: #4caf50;
+    border-radius: 50%;
+    animation: pulseDot 1.5s ease-in-out infinite;
+  }
+  
+  @keyframes pulseDot {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.5); opacity: 0.5; }
+  }
+  
+  .polling-text {
+    color: #2d3748;
+    font-weight: 500;
+    font-size: 0.95rem;
+  }
+  
+  .pending-note {
+    margin-top: 16px;
+    padding: 16px;
+    background: #fff3e0;
+    border-radius: 12px;
+    text-align: left;
+  }
+  
+  .pending-note p {
+    color: #e65100;
+    font-size: 0.9rem;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .pending-note p i {
+    color: #ff9800;
   }
   
   .status-details {
@@ -673,6 +921,11 @@ const styles = `
   .status-badge.warning {
     background: #fff8e1;
     color: #f57f17;
+  }
+  
+  .status-badge.timeout {
+    background: #f5f5f5;
+    color: #616161;
   }
   
   .detail-row.success-log {
