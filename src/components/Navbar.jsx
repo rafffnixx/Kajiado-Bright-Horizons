@@ -10,7 +10,7 @@ export default function Navbar() {
   const { isDarkMode, toggleTheme } = useTheme();
 
   // Fix: Ensure logo paths are correct
-  const logoSrc = isDarkMode ? "/logo.jpg" : "/logo-dark.png";
+  const logoSrc = isDarkMode ? "/logo.png" : "/logo-dark.png";
   // Alternative: Use a single logo that works in both modes
   // const logoSrc = "/logo.png";
 
@@ -103,7 +103,7 @@ export default function Navbar() {
               className="logo-image"
               onError={(e) => {
                 // Fallback if logo doesn't load
-                e.target.src = "/logo.jpg";
+                e.target.src = "/logo.png";
                 e.target.onerror = null;
               }}
             />
@@ -167,7 +167,7 @@ export default function Navbar() {
               alt="Kajiado Bright Horizons Logo" 
               className="mobile-logo-image"
               onError={(e) => {
-                e.target.src = "/logo.jpg";
+                e.target.src = "/logo.png";
                 e.target.onerror = null;
               }}
             />

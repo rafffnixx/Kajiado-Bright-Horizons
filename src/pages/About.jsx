@@ -50,8 +50,7 @@ export default function About() {
 
   const services = [
     { icon: "fa-heart", title: "Love & Christian Care" },
-    { icon: "fa-utensils", title: "Nutritious Food" },
-    { icon: "fa-tshirt", title: "Clothing" },
+    { icon: "fa-utensils", title: "Food & Clothing" },
     { icon: "fa-book-open", title: "Quality Education" },
     { icon: "fa-star", title: "Hope for Future" },
   ];
