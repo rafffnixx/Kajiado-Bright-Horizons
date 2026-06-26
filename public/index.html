@@ -35,6 +35,13 @@
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     
     <!-- ============================================ -->
+    <!-- DNS PREFETCH - Faster DNS resolution        -->
+    <!-- ============================================ -->
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
+    
+    <!-- ============================================ -->
     <!-- PRECONNECT - Critical                        -->
     <!-- ============================================ -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -44,6 +51,8 @@
     <!-- ============================================ -->
     <!-- PRELOAD - Only FIRST hero image             -->
     <!-- ============================================ -->
+    <link rel="preload" as="image" href="/images/hero/hero-bg.webp" />
+    <!-- Fallback to JPG if WebP not supported -->
     <link rel="preload" as="image" href="/images/hero/hero-bg.jpg" />
     
     <!-- ============================================ -->
@@ -63,7 +72,7 @@
     </noscript>
 
     <!-- ============================================ -->
-    <!-- CRITICAL CSS - Inlined                      -->
+    <!-- CRITICAL CSS - Inlined & Minified           -->
     <!-- ============================================ -->
     <style>
       /* Critical CSS for above-the-fold */
@@ -77,13 +86,21 @@
       .hero-slide.active{opacity:1;z-index:2}
       .hero-overlay{position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.55);z-index:1}
       .hero-content-wrapper{position:relative;z-index:2;display:flex;align-items:center;justify-content:center;height:100%;padding:0 20px}
-      .hero-text{max-width:800px;margin:0 auto;text-align:center;color:#fff}
+      .hero-text{max-width:800px;margin:0 auto;text-align:center;color:#fff;animation:fadeInUp 1.2s ease-out}
+      @keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
       .hero-title{font-size:2.8rem;font-weight:800;margin-bottom:16px;text-shadow:0 2px 20px rgba(0,0,0,0.3)}
       .hero-subtitle{font-size:1.3rem;margin-bottom:12px;opacity:.95}
       .hero-description{font-size:1rem;opacity:.85;max-width:600px;margin:0 auto 24px;line-height:1.6}
       
-      @media(max-width:768px){.hero-slider{height:60vh;min-height:400px}.hero-title{font-size:2rem}.hero-subtitle{font-size:1.1rem}}
-      @media(max-width:480px){.hero-slider{height:50vh;min-height:350px}.hero-title{font-size:1.6rem}}
+      /* Hero dots - optimized */
+      .hero-dots{position:absolute;bottom:30px;left:50%;transform:translateX(-50%);display:flex;gap:10px;z-index:10}
+      .hero-dot{width:10px;height:10px;border-radius:50%;border:2px solid rgba(255,255,255,0.5);background:transparent;cursor:pointer;transition:all .3s ease;padding:0}
+      .hero-dot.active{background:#fff;border-color:#fff;transform:scale(1.2)}
+      .hero-dot:hover{background:rgba(255,255,255,0.3)}
+      
+      .hero-bg-image-wrapper{position:absolute;top:0;left:0;width:100%;height:100%;z-index:0}
+      .hero-bg-image-wrapper .optimized-image-wrapper{width:100%!important;height:100%!important}
+      .hero-bg-image-wrapper img{width:100%;height:100%;object-fit:cover;object-position:center}
       
       /* Image placeholder */
       .image-placeholder{background:linear-gradient(90deg,#f0f4f8 25%,#e2e8f0 50%,#f0f4f8 75%);background-size:200% 100%;animation:shimmer 1.5s infinite}
@@ -92,22 +109,16 @@
       /* OptimizedImage wrapper */
       .optimized-image-wrapper{position:relative;overflow:hidden;background:#f0f4f8}
       
-      /* Hero dots - optimized */
-      .hero-dots{position:absolute;bottom:30px;left:50%;transform:translateX(-50%);display:flex;gap:10px;z-index:10}
-      .hero-dot{width:10px;height:10px;border-radius:50%;border:2px solid rgba(255,255,255,0.5);background:transparent;cursor:pointer;transition:all 0.3s ease;padding:0}
-      .hero-dot.active{background:#fff;border-color:#fff;transform:scale(1.2)}
-      .hero-dot:hover{background:rgba(255,255,255,0.3)}
-      
-      .hero-bg-image-wrapper{position:absolute;top:0;left:0;width:100%;height:100%;z-index:0}
-      .hero-bg-image-wrapper .optimized-image-wrapper{width:100%!important;height:100%!important}
-      .hero-bg-image-wrapper img{width:100%;height:100%;object-fit:cover;object-position:center}
+      @media(max-width:768px){.hero-slider{height:60vh;min-height:400px}.hero-title{font-size:2rem}.hero-subtitle{font-size:1.1rem}}
+      @media(max-width:480px){.hero-slider{height:50vh;min-height:350px}.hero-title{font-size:1.6rem}}
     </style>
   </head>
   <body>
     <noscript>
       <div style="padding:20px;text-align:center;font-family:Arial,sans-serif;max-width:600px;margin:0 auto;">
         <h1 style="color:#2563eb;">Kajiado Bright Horizons</h1>
-        <p>Please enable JavaScript to support our mission.</p>
+        <p style="font-size:16px;color:#4a5568;">Please enable JavaScript to support our mission.</p>
+        <p style="font-size:14px;color:#4a5568;margin-top:12px;">Contact us: <a href="mailto:info@kajiadochildrenhome.org" style="color:#2563eb;">info@kajiadochildrenhome.org</a></p>
       </div>
     </noscript>
     <div id="root"></div>
