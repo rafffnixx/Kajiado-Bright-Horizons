@@ -280,7 +280,7 @@ export default function Home() {
               <div className="about-text">
                 <h2>About <span>Kajiado Bright Horizons</span></h2>
                 <p>Kajiado Bright Horizons (KBH) has been home to multi-generations of vulnerable children since <strong>1997</strong>. KBH works closely with Kenya Child Services to identify children who are the most desperate in need, with those admitted having no family, access to parental oversight, nor have their basic needs for protection met.</p>
-                <p>KBH provides physical and spiritual nourishment in a safe environment, supplemented by care by a loving staff, medical care and educational needs through secondary school. The children come from different African tribes and grow up as sisters and brothers. Currently, there are over <strong>100 children</strong> being cared for at KBH.</p>
+                <p>KBH provides physical and spiritual nourishment in a safe environment, supplemented by care by a loving staff, medical care and educational needs through secondary school. The children come from different African tribes and grow up as sisters and brothers. Currently, there are over <strong>60 children</strong> being cared for at KBH.</p>
                 <p>KBH is also a designated <strong>Kajiado Rescue Center</strong> for Kenya Child Services, who places vulnerable children on a temporary basis. Alumni of KBH remain active as mentors, volunteers, and some even serve as local board members.</p>
                 <Link to="/about" className="btn-outline">
                   Read Our Story <i className="fas fa-arrow-right"></i>

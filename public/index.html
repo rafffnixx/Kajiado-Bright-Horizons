@@ -6,11 +6,20 @@
     <meta name="theme-color" content="#3B82F6" />
     
     <!-- ============================================ -->
+    <!-- SEARCH ENGINE VERIFICATION                   -->
+    <!-- ============================================ -->
+    <meta name="google-site-verification" content="YOUR_GOOGLE_VERIFICATION_CODE" />
+    <meta name="msvalidate.01" content="YOUR_BING_VERIFICATION_CODE" />
+    
+    <!-- ============================================ -->
     <!-- PRIMARY META TAGS                             -->
     <!-- ============================================ -->
     <title>Kajiado Bright Horizons | Hope & Care for Vulnerable Children</title>
     <meta name="description" content="Kajiado Bright Horizons provides shelter, education, healthcare, and love to orphaned and vulnerable children in Kajiado, Kenya since 1997." />
     <meta name="robots" content="index, follow" />
+    <meta name="author" content="Kajiado Bright Horizons" />
+    <meta name="language" content="English" />
+    <meta name="revisit-after" content="7 days" />
 
     <!-- ============================================ -->
     <!-- CANONICAL URL                                -->
@@ -18,7 +27,7 @@
     <link rel="canonical" href="https://kajiado-bright-horizons.vercel.app" />
     
     <!-- ============================================ -->
-    <!-- OPEN GRAPH                                   -->
+    <!-- OPEN GRAPH / SOCIAL MEDIA                    -->
     <!-- ============================================ -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://kajiado-bright-horizons.vercel.app" />
@@ -27,11 +36,25 @@
     <meta property="og:image" content="https://kajiado-bright-horizons.vercel.app/og-image.jpg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="Kajiado Bright Horizons" />
+    <meta property="og:locale" content="en_KE" />
+    
+    <!-- ============================================ -->
+    <!-- TWITTER CARD                                 -->
+    <!-- ============================================ -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@kajiadochildren" />
+    <meta name="twitter:creator" content="@kajiadochildren" />
+    <meta name="twitter:url" content="https://kajiado-bright-horizons.vercel.app" />
+    <meta name="twitter:title" content="Kajiado Bright Horizons - Hope & Care for Vulnerable Children" />
+    <meta name="twitter:description" content="Providing shelter, education, healthcare, and love to orphaned and vulnerable children in Kajiado, Kenya." />
+    <meta name="twitter:image" content="https://kajiado-bright-horizons.vercel.app/og-image.jpg" />
     
     <!-- ============================================ -->
     <!-- FAVICON                                      -->
     <!-- ============================================ -->
     <link rel="icon" type="image/png" href="%PUBLIC_URL%/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="%PUBLIC_URL%/logo192.png" />
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     
     <!-- ============================================ -->
@@ -42,17 +65,17 @@
     <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
     
     <!-- ============================================ -->
-    <!-- PRECONNECT - Critical                        -->
+    <!-- PRECONNECT - Critical connections            -->
     <!-- ============================================ -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
     
     <!-- ============================================ -->
-    <!-- PRELOAD - Only FIRST hero image             -->
+    <!-- PRELOAD - Critical resources                 -->
     <!-- ============================================ -->
+    <!-- Only preload the FIRST hero image -->
     <link rel="preload" as="image" href="/images/hero/hero-bg.webp" />
-    <!-- Fallback to JPG if WebP not supported -->
     <link rel="preload" as="image" href="/images/hero/hero-bg.jpg" />
     
     <!-- ============================================ -->
@@ -72,13 +95,60 @@
     </noscript>
 
     <!-- ============================================ -->
+    <!-- SITEMAP                                      -->
+    <!-- ============================================ -->
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
+
+    <!-- ============================================ -->
+    <!-- STRUCTURED DATA (JSON-LD)                    -->
+    <!-- ============================================ -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "NGO",
+        "name": "Kajiado Bright Horizons",
+        "url": "https://kajiado-bright-horizons.vercel.app",
+        "logo": "https://kajiado-bright-horizons.vercel.app/logo.png",
+        "image": "https://kajiado-bright-horizons.vercel.app/og-image.jpg",
+        "description": "Providing shelter, education, healthcare, and love to orphaned and vulnerable children in Kajiado, Kenya since 1997.",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Kajiado Town",
+          "addressLocality": "Kajiado",
+          "addressRegion": "Kajiado County",
+          "addressCountry": "KE"
+        },
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "telephone": "+254700123456",
+          "contactType": "customer service",
+          "email": "info@kajiadochildrenhome.org"
+        },
+        "sameAs": [
+          "https://www.facebook.com/kajiadochildrenshome",
+          "https://twitter.com/kajiadochildren",
+          "https://www.instagram.com/kajiadochildrenshome"
+        ],
+        "donation": {
+          "@type": "DonateAction",
+          "name": "Support Kajiado Bright Horizons",
+          "url": "https://kajiado-bright-horizons.vercel.app/donate"
+        }
+      }
+    </script>
+
+    <!-- ============================================ -->
     <!-- CRITICAL CSS - Inlined & Minified           -->
     <!-- ============================================ -->
     <style>
-      /* Critical CSS for above-the-fold */
+      /* Critical CSS for above-the-fold content */
       *{margin:0;padding:0;box-sizing:border-box}
       body{font-family:'Inter',sans-serif;background:#f0f4f8;-webkit-font-smoothing:antialiased}
       #root{min-height:100vh}
+      
+      /* Font display swap for performance */
+      @font-face{font-family:'Inter';font-display:swap}
+      @font-face{font-family:'Poppins';font-display:swap}
       
       /* Hero slider critical styles */
       .hero-slider{position:relative;width:100%;height:70vh;min-height:500px;max-height:700px;overflow:hidden}
@@ -109,6 +179,9 @@
       /* OptimizedImage wrapper */
       .optimized-image-wrapper{position:relative;overflow:hidden;background:#f0f4f8}
       
+      /* Main landmark for accessibility */
+      #main-content{min-height:80vh}
+      
       @media(max-width:768px){.hero-slider{height:60vh;min-height:400px}.hero-title{font-size:2rem}.hero-subtitle{font-size:1.1rem}}
       @media(max-width:480px){.hero-slider{height:50vh;min-height:350px}.hero-title{font-size:1.6rem}}
     </style>
@@ -119,6 +192,10 @@
         <h1 style="color:#2563eb;">Kajiado Bright Horizons</h1>
         <p style="font-size:16px;color:#4a5568;">Please enable JavaScript to support our mission.</p>
         <p style="font-size:14px;color:#4a5568;margin-top:12px;">Contact us: <a href="mailto:info@kajiadochildrenhome.org" style="color:#2563eb;">info@kajiadochildrenhome.org</a></p>
+        <p style="font-size:14px;color:#4a5568;margin-top:8px;">Call us: <a href="tel:+254700123456" style="color:#2563eb;">+254 700 123 456</a></p>
+        <div style="margin-top:16px;">
+          <a href="/" style="display:inline-block;padding:10px 24px;background:#2563eb;color:white;text-decoration:none;border-radius:50px;font-weight:600;">Visit Homepage</a>
+        </div>
       </div>
     </noscript>
     <div id="root"></div>
