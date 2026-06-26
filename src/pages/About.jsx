@@ -58,8 +58,10 @@ export default function About() {
   const staff = [
     { name: "Ruth Mbugua", role: "Manager", image: "/images/staff/staff1.jpg" },
     { name: "Simon Wainaina", role: "Director", image: "/images/staff/staff2.jpg" },
-    { name: "Mary Wanjiku", role: "Teacher", image: "/images/staff/staff3.jpg" },
-    { name: "James Kariuki", role: "Pastor", image: "/images/staff/staff4.jpg" }
+    { name: "Consolata ..", role: "Matron & Care Giver", image: "/images/staff/staff3.jpg" },
+    { name: "Raphael Barasa", role: "Pastor", image: "/images/staff/staff44.jpg" },
+    { name: "Pst. James Kariuki", role: "Board of Trustees", image: "/images/staff/staff33.jpg" }
+
   ];
 
   const values = [
@@ -118,11 +120,11 @@ export default function About() {
                     <span className="highlight-label">Year Founded</span>
                   </div>
                   <div className="highlight-item">
-                    <span className="highlight-number">100+</span>
+                    <span className="highlight-number">250+</span>
                     <span className="highlight-label">Children Cared For</span>
                   </div>
                   <div className="highlight-item">
-                    <span className="highlight-number">27+</span>
+                    <span className="highlight-number">29+</span>
                     <span className="highlight-label">Years of Service</span>
                   </div>
                 </div>
@@ -134,25 +136,7 @@ export default function About() {
           </div>
         </section>
 
-        {/* What We Provide Section */}
-        <section className="services-provided">
-          <div className="container">
-            <div className="section-header">
-              <h2 className="section-title">What We <span>Provide</span></h2>
-              <p className="section-subtitle">Comprehensive care for every child's development</p>
-            </div>
-            <div className="services-grid">
-              {services.map((service, index) => (
-                <div className="service-card" key={index}>
-                  <div className="service-icon">
-                    <i className={`fas ${service.icon}`}></i>
-                  </div>
-                  <h3>{service.title}</h3>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
+
 
         {/* Mission & Vision Section */}
         <section className="mission-vision">
@@ -194,6 +178,26 @@ export default function About() {
           </div>
         </section>
 
+                {/* What We Provide Section */}
+        <section className="services-provided">
+          <div className="container">
+            <div className="section-header">
+              <h2 className="section-title">What We <span>Provide</span></h2>
+              <p className="section-subtitle">Comprehensive care for every child's development</p>
+            </div>
+            <div className="services-grid">
+              {services.map((service, index) => (
+                <div className="service-card" key={index}>
+                  <div className="service-icon">
+                    <i className={`fas ${service.icon}`}></i>
+                  </div>
+                  <h3>{service.title}</h3>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* Core Values Section */}
         <section className="values-section">
           <div className="container">
@@ -212,7 +216,26 @@ export default function About() {
           </div>
         </section>
 
-        {/* Partner Programs */}
+
+        {/* Staff Section */}
+        <section className="staff-section">
+          <div className="container">
+            <div className="section-header">
+              <h2 className="section-title">Our <span>Dedicated Team</span></h2>
+              <p className="section-subtitle">Meet the caring individuals who make our home a loving environment</p>
+            </div>
+            <div className="staff-grid">
+              {staff.map((member, index) => (
+                <div className="staff-card" key={index}>
+                  <img src={member.image} alt={member.name} loading="lazy" />
+                  <h3>{member.name}</h3>
+                  <p>{member.role}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+ 
 
 
         {/* Supporting Partners */}

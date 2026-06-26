@@ -1,3 +1,4 @@
+// src/components/Navbar.jsx
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
@@ -9,10 +10,7 @@ export default function Navbar() {
   const location = useLocation();
   const { isDarkMode, toggleTheme } = useTheme();
 
-  // Fix: Ensure logo paths are correct
   const logoSrc = isDarkMode ? "/logo.png" : "/logo-dark.png";
-  // Alternative: Use a single logo that works in both modes
-  // const logoSrc = "/logo.png";
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -74,18 +72,14 @@ export default function Navbar() {
   };
 
   const handleNavClick = (path, e) => {
-    // Don't prevent default for the logo link
     closeMenu();
-    // Only scroll to top for navigation, not for logo click
     if (path !== '/') {
       window.scrollTo(0, 0);
     }
   };
 
-  // Handle logo click separately
   const handleLogoClick = () => {
     closeMenu();
-    // Don't scroll to top if already at home page
     if (location.pathname !== '/') {
       window.scrollTo(0, 0);
     }
@@ -95,23 +89,46 @@ export default function Navbar() {
     <>
       <header className={`navbar ${isScrolled ? 'scrolled' : ''}`}>
         <div className="container nav-container">
-          {/* Fix: Remove onClick handler or keep it simple */}
+          {/* Logo */}
           <Link to="/" className="logo" onClick={handleLogoClick}>
             <img 
               src={logoSrc}
               alt="Kajiado Bright Horizons Logo" 
               className="logo-image"
               onError={(e) => {
-                // Fallback if logo doesn't load
                 e.target.src = "/logo.png";
                 e.target.onerror = null;
               }}
             />
             <div className="logo-text">
-              <h1>kajiado Bright Horizons</h1>
+              <h1>Kajiado Bright Horizons</h1>
             </div>
           </Link>
 
+          {/* Desktop Navigation */}
+          <ul className="nav-links">
+            {navLinks.map((link) => (
+              <li key={link.path}>
+                <Link 
+                  to={link.path} 
+                  className={isActive(link.path) ? 'active' : ''}
+                  onClick={() => handleNavClick(link.path)}
+                >
+                  <i className={link.icon}></i>
+                  <span>{link.label}</span>
+                </Link>
+              </li>
+            ))}
+            
+            {/* Desktop CTA - inside nav-links for desktop */}
+            <li className="desktop-cta">
+              <Link to="/get-involved" className="btn-outline-small" onClick={() => handleNavClick('/get-involved')}>
+                <i className="fas fa-hand-holding-heart"></i> Get Involved
+              </Link>
+            </li>
+          </ul>
+
+          {/* ⭐ FIXED: nav-actions outside nav-links */}
           <div className="nav-actions">
             {/* Theme Toggle Button */}
             <button 
@@ -126,6 +143,7 @@ export default function Navbar() {
               )}
             </button>
 
+            {/* Mobile Menu Toggle */}
             <button 
               className={`menu-toggle ${isMenuOpen ? 'active' : ''}`} 
               onClick={toggleMenu}
@@ -135,26 +153,6 @@ export default function Navbar() {
               <i className={`fas ${isMenuOpen ? 'fa-times' : 'fa-bars'}`}></i>
             </button>
           </div>
-
-          <ul className="nav-links">
-            {navLinks.map((link) => (
-              <li key={link.path}>
-                <Link 
-                  to={link.path} 
-                  className={isActive(link.path) ? 'active' : ''}
-                  onClick={() => handleNavClick(link.path)}
-                >
-                  <i className={link.icon}></i>
-                  <span>{link.label}</span>
-                </Link>
-              </li>
-            ))}
-            <li className="desktop-cta">
-              <Link to="/get-involved" className="btn-outline-small" onClick={() => handleNavClick('/get-involved')}>
-                <i className="fas fa-hand-holding-heart"></i> Get Involved
-              </Link>
-            </li>
-          </ul>
         </div>
       </header>
 
@@ -172,8 +170,7 @@ export default function Navbar() {
               }}
             />
             <div className="mobile-logo-text">
-              <h3>kajiado Bright Horizons</h3>
-
+              <h3>Kajiado Bright Horizons</h3>
             </div>
           </div>
           <button className="mobile-menu-close" onClick={closeMenu} aria-label="Close menu">
@@ -195,6 +192,8 @@ export default function Navbar() {
               </Link>
             </li>
           ))}
+          
+          {/* Mobile Theme Toggle */}
           <li className="mobile-theme-toggle">
             <button onClick={toggleTheme} className="theme-toggle-mobile">
               <i className={isDarkMode ? "fas fa-sun" : "fas fa-moon"}></i>
@@ -218,6 +217,7 @@ export default function Navbar() {
         </div>
       </div>
 
+      {/* Overlay */}
       {isMenuOpen && <div className="menu-overlay" onClick={closeMenu}></div>}
     </>
   );

@@ -134,7 +134,7 @@ export default function GetInvolved() {
     { number: "150+", label: "Children Supported", icon: "fa-child" },
     { number: "50+", label: "Active Volunteers", icon: "fa-hands-helping" },
     { number: "20+", label: "Partner Orgs", icon: "fa-handshake" },
-    { number: "27+", label: "Years of Service", icon: "fa-calendar-alt" }
+    { number: "29+", label: "Years of Service", icon: "fa-calendar-alt" }
   ];
 
   const wishlist = [
@@ -826,7 +826,7 @@ export default function GetInvolved() {
         }
 
         .hero-content-about h1 span {
-          color: #2563EB !important;
+          color: #f6e05e !important;
         }
 
         .hero-content-about p {

@@ -104,13 +104,13 @@ export default function Footer() {
               <li>
                 <i className="fas fa-phone"></i>
                 <div>
-                  <a href="tel:+254700123456">+254 700 123 456</a>
+                  <a href="tel:+254720789839">+254 720 789 839</a>
                 </div>
               </li>
               <li>
                 <i className="fab fa-whatsapp"></i>
                 <div>
-                  <a href="https://wa.me/254700123456">+254 700 123 456 (WhatsApp)</a>
+                  <a href="https://wa.me/254720789839">+254 720 789 839 (WhatsApp)</a>
                 </div>
               </li>
               <li>
@@ -158,7 +158,7 @@ export default function Footer() {
 
       {/* WhatsApp Chat Button */}
       <a 
-        href="https://wa.me/254700123456?text=Hello%20Kajiado%20Children%27s%20Home%2C%20I%20want%20to%20support%20your%20work" 
+        href="https://wa.me/254720789839?text=Hello%20Kajiado%20Children%27s%20Home%2C%20I%20want%20to%20support%20your%20work" 
         className="whatsapp-chat"
         target="_blank" 
         rel="noopener noreferrer"

@@ -72,7 +72,7 @@ module.exports = {
     FACEBOOK: env.REACT_APP_FACEBOOK_URL || 'https://facebook.com/kajiadochildrenshome',
     TWITTER: env.REACT_APP_TWITTER_URL || 'https://twitter.com/kajiadochildren',
     INSTAGRAM: env.REACT_APP_INSTAGRAM_URL || 'https://instagram.com/kajiadochildrenshome',
-    WHATSAPP: env.REACT_APP_WHATSAPP_URL || 'https://wa.me/254700123456'
+    WHATSAPP: env.REACT_APP_WHATSAPP_URL || 'https://wa.me/254720789839'
   },
   
   // ============================================

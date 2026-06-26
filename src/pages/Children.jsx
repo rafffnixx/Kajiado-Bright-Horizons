@@ -23,7 +23,7 @@ export default function Children() {
           <div className="hero-bg-container">
             <div 
               className="hero-bg-image-about"
-              style={{ backgroundImage: 'url("/images/hero/children-hero.jpg")' }}
+              style={{ backgroundImage: 'url("/images/hero/partners-hero.jpg")' }}
             ></div>
             <div className="hero-overlay-dark"></div>
           </div>

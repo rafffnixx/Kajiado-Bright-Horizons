@@ -978,6 +978,753 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ============================================ */
+/* STAFF SECTION                                */
+/* ============================================ */
+
+.staff-section {
+  padding: 80px 0;
+  background: var(--bg-deep, #f8f9fa);
+}
+
+[data-theme="dark"] .staff-section {
+  background: var(--bg-deep, #0a0a0a);
+}
+
+/* ============================================ */
+/* SECTION HEADER                               */
+/* ============================================ */
+
+.section-header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.section-title {
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: var(--text-color, #1a202c);
+  margin-bottom: 12px;
+}
+
+.section-title span {
+  color: var(--primary-color, #3B82F6);
+}
+
+[data-theme="dark"] .section-title {
+  color: #e8e8e8;
+}
+
+.section-subtitle {
+  font-size: 1.1rem;
+  color: var(--text-muted, #718096);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+[data-theme="dark"] .section-subtitle {
+  color: #9ca3af;
+}
+
+/* ============================================ */
+/* STAFF GRID                                   */
+/* ============================================ */
+
+.staff-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ============================================ */
+/* STAFF CARD                                   */
+/* ============================================ */
+
+.staff-card {
+  text-align: center;
+  background: var(--card-bg, #ffffff);
+  border-radius: 20px;
+  padding: 32px 24px 28px;
+  border: 1px solid var(--border-color, #e2e8f0);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+[data-theme="dark"] .staff-card {
+  background: var(--card-bg, #141414);
+  border-color: var(--border-color, #262626);
+}
+
+/* Hover Effect */
+.staff-card:hover {
+  transform: translateY(-8px);
+  border-color: var(--primary-color, #3B82F6);
+  box-shadow: 0 12px 40px rgba(59, 130, 246, 0.12);
+}
+
+[data-theme="dark"] .staff-card:hover {
+  box-shadow: 0 12px 40px rgba(59, 130, 246, 0.2);
+}
+
+/* Top accent border on hover */
+.staff-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary-color, #3B82F6), var(--primary-light, #60A5FA));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.staff-card:hover::before {
+  opacity: 1;
+}
+
+/* ============================================ */
+/* STAFF IMAGE                                  */
+/* ============================================ */
+
+.staff-card img {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 0 auto 16px;
+  display: block;
+  border: 4px solid var(--border-color, #e2e8f0);
+  transition: all 0.3s ease;
+}
+
+[data-theme="dark"] .staff-card img {
+  border-color: var(--border-color, #262626);
+}
+
+.staff-card:hover img {
+  border-color: var(--primary-color, #3B82F6);
+  transform: scale(1.05);
+  box-shadow: 0 8px 24px rgba(59, 130, 246, 0.2);
+}
+
+[data-theme="dark"] .staff-card:hover img {
+  box-shadow: 0 8px 24px rgba(59, 130, 246, 0.3);
+}
+
+/* ============================================ */
+/* STAFF INFO                                   */
+/* ============================================ */
+
+.staff-card h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text-color, #1a202c);
+  margin: 12px 0 4px;
+}
+
+[data-theme="dark"] .staff-card h3 {
+  color: #e8e8e8;
+}
+
+.staff-card p {
+  font-size: 0.95rem;
+  color: var(--primary-color, #3B82F6);
+  font-weight: 500;
+  margin: 0;
+}
+
+[data-theme="dark"] .staff-card p {
+  color: #60A5FA;
+}
+
+/* ============================================ */
+/* STAFF CARD - Optional Badge                 */
+/* ============================================ */
+
+.staff-card .role-badge {
+  display: inline-block;
+  padding: 4px 14px;
+  background: rgba(59, 130, 246, 0.1);
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--primary-color, #3B82F6);
+  margin-top: 8px;
+}
+
+[data-theme="dark"] .staff-card .role-badge {
+  background: rgba(59, 130, 246, 0.15);
+  color: #60A5FA;
+}
+
+/* ============================================ */
+/* STAFF SOCIAL LINKS (Optional)               */
+/* ============================================ */
+
+.staff-social {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.staff-social a {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(59, 130, 246, 0.08);
+  color: var(--text-muted, #718096);
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+[data-theme="dark"] .staff-social a {
+  background: rgba(59, 130, 246, 0.12);
+  color: #9ca3af;
+}
+
+.staff-social a:hover {
+  background: var(--primary-color, #3B82F6);
+  color: #ffffff;
+  transform: translateY(-3px);
+}
+
+/* ============================================ */
+/* RESPONSIVE DESIGN                            */
+/* ============================================ */
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .staff-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+  
+  .staff-card img {
+    width: 120px;
+    height: 120px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .staff-section {
+    padding: 60px 0;
+  }
+  
+  .section-title {
+    font-size: 2rem;
+  }
+  
+  .section-subtitle {
+    font-size: 1rem;
+    padding: 0 16px;
+  }
+  
+  .staff-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    padding: 0 16px;
+  }
+  
+  .staff-card {
+    padding: 24px 16px 20px;
+  }
+  
+  .staff-card img {
+    width: 100px;
+    height: 100px;
+    border-width: 3px;
+  }
+  
+  .staff-card h3 {
+    font-size: 1rem;
+  }
+  
+  .staff-card p {
+    font-size: 0.85rem;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 480px) {
+  .staff-section {
+    padding: 40px 0;
+  }
+  
+  .section-title {
+    font-size: 1.6rem;
+  }
+  
+  .staff-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    padding: 0 12px;
+  }
+  
+  .staff-card {
+    padding: 16px 12px 16px;
+    border-radius: 16px;
+  }
+  
+  .staff-card img {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .staff-card h3 {
+    font-size: 0.9rem;
+  }
+  
+  .staff-card p {
+    font-size: 0.8rem;
+  }
+}
+
+/* Extra Small */
+@media (max-width: 360px) {
+  .staff-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  
+  .staff-card img {
+    width: 70px;
+    height: 70px;
+  }
+  
+  .staff-card h3 {
+    font-size: 0.8rem;
+  }
+  
+  .staff-card p {
+    font-size: 0.7rem;
+  }
+}
+
+/* ============================================ */
+/* ANIMATIONS                                   */
+/* ============================================ */
+
+/* Fade in animation for staff cards */
+.staff-card {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+.staff-card:nth-child(1) { animation-delay: 0.1s; }
+.staff-card:nth-child(2) { animation-delay: 0.2s; }
+.staff-card:nth-child(3) { animation-delay: 0.3s; }
+.staff-card:nth-child(4) { animation-delay: 0.4s; }
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .staff-card {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+}
+
+
+
+
+/* ============================================ */
+/* src/pages/styles.css - UNIFIED HERO STYLES  */
+/* ============================================ */
+
+/* ============================================ */
+/* 1. HERO BASE - All pages                     */
+/* ============================================ */
+
+.about-hero {
+  position: relative;
+  padding: 120px 0 80px;
+  overflow: hidden;
+  margin-top: 70px;
+  min-height: 400px;
+  display: flex;
+  align-items: center;
+  background: linear-gradient(135deg, #1a365d 0%, #2b6cb0 50%, #2563eb 100%) !important;
+}
+
+/* ============================================ */
+/* 2. HERO BACKGROUND CONTAINER                 */
+/* ============================================ */
+
+.hero-bg-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.hero-bg-image-about {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: transform 8s ease-in-out;
+}
+
+.about-hero:hover .hero-bg-image-about {
+  transform: scale(1.05);
+}
+
+/* ============================================ */
+/* 3. HERO OVERLAY                             */
+/* ============================================ */
+
+.hero-overlay-dark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--hero-overlay, rgba(0, 0, 0, 0.55));
+  z-index: 1;
+}
+
+/* ============================================ */
+/* 4. HERO CONTENT                             */
+/* ============================================ */
+
+.hero-content-about {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  color: white;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* ============================================ */
+/* 5. HERO TITLE - ANIMATED                    */
+/* ============================================ */
+
+.hero-content-about h1 {
+  font-size: 3.5rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: white;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  transform: translateY(40px) scale(0.95);
+  animation: heroFadeInUp 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  animation-delay: 0.1s;
+}
+
+.hero-content-about h1 span {
+  color: #f6e05e;
+  background: linear-gradient(135deg, #f6e05e, #f59e0b);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ============================================ */
+/* 6. HERO SUBTITLE - ANIMATED                 */
+/* ============================================ */
+
+.hero-content-about p {
+  font-size: 1.3rem;
+  opacity: 0;
+  color: rgba(255, 255, 255, 0.95);
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+  transform: translateY(30px);
+  animation: heroFadeInUp 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  animation-delay: 0.3s;
+}
+
+/* ============================================ */
+/* 7. HERO BUTTONS                             */
+/* ============================================ */
+
+.hero-buttons {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 32px;
+  opacity: 0;
+  transform: translateY(30px);
+  animation: heroFadeInUp 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  animation-delay: 0.5s;
+}
+
+/* ============================================ */
+/* 8. HERO BUTTON STYLES                       */
+/* ============================================ */
+
+.hero-buttons .btn-gold {
+  background: linear-gradient(105deg, var(--primary-color, #3B82F6), var(--primary-dark, #1D4ED8));
+  border: none;
+  padding: 14px 36px;
+  font-weight: 700;
+  border-radius: 50px;
+  color: #ffffff !important;
+  font-family: 'Poppins', sans-serif;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+  box-shadow: 0 4px 20px rgba(59, 130, 246, 0.4);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  animation: heroPulseGlow 2s ease-in-out infinite;
+}
+
+.hero-buttons .btn-gold:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 8px 30px rgba(59, 130, 246, 0.5);
+}
+
+.hero-buttons .btn-outline {
+  background: transparent;
+  border: 2px solid rgba(255, 255, 255, 0.6);
+  padding: 12px 32px;
+  border-radius: 50px;
+  color: #ffffff;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  backdrop-filter: blur(10px);
+}
+
+.hero-buttons .btn-outline:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: #ffffff;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* ============================================ */
+/* 9. KEYFRAME ANIMATIONS                      */
+/* ============================================ */
+
+@keyframes heroFadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(40px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes heroPulseGlow {
+  0%, 100% {
+    box-shadow: 0 4px 20px rgba(59, 130, 246, 0.4);
+  }
+  50% {
+    box-shadow: 0 4px 40px rgba(59, 130, 246, 0.7);
+  }
+}
+
+/* ============================================ */
+/* 10. RESPONSIVE HERO                         */
+/* ============================================ */
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .about-hero {
+    padding: 100px 0 60px;
+    min-height: 350px;
+  }
+  
+  .hero-content-about h1 {
+    font-size: 2.8rem;
+  }
+  
+  .hero-content-about p {
+    font-size: 1.1rem;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .about-hero {
+    padding: 80px 0 50px;
+    min-height: 300px;
+    margin-top: 60px;
+  }
+  
+  .hero-content-about h1 {
+    font-size: 2.2rem;
+  }
+  
+  .hero-content-about p {
+    font-size: 1rem;
+    padding: 0 20px;
+  }
+  
+  .hero-buttons {
+    flex-direction: column;
+    align-items: center;
+    padding: 0 20px;
+  }
+  
+  .hero-buttons .btn-gold,
+  .hero-buttons .btn-outline {
+    width: 100%;
+    justify-content: center;
+    padding: 14px 24px;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 480px) {
+  .about-hero {
+    padding: 60px 0 40px;
+    min-height: 250px;
+  }
+  
+  .hero-content-about h1 {
+    font-size: 1.8rem;
+  }
+  
+  .hero-content-about p {
+    font-size: 0.9rem;
+  }
+  
+  .hero-buttons .btn-gold,
+  .hero-buttons .btn-outline {
+    font-size: 0.9rem;
+    padding: 12px 20px;
+  }
+}
+
+/* ============================================ */
+/* 11. REDUCED MOTION PREFERENCE               */
+/* ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-content-about h1,
+  .hero-content-about p,
+  .hero-buttons {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+  
+  .hero-bg-image-about {
+    transition: none !important;
+  }
+  
+  .about-hero:hover .hero-bg-image-about {
+    transform: none !important;
+  }
+  
+  .hero-buttons .btn-gold {
+    animation: none !important;
+  }
+}
+
+/* ============================================ */
+/* 12. HERO WITH OPTIMIZED IMAGE              */
+/* ============================================ */
+
+.hero-bg-image-about-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.hero-bg-image-about-wrapper .optimized-image-wrapper {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.hero-bg-image-about-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 8s ease-in-out;
+}
+
+.about-hero:hover .hero-bg-image-about-wrapper img {
+  transform: scale(1.05);
+}
+
+/* ============================================ */
+/* 13. HERO SHAPES / DECORATIONS (Optional)    */
+/* ============================================ */
+
+.hero-shape {
+  position: absolute;
+  z-index: 1;
+  opacity: 0.1;
+  pointer-events: none;
+}
+
+.hero-shape-1 {
+  top: -100px;
+  right: -100px;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, #3B82F6, transparent 70%);
+  border-radius: 50%;
+  animation: heroFloat 20s ease-in-out infinite;
+}
+
+.hero-shape-2 {
+  bottom: -150px;
+  left: -150px;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, #f6e05e, transparent 70%);
+  border-radius: 50%;
+  animation: heroFloat 25s ease-in-out infinite reverse;
+}
+
+@keyframes heroFloat {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(30px, -30px) scale(1.05);
+  }
+  66% {
+    transform: translate(-20px, 20px) scale(0.95);
+  }
+}
+
+/* ============================================ */
 /* TESTIMONIAL                                 */
 /* ============================================ */
 

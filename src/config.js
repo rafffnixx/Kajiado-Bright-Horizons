@@ -26,7 +26,7 @@ const CONFIG = {
     FACEBOOK: "https://facebook.com/kajiadochildrenshome",
     TWITTER: "https://twitter.com/kajiadochildren",
     INSTAGRAM: "https://instagram.com/kajiadochildrenshome",
-    WHATSAPP: "https://wa.me/254700123456",
+    WHATSAPP: "https://wa.me/254720789839",
     YOUTUBE: "https://youtube.com/kajiadochildrenshome"
   },
   

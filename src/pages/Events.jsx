@@ -73,29 +73,30 @@ const upcomingEvent = {
   const alumniStories = [
     {
       id: 1,
-      name: "Raphael Mwongela",
-      yearBorn: 2001,
-      yearJoined: 2010,
-      gradeJoined: "Grade 2",
-      yearGraduated: 2026,
-      achievement: "Bachelor's Degree in Information Technology",
-      currentRole: "IT Solutions Developer & Founder of RaffCodes",
-      story: "Raphael came to KBH as a total orphan at age 9, joining in Grade 2. Despite the challenges, he persevered through primary and secondary school. With the support of KBH sponsors, he pursued a degree in Information Technology and graduated in August 2026. Today, he owns RaffCodes (raffcodes.vercel.app), an IT solutions company, and is giving back by developing this website for KBH. His journey from a vulnerable child to a successful entrepreneur is a testament to the power of love, support, and education.",
-      image: "/images/alumni/raphael.jpg",
-      icon: "💻",
-      tags: ["IT Expert", "Entrepreneur", "Web Developer"]
-    },
+      name: "Emmanuel Keiya",
+      yearBorn: 1980,
+      yearJoined: 2001,
+      gradeJoined: "Grade 4",
+      yearGraduated: 2010,
+      achievement: "Public Officer, Kajiado County",
+      currentRole: "Public Officer",
+      story: "Emmanuel joined Kajiado Children’s Home in 2001 at Grade 4. Coming from a challenging background, he found stability, education, and mentorship at the home. With the support of staff and sponsors, Emmanuel completed his schooling and graduated in 2010. His determination and commitment to service led him to become a Public Officer in Kajiado County, where he now works to improve community welfare and governance. Emmanuel’s journey reflects resilience, discipline, and a passion for giving back to society. He continues to mentor younger generations, showing them that with perseverance and support, they too can achieve their dreams.",
+      image: "/images/alumni/emmanuel-kaako.jpg",
+      icon: "🧑‍💼",
+      tags: ["Officer", "Mentor", "Community Leader"]
+    },    
+
     {
       id: 2,
-      name: "Janet Ngotiek",
+      name: "Richard Simintei",
       yearBorn: 2000,
       yearJoined: 2010,
-      gradeJoined: "Grade 3",
+      gradeJoined: "Grade 4",
       yearGraduated: 2026,
-      achievement: "Diploma in Journalism and Mass Communication",
-      currentRole: "To be provided",
-      story: "Mary joined KBH at age 7 after losing both parents. She grew up at the home, excelling in her studies. With sponsorship support, she completed her education degree and is now a dedicated primary school teacher. She returns to KBH every holiday to mentor younger children and help with homework.",
-      image: "/images/alumni/mary.jpg",
+      achievement: "Bachalors Degree in Information Technoloy",
+      currentRole: "IT Admin at KBH",
+      story: "Richard joined KBH at age 7 after losing both parents. She grew up at the home, excelling in her studies. With sponsorship support, she completed her education degree and is now a dedicated primary school teacher. She returns to KBH every holiday to mentor younger children and help with homework.",
+      image: "/images/alumni/abraham-salaash.jpg",
       icon: "👩‍🏫",
       tags: ["Teacher", "Mentor", "Role Model"]
     },
@@ -106,7 +107,7 @@ const upcomingEvent = {
       yearJoined: 2010,
       gradeJoined: "Grade 2",
       yearGraduated: 2026,
-      achievement: "Degree in Information Technology",
+      achievement: "Bachalors Degree in Information Technology",
       currentRole: "KBH Developer & Founder of RaffCodes IT Solutions",
       story: "Raphael joined KBH in 2010 at age 9 after losing his parents, entering in Grade 2. Despite the challenges of growing up as a total orphan, he excelled academically and spiritually, supported by the care and sponsorship provided at the home. His determination led him through primary and secondary school, and eventually to university where he pursued a degree in Information Technology. Graduating in 2026, Raphael founded RaffCodes IT Solutions, an innovative IT company. Today, he gives back to KBH by developing and maintaining its website, ensuring the home’s mission reaches more people. His journey from vulnerability to leadership demonstrates the transformative power of education, faith, and community support.",
       image: "/images/alumni/raphael.jpg",
@@ -115,15 +116,15 @@ const upcomingEvent = {
     },
     {
       id: 4,
-      name: "Emmanuel Kaako",
-      yearBorn: 1980,
-      yearJoined: 2001,
-      gradeJoined: "Grade 4",
-      yearGraduated: 2010,
-      achievement: "Public Officer, Kajiado County",
-      currentRole: "Public Officer",
-      story: "Emmanuel joined Kajiado Children’s Home in 2001 at Grade 4. Coming from a challenging background, he found stability, education, and mentorship at the home. With the support of staff and sponsors, Emmanuel completed his schooling and graduated in 2010. His determination and commitment to service led him to become a Public Officer in Kajiado County, where he now works to improve community welfare and governance. Emmanuel’s journey reflects resilience, discipline, and a passion for giving back to society. He continues to mentor younger generations, showing them that with perseverance and support, they too can achieve their dreams.",
-      image: "/images/alumni/emmanuel-kaako.jpg",
+      name: "Moses Leina",
+      yearBorn: 1997,
+      yearJoined: 2014,
+      gradeJoined: "Grade 8",
+      yearGraduated: 2024,
+      achievement: "Plant Operator, Veterinary Officer",
+      currentRole: "Veterinary Officer",
+      story: "Moses joined Kajiado Children’s Home in 2014 at Grade 8. Coming from a challenging background, he found stability, education, and mentorship at the home. With the support of staff and sponsors, Moses completed his schooling and graduated in 2010. His determination and commitment to service led him to become a Public Officer in Kajiado County, where he now works to improve community welfare and governance. Emmanuel’s journey reflects resilience, discipline, and a passion for giving back to society. He continues to mentor younger generations, showing them that with perseverance and support, they too can achieve their dreams.",
+      image: "/images/alumni/mose.jpg",
       icon: "🧑‍💼",
       tags: ["Officer", "Mentor", "Community Leader"]
     },
@@ -139,7 +140,7 @@ const upcomingEvent = {
       story: "Abraham joined KBH in 2007 at Grade 2. Growing up in the home, he developed a strong passion for education and service. With the support of sponsors and mentors, he excelled academically and pursued a Bachelor's Degree in Languages, graduating in 2025. Inspired by the care he received, Abraham chose to serve in healthcare, working as a nurse and volunteering in community health initiatives. His dedication to helping others has made him a healthcare hero, offering both professional care and mentorship to vulnerable families. Abraham’s journey reflects compassion, resilience, and a commitment to giving back to society.",
       image: "/images/alumni/abraham-salaash.jpg",
       icon: "🏥",
-      tags: ["Nurse", "Volunteer", "Healthcare Hero"]
+      tags: ["Teacher", "Volunteer",]
     },
     {
       id: 6,
@@ -153,7 +154,7 @@ const upcomingEvent = {
       story: "Organizational skills were noticed early at KBH. After completing her business diploma, she joined the KBH administrative team, helping manage records, sponsorships, and daily operations. 'This home raised me, now I help raise it,' she says proudly.",
       image: "/images/alumni/esther.jpg",
       icon: "📊",
-      tags: ["Administrator", "Organizer", "Team Player"]
+      tags: ["Designer", "Tailor", "Team Player"]
     },
     {
       id: 7,

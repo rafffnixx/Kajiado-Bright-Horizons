@@ -103,9 +103,9 @@ export default function Home() {
   useEffect(() => {
     const counters = [
       { key: 'children', target: 450, duration: 2000 },
-      { key: 'volunteers', target: 90, duration: 2000 },
-      { key: 'partners', target: 20, duration: 2000 },
-      { key: 'years', target: 27, duration: 1500 }
+      { key: 'volunteers', target: 50, duration: 2000 },
+      { key: 'partners', target: 30, duration: 2000 },
+      { key: 'years', target: 29, duration: 1500 }
     ];
 
     counters.forEach(counter => {
