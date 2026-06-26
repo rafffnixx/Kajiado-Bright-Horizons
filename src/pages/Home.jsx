@@ -4,8 +4,6 @@ import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
 import OptimizedImage from '../components/OptimizedImage';
 
-
-
 export default function Home() {
   const [stats, setStats] = useState({
     children: 0,
@@ -62,7 +60,8 @@ export default function Home() {
       title: 'Kajiado Valley School of Excellence', 
       desc: 'Provides quality early childhood and primary education, nurturing young learners and supporting the mission of Kajiado Bright Horizons',
       logo: '/images/partners/kajiado-valley-school.jpg',
-      stats: '50+ students enrolled'
+      stats: '50+ students enrolled',
+      link: 'https://kvse.sc.ke/'
     },
     { 
       id: 'healthcare', 
@@ -352,9 +351,20 @@ export default function Home() {
                   <div className="program-stats">
                     <i className="fas fa-users"></i> {program.stats}
                   </div>
-                  <Link to="/get-involved" className="program-link">
-                    Support This Program <i className="fas fa-arrow-right"></i>
-                  </Link>
+                  {program.link ? (
+                    <a 
+                      href={program.link} 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="program-link"
+                    >
+                      Visit School Website <i className="fas fa-external-link-alt"></i>
+                    </a>
+                  ) : (
+                    <Link to="/get-involved" className="program-link">
+                      Support This Program <i className="fas fa-arrow-right"></i>
+                    </Link>
+                  )}
                 </div>
               ))}
             </div>
@@ -975,6 +985,7 @@ export default function Home() {
           align-items: center;
           gap: 8px;
           transition: gap 0.3s ease;
+          cursor: pointer;
         }
 
         .program-link:hover {

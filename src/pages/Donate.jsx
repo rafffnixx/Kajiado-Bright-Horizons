@@ -2,10 +2,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
-// ✅ REMOVED: import { logDonation } from '../services/googleSheetsService';
 
 export default function Donate() {
-  const [activeTab, setActiveTab] = useState('mpesa');
   const [selectedAmount, setSelectedAmount] = useState(null);
   const [customAmount, setCustomAmount] = useState('');
   const [donationType, setDonationType] = useState('one-time');
@@ -16,24 +14,18 @@ export default function Donate() {
     phone: '',
     message: ''
   });
-  const [mpesaData, setMpesaData] = useState({
-    phoneNumber: '',
-    amount: ''
-  });
 
   const presetAmounts = [500, 1000, 2500, 5000, 10000];
 
   const handleAmountSelect = (amount) => {
     setSelectedAmount(amount);
     setCustomAmount('');
-    setMpesaData({...mpesaData, amount: amount.toString()});
   };
 
   const handleCustomAmount = (e) => {
     const value = e.target.value;
     setCustomAmount(value);
     setSelectedAmount(null);
-    setMpesaData({...mpesaData, amount: value});
   };
 
   const getTotalAmount = () => {
@@ -43,7 +35,7 @@ export default function Donate() {
   };
 
   // Handle Pesapal API 3.0 Payment
-  const handlePesapalPayment = async (e, paymentMethod) => {
+  const handlePesapalPayment = async (e) => {
     e.preventDefault();
     const amount = getTotalAmount();
     
@@ -52,28 +44,24 @@ export default function Donate() {
       return;
     }
 
-    // ✅ Store donation data in localStorage for the success page
-    // This data will be used by DonationSuccess.jsx to log to sheets
-    // ONLY when payment is confirmed
+    // Validate phone number
+    if (!formData.phone || formData.phone.length < 9) {
+      alert('Please enter a valid phone number (e.g., 712345678)');
+      return;
+    }
+
+    // Store donation data in localStorage for the success page
     const donationData = {
       fullName: formData.fullName || 'Anonymous',
       email: formData.email || '',
-      phone: paymentMethod === 'mpesa' ? mpesaData.phoneNumber : formData.phone || '',
-      paymentMethod: paymentMethod === 'mpesa' ? 'M-PESA' : 'Card',
+      phone: formData.phone || '',
+      paymentMethod: 'PesaPal',
       donationType: donationType,
       amount: amount.toString(),
       timestamp: new Date().toISOString()
     };
     localStorage.setItem('donationData', JSON.stringify(donationData));
     localStorage.setItem('donationAmount', amount.toString());
-
-    // For M-PESA, validate phone number
-    if (paymentMethod === 'mpesa') {
-      if (!mpesaData.phoneNumber || mpesaData.phoneNumber.length < 9) {
-        alert('Please enter a valid M-PESA phone number (e.g., 712345678)');
-        return;
-      }
-    }
 
     setIsProcessing(true);
 
@@ -85,19 +73,17 @@ export default function Donate() {
         },
         body: JSON.stringify({
           amount: amount,
-          phoneNumber: paymentMethod === 'mpesa' ? mpesaData.phoneNumber : formData.phone || '0700000000',
+          phoneNumber: formData.phone || '0700000000',
           email: formData.email || 'donor@kajiadochildrenshome.org',
           fullName: formData.fullName || 'Kajiado Donor',
           donationType: donationType,
-          paymentMethod: paymentMethod
+          paymentMethod: 'pesapal' // Pesapal handles both M-PESA and Card
         })
       });
 
       const data = await response.json();
 
       if (data.success) {
-        // ✅ IMPORTANT: Don't log to sheets or send email here
-        // The DonationSuccess page will handle logging when payment is confirmed
         console.log('✅ Payment initiated, waiting for confirmation...');
         console.log('📝 Donor data stored in localStorage, will be logged on confirmation');
         window.location.href = data.paymentUrl;
@@ -194,123 +180,21 @@ export default function Donate() {
                   </div>
                 </div>
 
-                <div className="payment-tabs">
-                  <button 
-                    className={`payment-tab ${activeTab === 'mpesa' ? 'active' : ''}`}
-                    onClick={() => setActiveTab('mpesa')}
-                  >
-                    <i className="fas fa-mobile-alt"></i> Mobile Money
-                  </button>
-                  <button 
-                    className={`payment-tab ${activeTab === 'card' ? 'active' : ''}`}
-                    onClick={() => setActiveTab('card')}
-                  >
-                    <i className="fas fa-credit-card"></i> Card
-                  </button>
-                </div>
-
-                {activeTab === 'mpesa' && (
-                  <div className="payment-method-detail">
-                    <h4><i className="fas fa-mobile-alt"></i> Mobile Money via Pesapal</h4>
-                    <div className="paybill-info">
-                      <p className="paybill-note">
-                        <i className="fas fa-info-circle"></i>
-                        You will be redirected to Pesapal's secure page to complete your payment via M-PESA or Airtel Money.
-                      </p>
-                    </div>
-                    
-                    <form onSubmit={(e) => handlePesapalPayment(e, 'mpesa')}>
-                      <div className="form-group">
-                        <label>Full Name</label>
-                        <input
-                          type="text"
-                          placeholder="Enter your full name"
-                          value={formData.fullName}
-                          onChange={(e) => setFormData({...formData, fullName: e.target.value})}
-                        />
-                      </div>
-
-                      <div className="form-group">
-                        <label>Email Address</label>
-                        <input
-                          type="email"
-                          placeholder="your@email.com"
-                          value={formData.email}
-                          onChange={(e) => setFormData({...formData, email: e.target.value})}
-                        />
-                      </div>
-
-                      <div className="form-group">
-                        <label>M-PESA Phone Number *</label>
-                        <div className="phone-input-wrapper">
-                          <span className="phone-prefix">+254</span>
-                          <input
-                            type="tel"
-                            placeholder="712345678"
-                            value={mpesaData.phoneNumber}
-                            onChange={(e) => {
-                              const value = e.target.value.replace(/\D/g, '');
-                              setMpesaData({...mpesaData, phoneNumber: value});
-                            }}
-                            required
-                            disabled={isProcessing}
-                            maxLength="9"
-                          />
-                        </div>
-                        <small className="input-hint">Enter phone number without 0 or +254 (e.g., 712345678)</small>
-                      </div>
-
-                      <button 
-                        type="submit" 
-                        className="btn-gold mpesa-btn"
-                        disabled={isProcessing || getTotalAmount() === 0}
-                      >
-                        {isProcessing ? (
-                          <><i className="fas fa-spinner fa-spin"></i> Processing...</>
-                        ) : (
-                          <><i className="fas fa-mobile-alt"></i> Pay KES {getTotalAmount().toLocaleString()} via Pesapal</>
-                        )}
-                      </button>
-                    </form>
-
-                    <div className="mpesa-steps">
-                      <h5>How it works:</h5>
-                      <ol>
-                        <li>Enter your M-PESA phone number</li>
-                        <li>Click "Pay via Pesapal"</li>
-                        <li>You'll be redirected to Pesapal's secure page</li>
-                        <li>Choose M-PESA or Airtel Money as payment method</li>
-                        <li>You'll receive a prompt on your phone</li>
-                        <li>Enter your PIN to confirm</li>
-                      </ol>
-                    </div>
-                  </div>
-                )}
-
-                {activeTab === 'card' && (
-                  <div className="payment-method-detail">
-                    <h4><i className="fas fa-credit-card"></i> Card Payment via Pesapal</h4>
-                    <p className="secure-note">
-                      <i className="fas fa-lock"></i> Secure payment processed by Pesapal (PCI-DSS certified)
+                <div className="payment-method-detail">
+                  <h4><i className="fas fa-lock"></i> Secure Payment via Pesapal</h4>
+                  <div className="paybill-info">
+                    <p className="paybill-note">
+                      <i className="fas fa-info-circle"></i>
+                      Pesapal secure page where you can choose to pay via <strong>M-PESA</strong>, <strong>Airtel Money</strong>, or <strong>Card</strong>.
                     </p>
-                    
-                    <div className="card-info">
-                      <div className="card-logos">
-                        <i className="fab fa-cc-visa"></i>
-                        <i className="fab fa-cc-mastercard"></i>
-                        <i className="fab fa-cc-amex"></i>
-                      </div>
-                      <p className="card-description">
-                        You will be redirected to Pesapal's secure payment page where you can enter your card details.
-                        Pesapal is <strong>PCI-DSS certified</strong>, ensuring your card data is handled with the highest security standards.
-                      </p>
-                    </div>
-                    
-                    <form onSubmit={(e) => handlePesapalPayment(e, 'card')}>
+                  </div>
+                  
+                  <form onSubmit={handlePesapalPayment}>
+                    <div className="form-row">
                       <div className="form-group">
                         <label>Full Name *</label>
-                        <input 
-                          type="text" 
+                        <input
+                          type="text"
                           placeholder="Enter your full name"
                           value={formData.fullName}
                           onChange={(e) => setFormData({...formData, fullName: e.target.value})}
@@ -320,62 +204,85 @@ export default function Donate() {
 
                       <div className="form-group">
                         <label>Email Address *</label>
-                        <input 
-                          type="email" 
+                        <input
+                          type="email"
                           placeholder="your@email.com"
                           value={formData.email}
                           onChange={(e) => setFormData({...formData, email: e.target.value})}
                           required
                         />
                       </div>
+                    </div>
 
-                      <div className="form-group">
-                        <label>Phone Number</label>
-                        <input 
-                          type="tel" 
-                          placeholder="+254 712 345 678"
+                    <div className="form-group">
+                      <label>Phone Number *</label>
+                      <div className="phone-input-wrapper">
+                        <span className="phone-prefix">+254</span>
+                        <input
+                          type="tel"
+                          placeholder="712345678"
                           value={formData.phone}
-                          onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                          onChange={(e) => {
+                            const value = e.target.value.replace(/\D/g, '');
+                            setFormData({...formData, phone: value});
+                          }}
+                          required
+                          disabled={isProcessing}
+                          maxLength="9"
                         />
                       </div>
-
-                      <button 
-                        type="submit" 
-                        className="btn-gold"
-                        disabled={isProcessing || getTotalAmount() === 0}
-                        style={{width: '100%', justifyContent: 'center', marginTop: '16px'}}
-                      >
-                        {isProcessing ? (
-                          <><i className="fas fa-spinner fa-spin"></i> Processing...</>
-                        ) : (
-                          <><i className="fas fa-credit-card"></i> Pay KES {getTotalAmount().toLocaleString()} via Pesapal</>
-                        )}
-                      </button>
-                    </form>
-
-                    <div className="mpesa-steps">
-                      <h5>How it works:</h5>
-                      <ol>
-                        <li>Enter your personal details</li>
-                        <li>Click "Pay via Pesapal"</li>
-                        <li>You'll be redirected to Pesapal's secure page</li>
-                        <li>Enter your card details on the PCI-DSS certified page</li>
-                        <li>Complete the payment</li>
-                      </ol>
+                      <small className="input-hint">Enter phone number without 0 or +254 (e.g., 712345678)</small>
                     </div>
-                  </div>
-                )}
 
-                <div className="personal-info">
-                  <h3>Additional Information</h3>
-                  <div className="form-group">
-                    <label>Message (Optional)</label>
-                    <textarea 
-                      rows="2"
-                      placeholder="Any special instructions or dedication..."
-                      value={formData.message}
-                      onChange={(e) => setFormData({...formData, message: e.target.value})}
-                    ></textarea>
+                    <div className="form-group">
+                      <label>Message (Optional)</label>
+                      <textarea 
+                        rows="2"
+                        placeholder="Any special instructions or dedication..."
+                        value={formData.message}
+                        onChange={(e) => setFormData({...formData, message: e.target.value})}
+                      />
+                    </div>
+
+                    <button 
+                      type="submit" 
+                      className="btn-gold"
+                      disabled={isProcessing || getTotalAmount() === 0}
+                      style={{width: '100%', justifyContent: 'center'}}
+                    >
+                      {isProcessing ? (
+                        <><i className="fas fa-spinner fa-spin"></i> Processing...</>
+                      ) : (
+                        <><i className="fas fa-shield-alt"></i> Pay KES {getTotalAmount().toLocaleString()} via Pesapal</>
+                      )}
+                    </button>
+                  </form>
+
+                  <div className="payment-info">
+                    <div className="payment-icons">
+                      <i className="fas fa-mobile-alt" title="M-PESA"></i>
+                      <i className="fas fa-credit-card" title="Card"></i>
+                      <i className="fas fa-university" title="Bank Transfer"></i>
+                    </div>
+                    <p className="secure-note">
+                      <i className="fas fa-lock"></i> PCI-DSS Certified • Secure • Encrypted
+                    </p>
+                  </div>
+
+                  <div className="payment-steps">
+                    <h5>How it works:</h5>
+                    <ol>
+                      <li>Fill in your personal details</li>
+                      <li>Click "Pay via Pesapal"</li>
+                      <li>You'll be redirected to Pesapal's secure page</li>
+                      <li>Choose your preferred payment method:</li>
+                      <ul>
+                        <li>📱 M-PESA or Airtel Money</li>
+                        <li>💳 Visa, Mastercard, or Amex</li>
+                      </ul>
+                      <li>Complete the payment</li>
+                      <li>You'll receive a confirmation email</li>
+                    </ol>
                   </div>
                 </div>
 
@@ -618,40 +525,6 @@ export default function Donate() {
           color: #2563eb;
         }
 
-        .payment-tabs {
-          display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          gap: 12px;
-          margin-bottom: 24px;
-        }
-
-        .payment-tab {
-          padding: 14px;
-          background: #f7fafc;
-          border: 2px solid #e2e8f0;
-          border-radius: 12px;
-          cursor: pointer;
-          transition: all 0.3s ease;
-          font-weight: 600;
-          color: #718096;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 8px;
-          font-size: 0.95rem;
-        }
-
-        .payment-tab:hover {
-          border-color: #2563eb;
-          color: #2d3748;
-        }
-
-        .payment-tab.active {
-          background: #2563eb;
-          color: #ffffff;
-          border-color: #2563eb;
-        }
-
         .payment-method-detail {
           padding: 24px;
           background: #f7fafc;
@@ -717,9 +590,10 @@ export default function Donate() {
           outline: none;
         }
 
-        .form-group input::placeholder,
-        .form-group textarea::placeholder {
-          color: #a0aec0;
+        .form-row {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 16px;
         }
 
         .phone-input-wrapper {
@@ -811,52 +685,72 @@ export default function Donate() {
           transform: translateY(-2px);
         }
 
-        .mpesa-steps {
-          margin-top: 16px;
+        .payment-info {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 12px 0;
+          border-bottom: 1px solid #e2e8f0;
+          margin-bottom: 12px;
+        }
+
+        .payment-icons {
+          display: flex;
+          gap: 16px;
+          font-size: 1.5rem;
+          color: #718096;
+        }
+
+        .payment-icons i {
+          transition: color 0.3s ease;
+        }
+
+        .payment-icons i:hover {
+          color: #2563eb;
+        }
+
+        .secure-note {
+          color: #4a5568;
+          font-size: 0.85rem;
+          display: flex;
+          align-items: center;
+          gap: 6px;
+        }
+
+        .secure-note i {
+          color: #2563eb;
+        }
+
+        .payment-steps {
+          margin-top: 12px;
           padding: 16px;
           background: rgba(37, 99, 235, 0.05);
           border-radius: 12px;
         }
 
-        .mpesa-steps h5 {
+        .payment-steps h5 {
           color: #1a202c;
           margin-bottom: 8px;
           font-size: 0.95rem;
         }
 
-        .mpesa-steps ol {
+        .payment-steps ol {
           margin-left: 20px;
           color: #4a5568;
           line-height: 1.8;
           font-size: 0.9rem;
         }
 
-        .card-info {
-          text-align: center;
-          padding: 16px;
-          background: rgba(37, 99, 235, 0.05);
-          border-radius: 12px;
-          margin-bottom: 16px;
-        }
-
-        .card-logos {
-          display: flex;
-          gap: 16px;
-          justify-content: center;
-          font-size: 2.5rem;
-          color: #718096;
-          margin-bottom: 12px;
-        }
-
-        .card-description {
+        .payment-steps ul {
+          margin-left: 20px;
           color: #4a5568;
+          line-height: 1.8;
           font-size: 0.9rem;
-          line-height: 1.6;
-          margin: 0;
+          list-style: none;
         }
 
-        .card-description strong {
-          color: #1a202c;
+        .payment-steps ul li {
+          padding: 2px 0;
         }
 
         .personal-info {
@@ -1003,10 +897,6 @@ export default function Donate() {
             grid-template-columns: repeat(3, 1fr);
           }
           
-          .payment-tabs {
-            grid-template-columns: 1fr;
-          }
-          
           .donation-type-toggle {
             flex-direction: column;
           }
@@ -1022,6 +912,16 @@ export default function Donate() {
 
           .hero-content-about h1 {
             font-size: 2rem;
+          }
+
+          .form-row {
+            grid-template-columns: 1fr;
+          }
+
+          .payment-info {
+            flex-direction: column;
+            gap: 8px;
+            align-items: flex-start;
           }
         }
 
